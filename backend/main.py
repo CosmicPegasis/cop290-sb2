@@ -29,3 +29,6 @@ def get_symbols():
     bhavcopy = bhavcopy[bhavcopy.SERIES == "EQ"]
     print(bhavcopy.to_string())
     return jsonify(bhavcopy.to_dict())
+
+def hello_world():
+    print("Hello from Daksh' HP!")
