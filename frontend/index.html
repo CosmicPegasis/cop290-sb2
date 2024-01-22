@@ -1,5 +1,6 @@
-<div id="main"></div>
-<form action="" id="symbol-form">
+<!--Add custom autocomplete later-->
+<link rel="stylesheet" href="index.css" />
+<form autocomplete="off" ="" id="symbol-form">
   <input
     type="text"
     id="symbol-input"
@@ -9,9 +10,10 @@
   <input type="text" id="year-input" class="form-control" placeholder="years" />
   <button type="submit">Submit</button>
 </form>
-<div>
+<div id="chart-div">
   <canvas id="myChart"></canvas>
 </div>
 <!-- TODO Ship chart.js with our code. -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
 <script src="src/app.js"></script>
