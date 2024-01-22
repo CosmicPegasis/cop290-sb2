@@ -31,13 +31,48 @@ async function get_past_years(symbol, years) {
   } catch (err) {}
 }
 let symbolForm = document.getElementById("symbol-form");
+let chart = null;
 symbolForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   let symbol = document.getElementById("symbol-input").value;
   let years = document.getElementById("year-input").value;
-  console.log("hello!");
   if (symbol != "" && years != "") {
     let data = await get_past_years(symbol, years);
-    console.log(data);
+    dates = [];
+    close_prices = [];
+    let dateObj = data.DATE;
+    for (let idx in dateObj) {
+      date = dateObj[idx].replace("00:00:00 GMT", "");
+      dates.push(date);
+    }
+    for (let close_price in data.CLOSE) {
+      close_prices.push(data.CLOSE[close_price]);
+    }
+    close_prices.reverse();
+    dates.reverse();
+    const ctx = document.getElementById("myChart");
+    if (chart) {
+      chart.destroy();
+    }
+    chart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: dates,
+        datasets: [
+          {
+            label: symbol,
+            data: close_prices,
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
   }
 });
