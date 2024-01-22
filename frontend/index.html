@@ -1,15 +1,26 @@
 <!--Add custom autocomplete later-->
 <link rel="stylesheet" href="index.css" />
-<form autocomplete="off" ="" id="symbol-form">
-  <input
-    type="text"
-    id="symbol-input"
-    class="form-control"
-    placeholder="symbol"
-  />
-  <input type="text" id="year-input" class="form-control" placeholder="years" />
-  <button type="submit">Submit</button>
-</form>
+<div id="form-div">
+  <form autocomplete="off" ="" id="symbol-form">
+    <input
+      type="text"
+      class="symbol-input"
+      class="form-control"
+      placeholder="symbol"
+    />
+    <input
+      type="text"
+      id="year-input"
+      class="form-control"
+      placeholder="years"
+    />
+
+    <button type="submit">Plot</button>
+  </form>
+</div>
+<div id="compare-div"></div>
+<button id="add-btn">+</button>
+<button id="sub-btn">-</button>
 <div id="chart-div">
   <canvas id="myChart"></canvas>
 </div>

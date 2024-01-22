@@ -31,10 +31,9 @@ async function get_past_years(symbol, years) {
   } catch (err) {}
 }
 let chart = null;
-let cur_symbols = ["SBIN", "PAYTM"];
+let cur_symbols = [];
 let years = 10;
 let cur_selections = [];
-let symbolForm = document.getElementById("symbol-form");
 
 // Create add and subtract buttons (later)
 async function redraw() {
@@ -42,8 +41,8 @@ async function redraw() {
   let graph_dates = [];
   for (let i = 0; i < cur_symbols.length; i++) {
     const symbol = cur_symbols[i];
+    if (symbol == "" || !years) continue;
     const data = await get_past_years(symbol, years);
-    console.log("reached here");
     const selections = data.CLOSE; // add map for different selections
     metrics = [];
     dates = [];
@@ -58,7 +57,6 @@ async function redraw() {
     metrics.reverse();
     dates.reverse();
     if (dates.length > graph_dates.length) {
-      console.log(graph_dates);
       graph_dates = dates;
     }
     metric_dataset = { label: symbol, data: metrics };
@@ -69,7 +67,6 @@ async function redraw() {
     chart.destroy();
   }
   let max_metric_size = 0;
-  console.log(dates.length);
   for (let i = 0; i < graph_metrics.length; i++) {
     metric_size = graph_metrics[i].data.length;
     max_metric_size =
@@ -111,53 +108,32 @@ async function redraw() {
 const autocolors = window["chartjs-plugin-autocolors"];
 Chart.register(autocolors);
 redraw();
-// Use in-built colors
-// symbolForm.addEventListener("submit", async (e) => {
-//   e.preventDefault();
-//   let symbol = document.getElementById("symbol-input").value;
-//   let years = document.getElementById("year-input").value;
-//   if (symbol != "" && years != "") {
-//     let data = await get_past_years(symbol, years);
-//     dates = [];
-//     close_prices = [];
-//     let dateObj = data.DATE;
-//     for (let idx in dateObj) {
-//       date = dateObj[idx].replace("00:00:00 GMT", "");
-//       dates.push(date);
-//     }
-//     for (let close_price in data.CLOSE) {
-//       close_prices.push(data.CLOSE[close_price]);
-//     }
-//     close_prices.reverse();
-//     dates.reverse();
-//     const ctx = document.getElementById("myChart");
-//     if (chart) {
-//       chart.destroy();
-//     }
-//     chart = new Chart(ctx, {
-//       type: "line",
-//       data: {
-//         labels: dates,
-//         datasets: [
-//           {
-//             label: symbol,
-//             data: close_prices,
-//             borderWidth: 1,
-//           },
-//         ],
-//       },
-//       options: {
-//         scales: {
-//           y: {
-//             beginAtZero: true,
-//             grid: { display: false },
-//           },
-//           x: {
-//             grid: { display: false },
-//           },
-//         },
-//         responsive: true,
-//       },
-//     });
-//   }
-// });
+let addBtn = document.getElementById("add-btn");
+addBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  let formStruct = `<div><input type="text" class="symbol-input" placeholder="symbol"/></div>`;
+  let compareDiv = document.getElementById("compare-div");
+  compareDiv.insertAdjacentHTML("beforeend", formStruct);
+});
+
+let subBtn = document.getElementById("sub-btn");
+subBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  let compareDiv = document.getElementById("compare-div");
+  if (compareDiv.children.length > 0) {
+    compareDiv.removeChild(compareDiv.lastChild);
+  }
+});
+
+let symbolForm = document.getElementById("symbol-form");
+symbolForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  cur_symbolsHTML = document.getElementsByClassName("symbol-input");
+  cur_symbols = [];
+  for (let i = 0; i < cur_symbolsHTML.length; i++) {
+    cur_symbols.push(cur_symbolsHTML[i].value);
+  }
+  years = document.getElementById("year-input").value;
+
+  await redraw();
+});
