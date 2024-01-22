@@ -2,8 +2,10 @@ from flask import Flask, jsonify
 from datetime import date
 from dateutil.relativedelta import relativedelta
 from jugaad_data.nse import stock_df, full_bhavcopy_raw
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 # Is vulnerable to HTML Injection
 @app.route("/request/query/<stock_symbol>/<years>")
 def get_stock_years(stock_symbol: str, years: int):
@@ -27,7 +29,7 @@ def get_symbols():
     bhavcopy = bhavcopy.set_index("SYMBOL")
     bhavcopy = bhavcopy[bhavcopy.index.isin(df.to_dict().values())]
     bhavcopy = bhavcopy[bhavcopy.SERIES == "EQ"]
-    print(bhavcopy.to_string())
+  #  print(bhavcopy.to_string())
     return jsonify(bhavcopy.to_dict())
 
 def hello_world():
