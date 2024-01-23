@@ -39,10 +39,14 @@
             <input
               type="password"
               name="password"
+              id = "password"
               placeholder="Password"
               required
             />
+            <input type = "checkbox" onclick ="Funct()"/>Show Password
+
           </div>
+          
           {% with messages = get_flashed_messages() %} {% if messages %}
           <ul class="flashed">
             {% for message in messages %}
@@ -55,6 +59,20 @@
           </div>
         </form>
         <p>Don't have an account? <a href="/register">Register here</a></p>
+        <script>
+          function Funct(){
+            var x = document.getElementById("password");
+            var icon = document.querySelector(".eye-icon")
+            if(x.type === "password"){
+              x.type = "text";
+              icon.innerHTML = '\u{1F441}';
+            }else{
+
+              x.type = "password";
+              icon.innerHTML = '\u{1F441}\u{FE0F}';
+            }
+          }
+        </script>
       </div>
     </div>
   </body>

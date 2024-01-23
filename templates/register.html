@@ -24,7 +24,8 @@
                 <input type="text" name="username" placeholder="Username" required>
             </div>
             <div class="form-group">
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" id = "password" name="password" placeholder="Password" required>
+                <input type = "checkbox" onclick ="Funct()"/>Show Password
             </div>
             {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -38,8 +39,22 @@
             <div class="form-group">
                 <button type="submit">Register</button>
             </div>
+            
         </form>
         <p>Already have an account? <a href="/">Login here</a></p>
+        <script>
+            function Funct(){
+                var x = document.getElementById("password");
+                var icon = document.querySelector(".eye-icon")
+                if(x.type === "password"){
+                  x.type = "text";
+                  icon.innerHTML = '\u{1F441}';
+                }else{
+                  x.type = "password";
+                  icon.innerHTML = '\u{1F441}\u{FE0F}';
+                }
+              }
+            </script>
     </div>
 </div>
 </body>

@@ -82,13 +82,32 @@ def register():
         username = request.form['username']
         password = request.form['password']
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-
-        new_user = User(username=username, password_hash=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-
-        flash('Registration successful! Please login.')
-        return redirect(url_for('index'))
+        if(' ' in username):
+            flash('Username cannot contain spaces')
+            return redirect(url_for('register'))
+        else:
+            if not any (ch.isupper() for ch in password):
+                flash('Password must contain one uppercase letter')
+                return redirect(url_for('register'))
+            else:
+                if not any(ch.islower() for ch in password):
+                    flash('Password must contain one lowercase letter')
+                    return redirect(url_for('register'))
+                else:
+                    if not any(ch.isalnum() for ch in password):
+                        flash('Password must contain one special character')
+                        return redirect(url_for('register'))
+                    else:
+                        user = User.query.filter_by(username=username).first()
+                        if user:
+                            flash('An account with this username already exists')
+                            return redirect(url_for('register'))
+                        else:
+                            new_user = User(username=username, password_hash=hashed_password)
+                            db.session.add(new_user)
+                            db.session.commit()
+                            flash('Registration successful! Please login.')
+                            return redirect(url_for('index'))
 
     return render_template('register.html')
 
@@ -98,13 +117,17 @@ def login():
     password = request.form['password']
     user = User.query.filter_by(username=username).first()
 
-    if user and check_password_hash(user.password_hash, password):
-        session['user_id'] = user.id
-        session['username'] = user.username
-        session.permanent = True
-        return redirect(url_for('dashboard'))
+    if user:
+        if check_password_hash(user.password_hash, password):
+            session['user_id'] = user.id
+            session['username'] = user.username
+            session.permanent = True
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Incorrect Password')
+            return redirect(url_for('index'))
     else:
-        flash('Invalid username or password')
+        flash('This Username is not registered')
         return redirect(url_for('index'))
 
 @app.route('/dashboard',methods = ['Get','Post'])
@@ -138,7 +161,11 @@ def dashboard():
 
 @app.route('/graph')
 def graph():
-    return render_template('graph.html')
+    user_id = session.get('user_id')
+    if user_id:
+        return render_template('graph.html')
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/logout')
 def logout():

@@ -47,19 +47,28 @@ def register():
 
     return render_template('register.html')
 
+# @app.route('/forgot_password', methods=['POST'])
+# def forgot_password():
+#     username = request.form('username')
+    
+
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
     password = request.form['password']
     user = User.query.filter_by(username=username).first()
 
-    if user and check_password_hash(user.password_hash, password):
-        session['user_id'] = user.id
-        session['username'] = user.username
-        session.permanent = True
-        return redirect(url_for('dashboard'))
+    if user:
+        if check_password_hash(user.password_hash, password):
+            session['user_id'] = user.id
+            session['username'] = user.username
+            session.permanent = True
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Incorrect Password')
+            return redirect(url_for('index'))
     else:
-        flash('Invalid username or password')
+        flash('This Username is not registered')
         return redirect(url_for('index'))
 
 @app.route('/dashboard',methods = ['Get','Post'])
