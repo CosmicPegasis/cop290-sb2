@@ -28,7 +28,9 @@ async function get_past_years(symbol, years) {
     });
     res = await symbol.json();
     return res;
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 }
 let chart = null;
 let cur_symbols = [];
@@ -39,11 +41,26 @@ let cur_selections = [];
 async function redraw() {
   let graph_metrics = [];
   let graph_dates = [];
+
+  checked = document.querySelector("input[name=metric]:checked");
+
   for (let i = 0; i < cur_symbols.length; i++) {
     const symbol = cur_symbols[i];
     if (symbol == "" || !years) continue;
     const data = await get_past_years(symbol, years);
-    const selections = data.CLOSE; // add map for different selections
+    if (!checked) return;
+    let metric_option = checked.value;
+    if (metric_option == "open") {
+      selections = data.OPEN;
+    } else if (metric_option == "close") {
+      selections = data.CLOSE;
+    } else if (metric_option == "high") {
+      selections = data.HIGH;
+    } else if (metric_option == "low") {
+      selections = data.LOW;
+    } else if (metric_option == "volume") {
+      selections = data.VOLUME;
+    }
     metrics = [];
     dates = [];
     let dateObj = data.DATE;
@@ -137,3 +154,5 @@ symbolForm.addEventListener("submit", async (e) => {
 
   await redraw();
 });
+
+get_past_years("SBIN", 5).then((res) => console.log(res));

@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from datetime import date
 from dateutil.relativedelta import relativedelta
 from jugaad_data.nse import stock_df, full_bhavcopy_raw
@@ -32,5 +32,6 @@ def get_symbols():
   #  print(bhavcopy.to_string())
     return jsonify(bhavcopy.to_dict())
 
-def hello_world():
-    print("Hello from Daksh' HP!")
+@app.route("/")
+def index():
+    return render_template("graph.html")

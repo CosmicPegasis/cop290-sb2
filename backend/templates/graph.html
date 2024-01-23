@@ -1,0 +1,41 @@
+<!--Add custom autocomplete later-->
+<link rel="stylesheet" href={{url_for('static', filename="graph.css")}} />
+<div id="form-div">
+  <form autocomplete="off" id="symbol-form">
+    <input
+      type="text"
+      class="symbol-input"
+      class="form-control"
+      placeholder="symbol"
+    />
+    <input
+      type="text"
+      id="year-input"
+      class="form-control"
+      placeholder="years"
+    />
+    <div>
+      <input type="radio" id="open" name="metric" value="open" />
+      <label for="open">Open</label>
+      <input type="radio" id="close" name="metric" value="close" />
+      <label for="close">Close</label>
+      <input type="radio" id="high" name="metric" value="high" />
+      <label for="high">High</label>
+      <input type="radio" id="low" name="metric" value="low" />
+      <label for="low">Low</label>
+      <input type="radio" id="volume" name="metric" value="volume" />
+      <label for="volume">Volume</label>
+    </div>
+    <button type="submit">Plot</button>
+  </form>
+</div>
+<div id="compare-div"></div>
+<button id="add-btn">+</button>
+<button id="sub-btn">-</button>
+<div id="chart-div">
+  <canvas id="myChart"></canvas>
+</div>
+<!-- TODO Ship chart.js with our code. -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
+<script src={{ url_for('static', filename='src/graph.js')}}></script>
