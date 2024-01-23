@@ -12,23 +12,16 @@ async function get_symbol_data() {
     console.log(err);
   }
 }
-// Add symbol exists function
 
-// async function create_list() {
-//   let data = await get_symbol_data();
-//   let html = "";
-//   for (let symbol in data.AVG_PRICE) {
-//     html += `${symbol}<br>`;
-//   }
-//   return html;
-// }
-
-async function get_past_years(symbol, years) {
+async function get_past(symbol, offset, time_duration) {
   try {
-    symbol = await fetch(`${backend}/request/query/${symbol}/${years}`, {
-      mode: "cors",
-      credentials: "same-origin",
-    });
+    symbol = await fetch(
+      `${backend}/request/query/${symbol}/${time_duration}/${offset}`,
+      {
+        mode: "cors",
+        credentials: "same-origin",
+      }
+    );
     let res = await symbol.json();
     return res;
   } catch (err) {
@@ -37,33 +30,39 @@ async function get_past_years(symbol, years) {
 }
 let chart = null;
 let cur_symbols = [];
-let years = 10;
+let offset = 0;
 
+function get_selections(data) {
+  let metric_checked = document.querySelector(
+    "input[name=metric]:checked"
+  ).value;
+  if (metric_checked == "open") {
+    return data.OPEN;
+  } else if (metric_checked == "close") {
+    return data.CLOSE;
+  } else if (metric_checked == "high") {
+    return data.HIGH;
+  } else if (metric_checked == "low") {
+    return data.LOW;
+  } else if (metric_checked == "volume") {
+    return data.VOLUME;
+  }
+}
+function get_time_duration() {
+  return document.querySelector("input[name=time]:checked").value;
+}
 // Create add and subtract buttons (later)
 async function redraw() {
   let graph_metrics = [];
   let graph_dates = [];
 
-  let checked = document.querySelector("input[name=metric]:checked");
-
+  //  let time_checked = document.querySelector("input[name=time]:checked");
   for (let i = 0; i < cur_symbols.length; i++) {
     const symbol = cur_symbols[i];
-    if (symbol == "" || !years) continue;
-    const data = await get_past_years(symbol, years);
-    if (!checked) return;
-    let metric_option = checked.value;
-    let selections = "";
-    if (metric_option == "open") {
-      selections = data.OPEN;
-    } else if (metric_option == "close") {
-      selections = data.CLOSE;
-    } else if (metric_option == "high") {
-      selections = data.HIGH;
-    } else if (metric_option == "low") {
-      selections = data.LOW;
-    } else if (metric_option == "volume") {
-      selections = data.VOLUME;
-    }
+    if (symbol == "" || !offset) continue;
+    let time_duration = get_time_duration();
+    const data = await get_past(symbol, offset, time_duration);
+    let selections = get_selections(data);
     let metrics = [];
     let dates = [];
     let dateObj = data.DATE;
@@ -157,13 +156,13 @@ symbolForm.addEventListener("submit", async (e) => {
       Object.prototype.hasOwnProperty.call(all_symbol_data.AVG_PRICE, sym_name)
     ) {
       cur_symbolsHTML[i].classList.remove("is-invalid");
-      console.log(sym_name);
+      // console.log(sym_name);
       cur_symbols.push(sym_name);
     } else {
       cur_symbolsHTML[i].classList.add("is-invalid");
     }
   }
-  years = document.getElementById("year-input").value;
+  offset = document.getElementById("year-input").value;
   if (cur_symbols.length > 0) {
     await redraw();
   }

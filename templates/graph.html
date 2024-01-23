@@ -11,103 +11,145 @@
 <body>
   <div class="container-xl h-100">
     <div class="row align-items-center h-100">
-    <div id="form-div" class="col form-floating">
-      <form autocomplete="off" id="symbol-form" class="m-auto">
-        <div class="row pb-3 pt-3">
-          <div class="col">
-            <input
-              type="text"
-              class="symbol-input form-control"
-              placeholder="symbol"
-            />
-          </div>
-          <div class="col">
-            <input
-              type="text"
-              id="year-input"
-              class="form-control"
-              placeholder="years"
-            />
-          </div>
-        </div>
-        <div class="row pb-3 text-center">
-          <div class="btn-group" role="group">
-            <input
-              type="radio"
-              class="btn-check"
-              id="open"
-              name="metric"
-              value="open"
-              autocomplete="off"
-              checked
-            />
-            <label class="btn btn-outline-primary btn-sm" for="open">Open</label>
+      <div id="form-div" class="col form-floating">
+        <form autocomplete="off" id="symbol-form" class="m-auto">
+          <div class="row">
+            <div class="btn-group" role="group">
+              <input
+                type="radio"
+                class="btn-check"
+                id="days"
+                name="time"
+                value="days"
+                autocomplete="off"
+                checked
+              />
+              <label class="btn btn-dark btn-sm" for="days">Days</label>
 
-            <input
-              type="radio"
-              class="btn-check"
-              id="close"
-              name="metric"
-              value="close"
-            />
-            <label class="btn btn-outline-primary btn-sm" for="close">Close</label>
+              <input
+                type="radio"
+                class="btn-check"
+                id="weeks"
+                name="time"
+                value="weeks"
+              />
+              <label class="btn btn-dark btn-sm" for="weeks">Weeks</label>
 
-            <input
-              type="radio"
-              class="btn-check"
-              id="high"
-              name="metric"
-              value="high"
-            />
-            <label class="btn btn-outline-primary btn-sm" for="high">High</label>
-
-            <input
-              type="radio"
-              class="btn-check"
-              id="low"
-              name="metric"
-              value="low"
-            />
-            <label class="btn btn-outline-primary btn-sm" for="low">Low</label>
-
-            <input
-              type="radio"
-              class="btn-check"
-              id="volume"
-              name="metric"
-              value="volume"
-            />
-            <label class="btn btn-outline-primary btn-sm" for="volume">Volume</label>
-          </div>
-        </div>
-        <div class="row pt-2  justify-content-center">
-          <div class="col-6">
-            <div class="row">
-          <button type="submit" class="btn btn-success">Plot</button>
+              <input
+                type="radio"
+                class="btn-check"
+                id="years"
+                name="time"
+                value="years"
+              />
+              <label class="btn btn-dark btn-sm" for="years">Years</label>
             </div>
           </div>
-        </div>
-      </form>
-      <div id="compare-div" class="row pb-2 pt-2 justify-content-between">
-        <div class="col-4">
-        <h4>Compare</h4>
-        </div>
-        <div class="col-4">
-          <div class="row justify-content-end">
-            <div class="col-4">
-        <button id="add-btn" class="btn btn-dark">+</button>
+          <div class="row pb-3 pt-3">
+            <div class="col">
+              <input
+                type="text"
+                class="symbol-input form-control"
+                placeholder="symbol"
+              />
             </div>
-        <div class="col-4">
-        <button id="sub-btn" class="btn btn-dark">-</button>
-        </div>
+            <div class="col">
+              <input
+                type="text"
+                id="year-input"
+                class="form-control"
+                placeholder="time"
+              />
+            </div>
+          </div>
+          <div class="row pb-3 text-center">
+            <div class="btn-group" role="group">
+              <input
+                type="radio"
+                class="btn-check"
+                id="open"
+                name="metric"
+                value="open"
+                autocomplete="off"
+                checked
+              />
+              <label class="btn btn-outline-primary btn-sm" for="open"
+                >Open</label
+              >
+
+              <input
+                type="radio"
+                class="btn-check"
+                id="close"
+                name="metric"
+                value="close"
+              />
+              <label class="btn btn-outline-primary btn-sm" for="close"
+                >Close</label
+              >
+
+              <input
+                type="radio"
+                class="btn-check"
+                id="high"
+                name="metric"
+                value="high"
+              />
+              <label class="btn btn-outline-primary btn-sm" for="high"
+                >High</label
+              >
+
+              <input
+                type="radio"
+                class="btn-check"
+                id="low"
+                name="metric"
+                value="low"
+              />
+              <label class="btn btn-outline-primary btn-sm" for="low"
+                >Low</label
+              >
+
+              <input
+                type="radio"
+                class="btn-check"
+                id="volume"
+                name="metric"
+                value="volume"
+              />
+              <label class="btn btn-outline-primary btn-sm" for="volume"
+                >Volume</label
+              >
+            </div>
+          </div>
+          <div class="row pt-2 justify-content-center">
+            <div class="col-6">
+              <div class="row">
+                <button type="submit" class="btn btn-success">Plot</button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div id="compare-div" class="row pb-2 pt-2 justify-content-between">
+          <div class="col-4">
+            <h4>Compare</h4>
+          </div>
+          <div class="col-4">
+            <div class="row justify-content-end">
+              <div class="col-4">
+                <button id="add-btn" class="btn btn-dark">+</button>
+              </div>
+              <div class="col-4">
+                <button id="sub-btn" class="btn btn-dark">-</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <div id="chart-div" class="col-8">
+        <canvas id="myChart"></canvas>
+      </div>
     </div>
-    <div id="chart-div" class="col-8">
-      <canvas id="myChart"></canvas>
-    </div>
-  </div>
   </div>
 
   <script
@@ -117,5 +159,5 @@
   ></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
-  <script src={{ url_for('static', filename='src/graph.js')}}></script>
+    <script src={{ url_for('static', filename='src/graph.js')}}></script>
 </body>

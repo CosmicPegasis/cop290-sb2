@@ -7,13 +7,26 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 # Is vulnerable to HTML Injection
-@app.route("/request/query/<stock_symbol>/<years>")
+@app.route("/request/query/<stock_symbol>/years/<years>")
 def get_stock_years(stock_symbol: str, years: int):
     df = stock_df(symbol=stock_symbol, from_date=date.today() - relativedelta(years=int(years)),
                 to_date=date.today(), series="EQ")
 
     return jsonify(df.to_dict())
 
+@app.route("/request/query/<stock_symbol>/weeks/<weeks>")
+def get_stock_weeks(stock_symbol: str, weeks: int):
+    df = stock_df(symbol=stock_symbol, from_date=date.today() - relativedelta(weeks=int(weeks)),
+                to_date=date.today(), series="EQ")
+
+    return jsonify(df.to_dict())
+
+@app.route("/request/query/<stock_symbol>/days/<days>")
+def get_stock_days(stock_symbol: str, days: int):
+    df = stock_df(symbol=stock_symbol, from_date=date.today() - relativedelta(days=int(days)),
+                to_date=date.today(), series="EQ")
+
+    return jsonify(df.to_dict())
 
 # Planning to use in the search function
 # TODO Add checking for Sundays
@@ -22,7 +35,7 @@ import io
 @app.route("/request/get_symbols/")
 def get_symbols():
     df = pd.read_csv('./nifty50list.csv')['Symbol']
-    s = io.StringIO(full_bhavcopy_raw(date.today() - relativedelta(days=2)))
+    s = io.StringIO(full_bhavcopy_raw(date.today() - relativedelta(days=1)))
     bhavcopy = pd.read_csv(s)
     bhavcopy.rename(columns=lambda x: x.strip(), inplace=True)
     bhavcopy = bhavcopy.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
