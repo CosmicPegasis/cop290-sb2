@@ -2,53 +2,72 @@ const backend = "http://localhost:5000";
 
 async function get_symbol_data() {
   try {
-    symbol = await fetch(`${backend}/request/get_symbols/`, {
+    let symbol = await fetch(`${backend}/request/get_symbols/`, {
       mode: "cors",
       credentials: "same-origin",
     });
-    res = await symbol.json();
+    let res = await symbol.json();
     return res;
-  } catch (err) {}
-}
-
-async function create_list() {
-  data = await get_symbol_data();
-  html = "";
-  for (let symbol in data.AVG_PRICE) {
-    html += `${symbol}<br>`;
+  } catch (err) {
+    console.log(err);
   }
-  return html;
 }
 
-async function get_past_years(symbol, years) {
+async function get_past(symbol, offset, time_duration) {
   try {
-    symbol = await fetch(`${backend}/request/query/${symbol}/${years}`, {
-      mode: "cors",
-      credentials: "same-origin",
-    });
-    res = await symbol.json();
+    symbol = await fetch(
+      `${backend}/request/query/${symbol}/${time_duration}/${offset}`,
+      {
+        mode: "cors",
+        credentials: "same-origin",
+      }
+    );
+    let res = await symbol.json();
     return res;
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 }
 let chart = null;
 let cur_symbols = [];
-let years = 10;
-let cur_selections = [];
+let offset = 0;
 
+function get_selections(data) {
+  let metric_checked = document.querySelector(
+    "input[name=metric]:checked"
+  ).value;
+  if (metric_checked == "open") {
+    return data.OPEN;
+  } else if (metric_checked == "close") {
+    return data.CLOSE;
+  } else if (metric_checked == "high") {
+    return data.HIGH;
+  } else if (metric_checked == "low") {
+    return data.LOW;
+  } else if (metric_checked == "volume") {
+    return data.VOLUME;
+  }
+}
+function get_time_duration() {
+  return document.querySelector("input[name=time]:checked").value;
+}
 // Create add and subtract buttons (later)
 async function redraw() {
   let graph_metrics = [];
   let graph_dates = [];
+
+  //  let time_checked = document.querySelector("input[name=time]:checked");
   for (let i = 0; i < cur_symbols.length; i++) {
     const symbol = cur_symbols[i];
-    if (symbol == "" || !years) continue;
-    const data = await get_past_years(symbol, years);
-    const selections = data.CLOSE; // add map for different selections
-    metrics = [];
-    dates = [];
+    if (symbol == "" || !offset) continue;
+    let time_duration = get_time_duration();
+    const data = await get_past(symbol, offset, time_duration);
+    let selections = get_selections(data);
+    let metrics = [];
+    let dates = [];
     let dateObj = data.DATE;
     for (let idx in dateObj) {
-      date = dateObj[idx].replace("00:00:00 GMT", "");
+      let date = dateObj[idx].replace("00:00:00 GMT", "");
       dates.push(date);
     }
     for (let sel in selections) {
@@ -59,7 +78,7 @@ async function redraw() {
     if (dates.length > graph_dates.length) {
       graph_dates = dates;
     }
-    metric_dataset = { label: symbol, data: metrics };
+    let metric_dataset = { label: symbol, data: metrics };
     graph_metrics.push(metric_dataset);
   }
   const ctx = document.getElementById("myChart");
@@ -68,12 +87,12 @@ async function redraw() {
   }
   let max_metric_size = 0;
   for (let i = 0; i < graph_metrics.length; i++) {
-    metric_size = graph_metrics[i].data.length;
+    let metric_size = graph_metrics[i].data.length;
     max_metric_size =
       metric_size > max_metric_size ? metric_size : max_metric_size;
   }
   for (let i = 0; i < graph_metrics.length; i++) {
-    metric_size = graph_metrics[i].data.length;
+    let metric_size = graph_metrics[i].data.length;
     if (metric_size < max_metric_size) {
       let padding = Array(max_metric_size - metric_size).fill(0);
       padding = padding.concat(graph_metrics[i].data);
@@ -111,7 +130,7 @@ redraw();
 let addBtn = document.getElementById("add-btn");
 addBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  let formStruct = `<div><input type="text" class="symbol-input" placeholder="symbol"/></div>`;
+  let formStruct = `<div class="pb-1 pt-2"><input type="text" class="symbol-input form-control" placeholder="symbol"/></div>`;
   let compareDiv = document.getElementById("compare-div");
   compareDiv.insertAdjacentHTML("beforeend", formStruct);
 });
@@ -120,7 +139,7 @@ let subBtn = document.getElementById("sub-btn");
 subBtn.addEventListener("click", (e) => {
   e.preventDefault();
   let compareDiv = document.getElementById("compare-div");
-  if (compareDiv.children.length > 0) {
+  if (compareDiv.children.length > 2) {
     compareDiv.removeChild(compareDiv.lastChild);
   }
 });
@@ -128,12 +147,23 @@ subBtn.addEventListener("click", (e) => {
 let symbolForm = document.getElementById("symbol-form");
 symbolForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  cur_symbolsHTML = document.getElementsByClassName("symbol-input");
+  let cur_symbolsHTML = document.getElementsByClassName("symbol-input");
   cur_symbols = [];
+  let all_symbol_data = await get_symbol_data();
   for (let i = 0; i < cur_symbolsHTML.length; i++) {
-    cur_symbols.push(cur_symbolsHTML[i].value);
+    let sym_name = cur_symbolsHTML[i].value;
+    if (
+      Object.prototype.hasOwnProperty.call(all_symbol_data.AVG_PRICE, sym_name)
+    ) {
+      cur_symbolsHTML[i].classList.remove("is-invalid");
+      // console.log(sym_name);
+      cur_symbols.push(sym_name);
+    } else {
+      cur_symbolsHTML[i].classList.add("is-invalid");
+    }
   }
-  years = document.getElementById("year-input").value;
-
-  await redraw();
+  offset = document.getElementById("year-input").value;
+  if (cur_symbols.length > 0) {
+    await redraw();
+  }
 });
