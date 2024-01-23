@@ -170,9 +170,7 @@ def dashboard():
                 return redirect(url_for('dashboard'))
 
         if user:
-        
             favorites = json.loads(user.favorites) if user.favorites else []
-            
             return render_template('welcome.html', username=session['username'], favorites=favorites)
 
     return redirect(url_for('index'))
