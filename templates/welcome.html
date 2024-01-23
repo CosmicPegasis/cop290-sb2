@@ -13,8 +13,16 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="{{ url_for('static', filename='style.css') }}"
+      href="{{ url_for('static', filename='dashboard.css') }}"
     />
+    <style>
+      .flashed {
+        list-style-type: none;
+        margin: 10px 0;
+        color: #721c24;
+        font-size: small;
+      }
+    </style>
   </head>
   <body>
     <a href={{ url_for('graph') }}>Graph!</a>
@@ -34,7 +42,13 @@
         />
         <button type="submit">Add</button>
       </form>
-
+      {% with messages = get_flashed_messages() %} {% if messages %}
+          <ul class="flashed">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %} {% endwith %}
       <a href="/logout" class="logout-button">Logout</a>
     </div>
   </body>

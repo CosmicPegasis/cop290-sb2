@@ -1,3 +1,4 @@
+from niftystocks import ns
 from flask import Flask, jsonify, render_template, request, redirect, url_for, flash, session
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
@@ -8,6 +9,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import pandas as pd
 import io
 import json
+
+
+
 app = Flask(__name__)
 CORS(app)
 # Is vulnerable to HTML Injection
@@ -81,6 +85,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        confirm_password = request.form['confirm_password']
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
         if(' ' in username):
             flash('Username cannot contain spaces')
@@ -103,11 +108,15 @@ def register():
                             flash('An account with this username already exists')
                             return redirect(url_for('register'))
                         else:
-                            new_user = User(username=username, password_hash=hashed_password)
-                            db.session.add(new_user)
-                            db.session.commit()
-                            flash('Registration successful! Please login.')
-                            return redirect(url_for('index'))
+                            if(confirm_password == password):
+                                new_user = User(username=username, password_hash=hashed_password)
+                                db.session.add(new_user)
+                                db.session.commit()
+                                flash('Registration successful! Please login.')
+                                return redirect(url_for('index'))
+                            else:
+                                flash('Password does not match!')
+                                return redirect(url_for('register'))
 
     return render_template('register.html')
 
@@ -121,7 +130,10 @@ def login():
         if check_password_hash(user.password_hash, password):
             session['user_id'] = user.id
             session['username'] = user.username
-            session.permanent = True
+            if('remember_me' in request.form):
+                session.permanent = True
+            else:
+                session.permanent = False
             return redirect(url_for('dashboard'))
         else:
             flash('Incorrect Password')
@@ -133,13 +145,16 @@ def login():
 @app.route('/dashboard',methods = ['Get','Post'])
 def dashboard():
     user_id = session.get('user_id')
+    valid_stocks = ns.get_nifty50()
 
     if user_id:
         user = User.query.get(user_id)
 
         if request.method == 'POST':
             new_favorite = request.form.get('new_favorite')
-            if new_favorite:
+            
+            
+            if new_favorite in valid_stocks:
                 favorites = json.loads(user.favorites) if user.favorites else []
                 if len(favorites) < 4:
                     favorites.insert(0,new_favorite)
@@ -150,6 +165,9 @@ def dashboard():
                     favorites.insert(0,new_favorite)
                     user.favorites = json.dumps(favorites)
                     db.session.commit()
+            else:
+                flash('stock does not exists in database')
+                return redirect(url_for('dashboard'))
 
         if user:
         

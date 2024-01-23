@@ -46,7 +46,11 @@
             <input type = "checkbox" onclick ="Funct()"/>Show Password
 
           </div>
+        <div>
           
+          <input type="checkbox" id="remember_me" name="remember_me">Remember me
+          
+      </div>
           {% with messages = get_flashed_messages() %} {% if messages %}
           <ul class="flashed">
             {% for message in messages %}
@@ -62,7 +66,7 @@
         <script>
           function Funct(){
             var x = document.getElementById("password");
-            var icon = document.querySelector(".eye-icon")
+            var icon = document.querySelector(".eye-icon");
             if(x.type === "password"){
               x.type = "text";
               icon.innerHTML = '\u{1F441}';
