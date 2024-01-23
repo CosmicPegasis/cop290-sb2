@@ -1,41 +1,121 @@
 <!--Add custom autocomplete later-->
-<link rel="stylesheet" href={{url_for('static', filename="graph.css")}} />
-<div id="form-div">
-  <form autocomplete="off" id="symbol-form">
-    <input
-      type="text"
-      class="symbol-input"
-      class="form-control"
-      placeholder="symbol"
-    />
-    <input
-      type="text"
-      id="year-input"
-      class="form-control"
-      placeholder="years"
-    />
-    <div>
-      <input type="radio" id="open" name="metric" value="open" />
-      <label for="open">Open</label>
-      <input type="radio" id="close" name="metric" value="close" />
-      <label for="close">Close</label>
-      <input type="radio" id="high" name="metric" value="high" />
-      <label for="high">High</label>
-      <input type="radio" id="low" name="metric" value="low" />
-      <label for="low">Low</label>
-      <input type="radio" id="volume" name="metric" value="volume" />
-      <label for="volume">Volume</label>
+<head>
+  <!--  <link rel="stylesheet" href={{url_for('static', filename="graph.css")}} /> -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+    crossorigin="anonymous"
+  />
+</head>
+<body>
+  <div class="container-xl h-100">
+    <div class="row align-items-center h-100">
+    <div id="form-div" class="col form-floating">
+      <form autocomplete="off" id="symbol-form" class="m-auto">
+        <div class="row pb-3 pt-3">
+          <div class="col">
+            <input
+              type="text"
+              class="symbol-input form-control"
+              placeholder="symbol"
+            />
+          </div>
+          <div class="col">
+            <input
+              type="text"
+              id="year-input"
+              class="form-control"
+              placeholder="years"
+            />
+          </div>
+        </div>
+        <div class="row pb-3 text-center">
+          <div class="btn-group" role="group">
+            <input
+              type="radio"
+              class="btn-check"
+              id="open"
+              name="metric"
+              value="open"
+              autocomplete="off"
+              checked
+            />
+            <label class="btn btn-outline-primary btn-sm" for="open">Open</label>
+
+            <input
+              type="radio"
+              class="btn-check"
+              id="close"
+              name="metric"
+              value="close"
+            />
+            <label class="btn btn-outline-primary btn-sm" for="close">Close</label>
+
+            <input
+              type="radio"
+              class="btn-check"
+              id="high"
+              name="metric"
+              value="high"
+            />
+            <label class="btn btn-outline-primary btn-sm" for="high">High</label>
+
+            <input
+              type="radio"
+              class="btn-check"
+              id="low"
+              name="metric"
+              value="low"
+            />
+            <label class="btn btn-outline-primary btn-sm" for="low">Low</label>
+
+            <input
+              type="radio"
+              class="btn-check"
+              id="volume"
+              name="metric"
+              value="volume"
+            />
+            <label class="btn btn-outline-primary btn-sm" for="volume">Volume</label>
+          </div>
+        </div>
+        <div class="row pt-2  justify-content-center">
+          <div class="col-6">
+            <div class="row">
+          <button type="submit" class="btn btn-success">Plot</button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div id="compare-div" class="row pb-2 pt-2 justify-content-between">
+        <div class="col-4">
+        <h4>Compare</h4>
+        </div>
+        <div class="col-4">
+          <div class="row justify-content-end">
+            <div class="col-4">
+        <button id="add-btn" class="btn btn-dark">+</button>
+            </div>
+        <div class="col-4">
+        <button id="sub-btn" class="btn btn-dark">-</button>
+        </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <button type="submit">Plot</button>
-  </form>
-</div>
-<div id="compare-div"></div>
-<button id="add-btn">+</button>
-<button id="sub-btn">-</button>
-<div id="chart-div">
-  <canvas id="myChart"></canvas>
-</div>
-<!-- TODO Ship chart.js with our code. -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
-<script src={{ url_for('static', filename='src/graph.js')}}></script>
+    <div id="chart-div" class="col-8">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+  </div>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"
+  ></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
+  <script src={{ url_for('static', filename='src/graph.js')}}></script>
+</body>
