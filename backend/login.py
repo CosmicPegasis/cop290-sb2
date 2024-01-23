@@ -36,6 +36,8 @@ def sign_in(username, password):
             db.session.add(new_user)
             db.session.commit()
             return 0 
+        
+print(login("Daksh97u78787878","124"))
 
 
 

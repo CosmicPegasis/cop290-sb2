@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StockSync.com | Register</title>
+    <meta charset="utf-8"/>
+    <link rel = "shortcut icon" type = "image/x-icon" href = "https://cdn-icons-png.flaticon.com/512/25/25231.png">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .flashed{
+            list-style-type: none;
+            margin: 10px 0;
+            color: #008000;
+            font-size: small;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <div class="form-container">
+        <h2>Register</h2>
+        <form action="/register" method="post">
+            <div class="form-group">
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flashed">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% endwith %}
+            <div class="form-group">
+                <button type="submit">Register</button>
+            </div>
+        </form>
+        <p>Already have an account? <a href="/">Login here</a></p>
+    </div>
+</div>
+</body>
+</html>
