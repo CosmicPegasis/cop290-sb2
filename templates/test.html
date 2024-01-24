@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Two-Point Slider</title>
+  <style>
+    input[type="range"] {
+      width: 100%;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <label for="start">Start Point:</label>
+  <input type="range" id="start" min="0" max="100" step="1" value="0">
+  <input type="text" id="startValue" value="0">
+
+  <label for="end">End Point:</label>
+  <input type="range" id="end" min="0" max="100" step="1" value="100">
+  <input type="text" id="endValue" value="100">
+</body>
+</html>
