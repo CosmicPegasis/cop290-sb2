@@ -7,173 +7,181 @@
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
     crossorigin="anonymous"
   />
+  <script
+    src="https://kit.fontawesome.com/e4cb96cad7.js"
+    crossorigin="anonymous"
+  ></script>
 </head>
 <body>
-  <div class="container">
+  <div class="container-fluid">
     <nav class="navbar fixed-top navbar-dark bg-black h-10">
-      <div class="d-inline-block px-2 h-100">
-        <a href="./dashboard.html" class="navbar-brand mr-auto">
-          <img
-            src="../static/icon.png"
-            class="img-fluid rounded"
-            width="40"
-            height="40"
-          />
+      <div class="container">
+        <div class="d-inline-block px-2 h-100">
+          <a href="./dashboard.html" class="navbar-brand mr-auto">
+            <img
+              src="../static/icon.png"
+              class="img-fluid rounded"
+              width="40"
+              height="40"
+            />
+          </a>
+        </div>
+        <div style="margin-right: auto">
+          <a href="graph.html" class="navbar-brand">Graph</a>
+          <a href="filter.html" class="navbar-brand">Filter</a>
+        </div>
+        <a href="logout.html" style="margin-right: 15px">
+          <img src="../static/logout.png" alt="" width="20" height="20" />
         </a>
       </div>
-      <div style="margin-right: auto">
-        <a href="graph.html" class="navbar-brand">Graph</a>
-        <a href="filter.html" class="navbar-brand">Filter</a>
-      </div>
-      <a href="logout.html" style="margin-right: 15px">
-        <img src="../static/logout.png" alt="" width="20" height="20" />
-      </a>
     </nav>
   </div>
-
-  <div class="container w-100">
-    <div class="row align-items-center h-100">
-      <div id="form-div" class="col form-floating">
-        <form autocomplete="off" id="symbol-form" class="m-auto">
-          <div class="row">
-            <div class="btn-group" role="group">
-              <input
-                type="radio"
-                class="btn-check"
-                id="days"
-                name="time"
-                value="days"
-                autocomplete="off"
-                checked
-              />
-              <label class="btn btn-dark btn-sm" for="days">Days</label>
-
-              <input
-                type="radio"
-                class="btn-check"
-                id="weeks"
-                name="time"
-                value="weeks"
-              />
-              <label class="btn btn-dark btn-sm" for="weeks">Weeks</label>
-
-              <input
-                type="radio"
-                class="btn-check"
-                id="years"
-                name="time"
-                value="years"
-              />
-              <label class="btn btn-dark btn-sm" for="years">Years</label>
-            </div>
+  <div class="container w-100" style="margin-top: 5vh; height: 90vh">
+    <div class="row h-100 align-items-center">
+      <div class="col">
+        <div class="row" style="padding-bottom: 5vh">
+          <div id="stock-details">
+            <div style="margin-left: 10px"></div>
           </div>
-          <div class="row pb-3 pt-3">
-            <div class="col">
-              <input
-                type="text"
-                class="symbol-input form-control"
-                placeholder="symbol"
-              />
-            </div>
-            <div class="col">
-              <input
-                type="text"
-                id="year-input"
-                class="form-control"
-                placeholder="time"
-              />
-            </div>
-          </div>
-          <div class="row pb-3 text-center">
-            <div class="btn-group" role="group">
-              <input
-                type="radio"
-                class="btn-check"
-                id="open"
-                name="metric"
-                value="open"
-                autocomplete="off"
-                checked
-              />
-              <label class="btn btn-outline-primary btn-sm" for="open"
-                >Open</label
-              >
-
-              <input
-                type="radio"
-                class="btn-check"
-                id="close"
-                name="metric"
-                value="close"
-              />
-              <label class="btn btn-outline-primary btn-sm" for="close"
-                >Close</label
-              >
-
-              <input
-                type="radio"
-                class="btn-check"
-                id="high"
-                name="metric"
-                value="high"
-              />
-              <label class="btn btn-outline-primary btn-sm" for="high"
-                >High</label
-              >
-
-              <input
-                type="radio"
-                class="btn-check"
-                id="low"
-                name="metric"
-                value="low"
-              />
-              <label class="btn btn-outline-primary btn-sm" for="low"
-                >Low</label
-              >
-
-              <input
-                type="radio"
-                class="btn-check"
-                id="volume"
-                name="metric"
-                value="volume"
-              />
-              <label class="btn btn-outline-primary btn-sm" for="volume"
-                >Volume</label
-              >
-            </div>
-          </div>
-          <div class="row pt-2 justify-content-center">
-            <div class="col-6">
+          <div id="form-div" class="col-6 form-floating">
+            <form autocomplete="off" id="symbol-form" class="m-auto">
               <div class="row">
-                <button type="submit" class="btn btn-success">Plot</button>
+                <div class="btn-group" role="group">
+                  <input
+                    type="radio"
+                    class="btn-check"
+                    id="days"
+                    name="time"
+                    value="days"
+                    autocomplete="off"
+                    checked
+                  />
+                  <label class="btn btn-dark btn-sm" for="days">Days</label>
+
+                  <input
+                    type="radio"
+                    class="btn-check"
+                    id="weeks"
+                    name="time"
+                    value="weeks"
+                  />
+                  <label class="btn btn-dark btn-sm" for="weeks">Weeks</label>
+
+                  <input
+                    type="radio"
+                    class="btn-check"
+                    id="years"
+                    name="time"
+                    value="years"
+                  />
+                  <label class="btn btn-dark btn-sm" for="years">Years</label>
+                </div>
               </div>
-            </div>
+              <div class="row pb-3 pt-3">
+                <div class="col">
+                  <input
+                    type="text"
+                    class="symbol-input form-control"
+                    placeholder="symbol"
+                  />
+                </div>
+                <div class="col">
+                  <input
+                    type="text"
+                    id="year-input"
+                    class="form-control"
+                    placeholder="time"
+                  />
+                </div>
+              </div>
+              <div class="row pb-3 text-center">
+                <div class="btn-group" role="group">
+                  <input
+                    type="radio"
+                    class="btn-check"
+                    id="open"
+                    name="metric"
+                    value="open"
+                    autocomplete="off"
+                    checked
+                  />
+                  <label class="btn btn-outline-primary btn-sm" for="open"
+                    >Open</label
+                  >
+
+                  <input
+                    type="radio"
+                    class="btn-check"
+                    id="close"
+                    name="metric"
+                    value="close"
+                  />
+                  <label class="btn btn-outline-primary btn-sm" for="close"
+                    >Close</label
+                  >
+
+                  <input
+                    type="radio"
+                    class="btn-check"
+                    id="high"
+                    name="metric"
+                    value="high"
+                  />
+                  <label class="btn btn-outline-primary btn-sm" for="high"
+                    >High</label
+                  >
+
+                  <input
+                    type="radio"
+                    class="btn-check"
+                    id="low"
+                    name="metric"
+                    value="low"
+                  />
+                  <label class="btn btn-outline-primary btn-sm" for="low"
+                    >Low</label
+                  >
+
+                  <input
+                    type="radio"
+                    class="btn-check"
+                    id="volume"
+                    name="metric"
+                    value="volume"
+                  />
+                  <label class="btn btn-outline-primary btn-sm" for="volume"
+                    >Volume</label
+                  >
+                </div>
+              </div>
+              <div class="row pt-2 justify-content-center">
+                <div class="col-6">
+                  <div class="row">
+                    <button type="submit" class="btn btn-success">Plot</button>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
-        </form>
-        <div id="compare-div" class="row pb-2 pt-2 justify-content-between">
-          <div class="col-4">
-            <h4>Compare</h4>
-          </div>
-          <div class="col-4">
-            <div class="row justify-content-end">
+          <div id="compare-div" class="col-6 pb-2">
+            <div class="row">
+              <div class="col-6">
+                <h4>Compare</h4>
+              </div>
               <div class="col-4">
                 <button id="add-btn" class="btn btn-dark">+</button>
-              </div>
-              <div class="col-4">
                 <button id="sub-btn" class="btn btn-dark">-</button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div id="chart-div" class="col-8">
-        <canvas id="myChart"></canvas>
+        <div id="chart-div" class="row-4">
+          <canvas id="myChart"></canvas>
+        </div>
       </div>
     </div>
   </div>
-  <div></div>
+
   <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
