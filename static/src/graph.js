@@ -1,3 +1,5 @@
+/* globals Chart */
+"use strict";
 const backend = "http://localhost:5000";
 
 async function get_symbol_data() {
@@ -156,7 +158,6 @@ symbolForm.addEventListener("submit", async (e) => {
       Object.prototype.hasOwnProperty.call(all_symbol_data.AVG_PRICE, sym_name)
     ) {
       cur_symbolsHTML[i].classList.remove("is-invalid");
-      // console.log(sym_name);
       cur_symbols.push(sym_name);
     } else {
       cur_symbolsHTML[i].classList.add("is-invalid");
