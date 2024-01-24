@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>StockSync.com | Login</title>
     <meta charset="utf-8" />
+    <meta http-equiv ="X-UA-Compatible" content ="IE=edge">
+    <meta name ="viewport" content ="width=device-width, initial-scale =1.0">
+    <title>StockSync.com | Login</title>
+    <link rel ="stylesheet" href ="style.css">
     <link
       rel="shortcut icon"
       type="image/x-icon"
       href="https://cdn-icons-png.flaticon.com/512/25/25231.png"
     />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <meta charset="utf-8"/>
+    <link rel = "shortcut icon" type = "image/x-icon" href = "https://cdn-icons-png.flaticon.com/512/25/25231.png">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <style>
       .flashed {
         list-style-type: none;
@@ -23,19 +26,21 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="form-container">
-        <h2>Login</h2>
+    <div class="wrapper">
+      
+        
         <form action="/login" method="post">
-          <div class="form-group">
+          <h1>Login</h1>
+          <div class="input-box">
             <input
               type="text"
               name="username"
               placeholder="Username"
               required
             />
+            <i class = "bx bxs-user"></i>
           </div>
-          <div class="form-group">
+          <div class="input-box">
             <input
               type="password"
               name="password"
@@ -43,13 +48,19 @@
               placeholder="Password"
               required
             />
-            <input type = "checkbox" onclick ="Funct()"/>Show Password
+            <i class ='bx bxs-lock-alt'></i>
 
           </div>
-        <div>
+          <div class = "remember-forgot">
           
-          <input type="checkbox" id="remember_me" name="remember_me">Remember me
+            <label><input type = "checkbox" onclick ="Funct()"/>Show Password
+            </label>
+        </div>
+
+        <div class = "remember-forgot">
           
+          <label><input type="checkbox" id="remember_me" name="remember_me">Remember me
+          </label>
       </div>
           {% with messages = get_flashed_messages() %} {% if messages %}
           <ul class="flashed">
@@ -58,11 +69,15 @@
             {% endfor %}
           </ul>
           {% endif %} {% endwith %}
-          <div class="form-group">
-            <button type="submit">Login</button>
+
+
+          
+            <button type="submit" class = "btn">Login</button>
+          <div class = "register-link">
+            <p>Don't have an account? <a href="/register">Register here</a></p>
           </div>
         </form>
-        <p>Don't have an account? <a href="/register">Register here</a></p>
+        
         <script>
           function Funct(){
             var x = document.getElementById("password");
@@ -78,6 +93,5 @@
           }
         </script>
       </div>
-    </div>
   </body>
 </html>

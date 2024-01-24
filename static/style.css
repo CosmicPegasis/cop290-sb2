@@ -68,20 +68,24 @@ body{
     justify-content: space-between;
     font-size: 14.5px;
     margin: 15px 0 15px;
+    
 }
 
 .remember-forgot label input{
     accent-color: #fff;
     margin-right: 3px;
+    cursor: pointer;
 }
 
 .remember-forgot a{
     color: #fff;
     text-decoration: none;
+    
 }
 
 .remember-forgot a:hover{
     text-decoration: underline;
+    
 }
 
 .wrapper .btn{
