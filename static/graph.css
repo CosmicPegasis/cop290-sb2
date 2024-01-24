@@ -1,0 +1,22 @@
+body {
+    
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('leaf.avif') ; 
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+
+.container.w-100 {
+
+    background-color: #ADD8E6; 
+    border: 1px solid #ccc;
+    border-radius: 20px; 
+    padding: 20px; 
+
+  }
+
+
+  

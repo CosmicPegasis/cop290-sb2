@@ -1,27 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Two-Point Slider</title>
-  <style>
-    input[type="range"] {
-      width: 100%;
-    }
-
-    label {
-      display: block;
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
-  <label for="start">Start Point:</label>
-  <input type="range" id="start" min="0" max="100" step="1" value="0">
-  <input type="text" id="startValue" value="0">
-
-  <label for="end">End Point:</label>
-  <input type="range" id="end" min="0" max="100" step="1" value="100">
-  <input type="text" id="endValue" value="100">
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bootstrap Two-Point Range Filter</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h4>Range Filter</h4>
+      <div class="form-row">
+        <div class="col">
+          <label for="minValue">Min:</label>
+          <input type="number" class="form-control" id="minValue" value="0" />
+        </div>
+        <div class="col">
+          <label for="maxValue">Max:</label>
+          <input type="number" class="form-control" id="maxValue" value="100" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="rangeInput">Range:</label>
+        <input
+          type="range"
+          class="form-control-range"
+          id="rangeInput"
+          min="0"
+          max="100"
+          step="1"
+          value="0"
+        />
+      </div>
+    </div>
+  </body>
 </html>

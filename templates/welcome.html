@@ -3,18 +3,21 @@
   <head>
     <title>StockSync.com | Dashboard</title>
     <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/x-icon" href="../static/icon.png" />
 
     <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-    />
-
-    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='style.css') }}"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
     />
+
+    <script
+      src="https://kit.fontawesome.com/e4cb96cad7.js"
+      crossorigin="anonymous"
+    ></script>
     <style>
       .flashed {
         list-style-type: none;
@@ -22,36 +25,102 @@
         color: #721c24;
         font-size: small;
       }
+
+      .favorite-card {
+        margin-top: 20px;
+      }
+
+      .card-color-1 {
+        background-color: #ffcccb;
+      }
+
+      .card-color-2 {
+        background-color: #c2f0c2;
+      }
+
+      .card-color-3 {
+        background-color: #add8e6;
+      }
+
+      .card-color-4 {
+        background-color: salmon;
+      }
+
+      .centered-header {
+        text-align: center;
+        padding: 20px;
+        border-radius: 10px;
+      }
     </style>
   </head>
-  <body>
-    <a href={{ url_for('graph') }}>Graph!</a>
-    <a href={{ url_for('filter') }}>Filters!</a>
-    <h2>Your Favorites:</h2>
-    <ul>
-      {% for favorite in favorites %}
-      <li>{{ favorite }}</li>
-      {% endfor %}
-    </ul>
-    <div class="welcome-container">
-      <h1>Welcome, {{ username }}!</h1>
+  <body style="margin-top: 200px">
+    <div>
+      <nav class="navbar fixed-top navbar-dark bg-black h-10">
+        <div class="container">
+          <div class="d-inline-block px-2 h-100">
+            <a href="/dashboard" class="navbar-brand mr-auto">
+              <img
+                src="../static/icon.png"
+                class="img-fluid rounded"
+                width="40"
+                height="40"
+              />
+            </a>
+          </div>
+          <div style="margin-right: auto">
+            <a href="/graph" class="navbar-brand">Graph</a>
+            <a href="/filter" class="navbar-brand">Filter</a>
+          </div>
+          <div style="margin-right: 30px">
+            <a class="navbar-brand">{{ username }}</a>
+          </div>
+          <a href="/logout" style="margin-right: 15px">
+            <img src="../static/logout.png" alt="" width="20" height="20" />
+          </a>
+        </div>
+      </nav>
+    </div>
+
+    <div class="welcome-container" style="margin-bottom: 70px">
       <form method="post" action="{{ url_for('dashboard') }}">
-        <input
-          type="text"
-          name="new_favorite"
-          placeholder="Add a new favorite"
-        />
-        <button type="submit">Add</button>
+        <div class="row">
+          <div class="col-3"></div>
+          <div class="col-5">
+            <input
+              type="text"
+              name="new_favorite"
+              placeholder="Add a new favorite"
+              class="form-control"
+            />
+          </div>
+          <div class="col-1"></div>
+          <div class="col-3">
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+        </div>
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <ul class="flashed">
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %} {% endwith %}
       </form>
-      {% with messages = get_flashed_messages() %} {% if messages %}
-          <ul class="flashed">
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-          </ul>
-          {% endif %} {% endwith %}
-      <a href="/logout" class="logout-button">Logout</a>
-      <a href="filter" 
+    </div>
+
+    <h2 class="centered-header">Your Favorites:</h2>
+    <div class="row">
+      <div class="col-md-2"></div>
+      {% for favorite in favorites %}
+      <div class="col-md-2">
+        <div class="card favorite-card card-color-{{ loop.index }}">
+          <div class="card-body">
+            <img src="path/to/your/logo.png" alt="Logo" class="card-logo" />
+            <h5 class="card-title">{{ favorite }}</h5>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
     </div>
   </body>
 </html>

@@ -185,6 +185,14 @@ def filter():
         return render_template('filter.html')
     else:
         return redirect(url_for('index'))
+    
+@app.route('/test')
+def test():
+    user_id = session.get('user_id')
+    if user_id:
+        return render_template('test.html')
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/logout')
 def logout():
