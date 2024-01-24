@@ -26,6 +26,7 @@
   </head>
   <body>
     <a href={{ url_for('graph') }}>Graph!</a>
+    <a href={{ url_for('filter') }}>Filters!</a>
     <h2>Your Favorites:</h2>
     <ul>
       {% for favorite in favorites %}
@@ -50,6 +51,7 @@
           </ul>
           {% endif %} {% endwith %}
       <a href="/logout" class="logout-button">Logout</a>
+      <a href="filter" 
     </div>
   </body>
 </html>

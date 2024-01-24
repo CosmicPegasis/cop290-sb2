@@ -178,6 +178,14 @@ def graph():
     else:
         return redirect(url_for('index'))
 
+@app.route('/filter')
+def filter():
+    user_id = session.get('user_id')
+    if user_id:
+        return render_template('filter.html')
+    else:
+        return redirect(url_for('index'))
+
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
