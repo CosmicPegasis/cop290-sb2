@@ -1,4 +1,3 @@
-from niftystocks import ns
 from flask import Flask, jsonify, render_template, request, redirect, url_for, flash, session
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
@@ -9,8 +8,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import pandas as pd
 import io
 import json
-
-
 
 app = Flask(__name__)
 CORS(app)
@@ -40,21 +37,19 @@ def get_stock_days(stock_symbol: str, days: int):
 # TODO Add checking for Sundays
 @app.route("/request/get_symbols/")
 def get_symbols():
-    df = pd.read_csv('./nifty50list.csv')['Symbol']
+    symbol_list = get_symbol_list()
     s = io.StringIO(full_bhavcopy_raw(date.today() - relativedelta(days=1)))
     bhavcopy = pd.read_csv(s)
     bhavcopy.rename(columns=lambda x: x.strip(), inplace=True)
     bhavcopy = bhavcopy.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
     bhavcopy = bhavcopy.set_index("SYMBOL")
-    bhavcopy = bhavcopy[bhavcopy.index.isin(df.to_dict().values())]
+    bhavcopy = bhavcopy[bhavcopy.index.isin(symbol_list)]
     bhavcopy = bhavcopy[bhavcopy.SERIES == "EQ"]
-  #  print(bhavcopy.to_string())
     return jsonify(bhavcopy.to_dict())
 
-# @app.route("/")
-# def index():
-#     return render_template("graph.html")
 
+def get_symbol_list():
+    return pd.read_csv('./nifty50list.csv')['Symbol'].to_dict().values()
 
 app.secret_key = 'your_secret_key' 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
@@ -142,10 +137,10 @@ def login():
         flash('This Username is not registered')
         return redirect(url_for('index'))
 
-@app.route('/dashboard',methods = ['Get','Post'])
+@app.route('/dashboard',methods = ['GET','POST'])
 def dashboard():
     user_id = session.get('user_id')
-    valid_stocks = ns.get_nifty50()
+    valid_stocks = get_symbol_list()
 
     if user_id:
         user = User.query.get(user_id)
