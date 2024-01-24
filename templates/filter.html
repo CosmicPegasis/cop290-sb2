@@ -1,260 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,shrink-to-fit=no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0,shrink-to-fit=no"
+    />
     <title>StockSync | Filters</title>
-    
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css">
-</head>
-<body>
-<div class ="container">
-    <div class="row">
-        <div class ="col-12">
-            <h1>Filters</h1>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"
+    />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <nav class="navbar fixed-top navbar-dark bg-black h-10">
+        <div class="container">
+          <div class="d-inline-block px-2 h-100">
+            <a href="./dashboard.html" class="navbar-brand mr-auto">
+              <img
+                src="../static/icon.png"
+                class="img-fluid rounded"
+                width="40"
+                height="40"
+              />
+            </a>
+          </div>
+          <div style="margin-right: auto">
+            <a href="./graph" class="navbar-brand">Graph</a>
+            <a href="./filter" class="navbar-brand">Filter</a>
+          </div>
+          <a href="logout.html" style="margin-right: 15px">
+            <img src="../static/logout.png" alt="" width="20" height="20" />
+          </a>
         </div>
+      </nav>
     </div>
-    <div class ="row">
+    <div class="container" style="margin-top: 10vh">
+      <div class="row">
         <div class="col-12">
-        <u1>
+          <h1>Filters</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <u1>
             <li><a href="/logout">Logout</a></li>
             <li><a href="/dashboard">Dashboard</a></li>
-        </u1>
+          </u1>
         </div>
-    </div>
-    <div>
-        <div class ="row">
-        <div class ="col-3">
-            
-                <div class="mb-2">
-                    
-                    <h4>Quantity 1</h4>
-                    <div class="form-row mb-3">
-                        <div class="col">
-                            <input type="number" class="form-control" id="minValue1" value="0">
-                        </div>
-                        <div class="col-auto">
-                            <span class="input-group-text">to</span>
-                        </div>
-                        <div class="col">
-                            <input type="number" class="form-control" id="maxValue1" value="100">
-                        </div>
-                    </div>
-                    <input type="text" id="quantityRange1" name="quantityRange1" />
-                    
-                    <h4>Quantity 2</h4>
-                    <div class="form-row mb-3">
-                        <div class="col">
-                            <input type="number" class="form-control" id="minValue2" value="0">
-                        </div>
-                        <div class="col-auto">
-                            <span class="input-group-text">to</span>
-                        </div>
-                        <div class="col">
-                            <input type="number" class="form-control" id="maxValue2" value="100">
-                        </div>
-                    </div>
-                    <input type="text" id="quantityRange2" name="quantityRange2" />
-            
-                    <h4>Quantity 3</h4>
-                    <div class="form-row mb-3">
-                        <div class="col">
-                            <input type="number" class="form-control" id="minValue3" value="0">
-                        </div>
-                        <div class="col-auto">
-                            <span class="input-group-text">to</span>
-                        </div>
-                        <div class="col">
-                            <input type="number" class="form-control" id="maxValue3" value="100">
-                        </div>
-                    </div>
-                    <input type="text" id="quantityRange3" name="quantityRange3" />
-            
-                    <h4>Quantity 4</h4>
-                    <div class="form-row mb-3">
-                        <div class="col">
-                            <input type="number" class="form-control" id="minValue4" value="0">
-                        </div>
-                        <div class="col-auto">
-                            <span class="input-group-text">to</span>
-                        </div>
-                        <div class="col">
-                            <input type="number" class="form-control" id="maxValue4" value="100">
-                        </div>
-                    </div>
-                    <input type="text" id="quantityRange4" name="quantityRange4" />
-            
-                 
-            
-                </div> 
-        </div>
-        <div class ="col-9">
-            <div class ="row">
-            <div class="mt-4">
-                <div class="form-group">
-                    <label for="searchInput">Search Items:</label>
-                    <input type="text" class="form-control" id="searchInput" oninput="filterItems()">
+      </div>
+      <div>
+        <div class="row">
+          <div class="col-3">
+            <div class="mb-2">
+              <h4>Quantity 1</h4>
+              <div class="form-row mb-3">
+                <div class="col">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="minValue1"
+                    value="0"
+                  />
                 </div>
-            
-                <div class="mt-3">
-                    <h3>Search Results:</h3>
-                    <ul class="list-group" id="itemList"></ul>
+                <div class="col-auto">
+                  <span class="input-group-text">to</span>
                 </div>
+                <div class="col">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="maxValue1"
+                    value="100"
+                  />
+                </div>
+              </div>
+              <input type="text" id="quantityRange1" name="quantityRange1" />
+              <h4>Quantity 2</h4>
+              <div class="form-row mb-3">
+                <div class="col">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="minValue2"
+                    value="0"
+                  />
+                </div>
+                <div class="col-auto">
+                  <span class="input-group-text">to</span>
+                </div>
+                <div class="col">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="maxValue2"
+                    value="100"
+                  />
+                </div>
+              </div>
+              <input type="text" id="quantityRange2" name="quantityRange2" />
+              <h4>Quantity 3</h4>
+              <div class="form-row mb-3">
+                <div class="col">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="minValue3"
+                    value="0"
+                  />
+                </div>
+                <div class="col-auto">
+                  <span class="input-group-text">to</span>
+                </div>
+                <div class="col">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="maxValue3"
+                    value="100"
+                  />
+                </div>
+              </div>
+              <input type="text" id="quantityRange3" name="quantityRange3" />
+              <h4>Quantity 4</h4>
+              <div class="form-row mb-3">
+                <div class="col">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="minValue4"
+                    value="0"
+                  />
+                </div>
+                <div class="col-auto">
+                  <span class="input-group-text">to</span>
+                </div>
+                <div class="col">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="maxValue4"
+                    value="100"
+                  />
+                </div>
+              </div>
+              <input type="text" id="quantityRange4" name="quantityRange4" />
             </div>
+          </div>
+          <div class="col-9">
+            <div class="row">
+              <div class="mt-4">
+                <div class="form-group">
+                  <label for="searchInput">Search Items:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="searchInput"
+                    oninput="filterItems()"
+                  />
+                </div>
+
+                <div class="mt-3">
+                  <h3>Search Results:</h3>
+                  <ul class="list-group" id="itemList"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="row">
-            <div class="row mt-4">
-            
-                <div class="col-md-3">
-                    <div class="card bg-primary text-white">
-                        <div class="card-body">
-                            <h5 class="card-title">Fav-1</h5>
-                            <p class="card-text">Logo</p>
-                        </div>
-                    </div>
+          <div class="row mt-4">
+            <div class="col-md-3">
+              <div class="card bg-primary text-white">
+                <div class="card-body">
+                  <h5 class="card-title">Fav-1</h5>
+                  <p class="card-text">Logo</p>
                 </div>
-            
-                
-                <div class="col-md-3">
-                    <div class="card bg-success text-white">
-                        <div class="card-body">
-                            <h5 class="card-title">Fav-2</h5>
-                            <p class="card-text">Logo</p>
-                        </div>
-                    </div>
-                </div>
-            
-           
-                <div class="col-md-3">
-                    <div class="card bg-warning text-dark">
-                        <div class="card-body">
-                            <h5 class="card-title">Fav-3</h5>
-                            <p class="card-text">Logo</p>
-                        </div>
-                    </div>
-                </div>
-            
-                
-                <div class="col-md-3">
-                    <div class="card bg-info text-white">
-                        <div class="card-body">
-                            <h5 class="card-title">Fav-4</h5>
-                            <p class="card-text">Logo</p>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
-            
+
+            <div class="col-md-3">
+              <div class="card bg-success text-white">
+                <div class="card-body">
+                  <h5 class="card-title">Fav-2</h5>
+                  <p class="card-text">Logo</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card bg-warning text-dark">
+                <div class="card-body">
+                  <h5 class="card-title">Fav-3</h5>
+                  <p class="card-text">Logo</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card bg-info text-white">
+                <div class="card-body">
+                  <h5 class="card-title">Fav-4</h5>
+                  <p class="card-text">Logo</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        </div>
-        <div>
+      </div>
+      <div></div>
     </div>
-</div>
-    
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+    <script>
+      const arr = ["SBIN", "ITC", "TATASTEEL", "TATAMOTORS"];
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
-<script>
+      displayResults(arr);
 
-    const arr = ["SBIN", "ITC", "TATASTEEL", "TATAMOTORS"];
-
-    displayResults(arr);
-
-    function filterItems() {
-        const searchInput = document.getElementById('searchInput').value.toLowerCase();
-        const filteredItems = arr.filter(item => item.toLowerCase().includes(searchInput));
+      function filterItems() {
+        const searchInput = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const filteredItems = arr.filter((item) =>
+          item.toLowerCase().includes(searchInput)
+        );
 
         displayResults(filteredItems);
-    }
+      }
 
-    function displayResults(items) {
-        const itemListContainer = document.getElementById('itemList');
+      function displayResults(items) {
+        const itemListContainer = document.getElementById("itemList");
         itemListContainer.innerHTML = "";
 
         if (items.length === 0) {
-            itemListContainer.innerHTML = "<li class='list-group-item'>No matching items found.</li>";
+          itemListContainer.innerHTML =
+            "<li class='list-group-item'>No matching items found.</li>";
         } else {
-            items.forEach(item => {
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item';
-                listItem.textContent = item;
-                itemListContainer.appendChild(listItem);
-            });
+          items.forEach((item) => {
+            const listItem = document.createElement("li");
+            listItem.className = "list-group-item";
+            listItem.textContent = item;
+            itemListContainer.appendChild(listItem);
+          });
         }
-    }
-</script>
-
-<script>
-    $(document).ready(function () {
+      }
+    </script>
+    <script>
+      $(document).ready(function () {
         var quantityRange1 = $("#quantityRange1");
         var minValueInput1 = $("#minValue1");
         var maxValueInput1 = $("#maxValue1");
 
-        var slider1 = quantityRange1.ionRangeSlider({
+        var slider1 = quantityRange1
+          .ionRangeSlider({
             type: "double",
             min: 0,
             max: 100,
             from: 0,
             to: 100,
             onFinish: function (data) {
-                minValueInput1.val(data.from);
-                maxValueInput1.val(data.to);
-            }
-        }).data("ionRangeSlider");
+              minValueInput1.val(data.from);
+              maxValueInput1.val(data.to);
+            },
+          })
+          .data("ionRangeSlider");
 
-       
         var quantityRange2 = $("#quantityRange2");
         var minValueInput2 = $("#minValue2");
         var maxValueInput2 = $("#maxValue2");
 
-        var slider2 = quantityRange2.ionRangeSlider({
+        var slider2 = quantityRange2
+          .ionRangeSlider({
             type: "double",
             min: 0,
             max: 100,
             from: 0,
             to: 100,
             onFinish: function (data) {
-                minValueInput2.val(data.from);
-                maxValueInput2.val(data.to);
-            }
-        }).data("ionRangeSlider");
+              minValueInput2.val(data.from);
+              maxValueInput2.val(data.to);
+            },
+          })
+          .data("ionRangeSlider");
 
         var quantityRange3 = $("#quantityRange3");
         var minValueInput3 = $("#minValue3");
         var maxValueInput3 = $("#maxValue3");
 
-        var slider3 = quantityRange3.ionRangeSlider({
+        var slider3 = quantityRange3
+          .ionRangeSlider({
             type: "double",
             min: 0,
             max: 100,
             from: 0,
             to: 100,
             onFinish: function (data) {
-                minValueInput3.val(data.from);
-                maxValueInput3.val(data.to);
-            }
-        }).data("ionRangeSlider");
+              minValueInput3.val(data.from);
+              maxValueInput3.val(data.to);
+            },
+          })
+          .data("ionRangeSlider");
 
         var quantityRange4 = $("#quantityRange4");
         var minValueInput4 = $("#minValue4");
         var maxValueInput4 = $("#maxValue4");
 
-        var slider4 = quantityRange4.ionRangeSlider({
+        var slider4 = quantityRange4
+          .ionRangeSlider({
             type: "double",
             min: 0,
             max: 100,
             from: 0,
             to: 100,
             onFinish: function (data) {
-                minValueInput4.val(data.from);
-                maxValueInput4.val(data.to);
-            }
-        }).data("ionRangeSlider");
-
-    });
-</script>
-
-</body>
+              minValueInput4.val(data.from);
+              maxValueInput4.val(data.to);
+            },
+          })
+          .data("ionRangeSlider");
+      });
+    </script>
+  </body>
 </html>
