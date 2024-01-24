@@ -60,97 +60,52 @@
           <div class="col-3">
             <div class="mb-2">
               <h4>Close Price</h4>
-              <div class="form-row mb-3">
-                <div class="col">
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="minValue1"
-                    value="0"
-                  />
-                </div>
-                <div class="col-auto">
-                  <span class="input-group-text">to</span>
-                </div>
-                <div class="col">
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="maxValue1"
-                    value="100"
-                  />
-                </div>
+              <div class="form-row mb-3"></div>
+              <div class="slidecontainer">
+                <input
+                  type="range"
+                  min="1"
+                  max="4000"
+                  value="2000"
+                  class="slider"
+                  id="myRange"
+                />
               </div>
-              <input type="text" id="quantityRange1" name="quantityRange1" />
-              <h4>P/E Ratio</h4>
-              <div class="form-row mb-3">
-                <div class="col">
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="minValue2"
-                    value="0"
-                  />
-                </div>
-                <div class="col-auto">
-                  <span class="input-group-text">to</span>
-                </div>
-                <div class="col">
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="maxValue2"
-                    value="100"
-                  />
-                </div>
+              <h4>Relative Strength Index</h4>
+              <div class="slidecontainer">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="50"
+                  class="slider"
+                  id="myRange"
+                />
               </div>
-              <input type="text" id="quantityRange2" name="quantityRange2" />
+
               <h4>Average Price</h4>
-              <div class="form-row mb-3">
-                <div class="col">
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="minValue3"
-                    value="0"
-                  />
-                </div>
-                <div class="col-auto">
-                  <span class="input-group-text">to</span>
-                </div>
-                <div class="col">
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="maxValue3"
-                    value="100"
-                  />
-                </div>
+
+              <div class="slidecontainer">
+                <input
+                  type="range"
+                  min="1"
+                  max="1000"
+                  value="500"
+                  class="slider"
+                  id="myRange"
+                />
               </div>
-              <input type="text" id="quantityRange3" name="quantityRange3" />
-              <h4>Rate of Change</h4>
-              <div class="form-row mb-3">
-                <div class="col">
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="minValue4"
-                    value="0"
-                  />
-                </div>
-                <div class="col-auto">
-                  <span class="input-group-text">to</span>
-                </div>
-                <div class="col">
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="maxValue4"
-                    value="100"
-                  />
-                </div>
+              <h4>Val/Vol Ratio</h4>
+              <div class="slidecontainer">
+                <input
+                  type="range"
+                  min="1"
+                  max="1000"
+                  value="500"
+                  class="slider"
+                  id="myRange"
+                />
               </div>
-              <input type="text" id="quantityRange4" name="quantityRange4" />
             </div>
           </div>
           <div class="col-9">
@@ -217,8 +172,6 @@
       <div></div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
     <script>
       const arr = ["SBIN", "ITC", "TATASTEEL", "TATAMOTORS"];
 
@@ -251,81 +204,6 @@
           });
         }
       }
-    </script>
-    <script>
-      $(document).ready(function () {
-        var quantityRange1 = $("#quantityRange1");
-        var minValueInput1 = $("#minValue1");
-        var maxValueInput1 = $("#maxValue1");
-
-        var slider1 = quantityRange1
-          .ionRangeSlider({
-            type: "double",
-            min: 0,
-            max: 100,
-            from: 0,
-            to: 100,
-            onFinish: function (data) {
-              minValueInput1.val(data.from);
-              maxValueInput1.val(data.to);
-            },
-          })
-          .data("ionRangeSlider");
-
-        var quantityRange2 = $("#quantityRange2");
-        var minValueInput2 = $("#minValue2");
-        var maxValueInput2 = $("#maxValue2");
-
-        var slider2 = quantityRange2
-          .ionRangeSlider({
-            type: "double",
-            min: 0,
-            max: 100,
-            from: 0,
-            to: 100,
-            onFinish: function (data) {
-              minValueInput2.val(data.from);
-              maxValueInput2.val(data.to);
-            },
-          })
-          .data("ionRangeSlider");
-
-        var quantityRange3 = $("#quantityRange3");
-        var minValueInput3 = $("#minValue3");
-        var maxValueInput3 = $("#maxValue3");
-
-        var slider3 = quantityRange3
-          .ionRangeSlider({
-            type: "double",
-            min: 0,
-            max: 100,
-            from: 0,
-            to: 100,
-            onFinish: function (data) {
-              minValueInput3.val(data.from);
-              maxValueInput3.val(data.to);
-            },
-          })
-          .data("ionRangeSlider");
-
-        var quantityRange4 = $("#quantityRange4");
-        var minValueInput4 = $("#minValue4");
-        var maxValueInput4 = $("#maxValue4");
-
-        var slider4 = quantityRange4
-          .ionRangeSlider({
-            type: "double",
-            min: 0,
-            max: 100,
-            from: 0,
-            to: 100,
-            onFinish: function (data) {
-              minValueInput4.val(data.from);
-              maxValueInput4.val(data.to);
-            },
-          })
-          .data("ionRangeSlider");
-      });
     </script>
   </body>
 </html>
