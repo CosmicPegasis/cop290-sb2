@@ -108,22 +108,16 @@ function beautify_dates(dateObj) {
 }
 function redraw_stock_details(symbol, metrics) {
   let stockDetailDiv = document.getElementById("stock-details");
-  let formDiv = document.getElementById("form-div");
-  let compareDiv = document.getElementById("compare-div");
-  stockDetailDiv.classList.add("col-4", "text-center");
-  formDiv.classList.remove("col-6");
-  formDiv.classList.add("col-4");
-  compareDiv.classList.remove("col-6");
-  compareDiv.classList.add("col-4");
+  stockDetailDiv.classList.add("col", "stock-details");
   let delta = metrics[metrics.length - 1] - metrics[0];
-  stockDetailDiv.innerHTML = `<h2 style="color: black; font-weight:bold">${symbol}`;
+  stockDetailDiv.innerHTML = `<h2 style="color: black; font-weight:bold; font-size: 2em;">${symbol}`;
   if (delta >= 0) {
     //fontawesome.com/icons/triangle?f=classic&s=solid
-    stockDetailDiv.innerHTML += `<div class="bg-success-subtle rounded-pill"><h3 class="text-success-emphasis"><i class="fa-solid fa-arrow-trend-up"></i>    ${delta.toFixed(
+    stockDetailDiv.innerHTML += `<div class="stock-up"><h3 style="color: #0a3622"><i class="fa-solid fa-arrow-trend-up"></i>    ${delta.toFixed(
       2
     )}</h3></div>`;
   } else {
-    stockDetailDiv.innerHTML += `<div class="bg-danger-subtle rounded-pill"><h3 class="text-danger-emphasis"><i class="fa-solid fa-arrow-trend-down"></i>   ${delta.toFixed(
+    stockDetailDiv.innerHTML += `<div class="stock-down"><h3 style="color: #58151c"><i class="fa-solid fa-arrow-trend-down"></i>   ${delta.toFixed(
       2
     )}</h3></div>`;
   }
@@ -162,7 +156,7 @@ redraw();
 let addBtn = document.getElementById("add-btn");
 addBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  let formStruct = `<div class="row pb-1 pt-2"><div class="col-4"><input type="text" class="symbol-input form-control" placeholder="symbol"/></div></div>`;
+  let formStruct = `<div class="row" style="padding-bottom: 2px; padding-top: 4px;"><div class="col"><input type="text" class="symbol-input form-control" placeholder="symbol"/></div></div>`;
   let compareDiv = document.getElementById("compare-div");
   compareDiv.insertAdjacentHTML("beforeend", formStruct);
 });

@@ -8,71 +8,77 @@
   ></script>
 </head>
 <body>
-  <div class="container-fluid">
+  <div>
     <nav>
-      <div class="nav-left">
-        <span>
-          <a href="/dashboard">
-            <img
-              src="../static/icon.png"
-              class="img-fluid rounded"
-              width="40"
-              height="40"
-            />
-          </a>
-        </span>
-        <span>
-          <a href="/dashboard" class="nav-link">Dashboard</a>
-          <a href="/filter" class="nav-link">Filter</a>
-        </span>
+      <div class="container">
+        <div class="nav-left">
+          <span>
+            <a href="/dashboard">
+              <img
+                src="../static/icon.png"
+                class="img-fluid rounded"
+                width="40"
+                height="40"
+              />
+            </a>
+          </span>
+          <span>
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+            <a href="/filter" class="nav-link">Filter</a>
+          </span>
+        </div>
+        <a href="/logout" style="margin-right: 15px">
+          <img src="../static/logout.png" alt="" width="20" height="20" />
+        </a>
       </div>
-      <a href="/logout" style="margin-right: 15px">
-        <img src="../static/logout.png" alt="" width="20" height="20" />
-      </a>
     </nav>
   </div>
-  <div class="container w-100" style="margin-top: 15vh; height: 90vh">
-    <div class="row h-100 align-items-center">
-      <div class="col">
-        <div class="row" style="padding-bottom: 5vh">
+  <div class="container" style="height: 90vh">
+    <div class="main row">
+      <div class="col" style="width: 100%">
+        <div class="row top-row" style="padding-bottom: 5vh">
           <div id="stock-details">
             <div style="margin-left: 10px"></div>
           </div>
-          <div id="form-div" class="col-6 form-floating">
-            <form autocomplete="off" id="symbol-form" class="m-auto">
-              <div class="row">
+          <div id="form-div" class="col form-floating">
+            <form autocomplete="off" id="symbol-form" style="margin: auto">
+              <div class="row time-sel">
                 <div class="btn-group" role="group">
                   <input
                     type="radio"
-                    class="btn-check"
+                    class="btn-check-black first-label"
                     id="days"
                     name="time"
                     value="days"
                     autocomplete="off"
                     checked
                   />
-                  <label class="btn btn-dark btn-sm" for="days">Days</label>
+                  <label class="btn btn-dark first-label" for="days"
+                    >Days</label
+                  >
 
                   <input
                     type="radio"
-                    class="btn-check"
+                    class="btn-check-black"
                     id="weeks"
                     name="time"
                     value="weeks"
                   />
-                  <label class="btn btn-dark btn-sm" for="weeks">Weeks</label>
+                  <label class="btn btn-dark" for="weeks">Weeks</label>
 
                   <input
                     type="radio"
-                    class="btn-check"
+                    class="btn-check-black"
                     id="years"
                     name="time"
                     value="years"
                   />
-                  <label class="btn btn-dark btn-sm" for="years">Years</label>
+                  <label class="btn btn-dark last-label" for="years"
+                    >Years</label
+                  >
                 </div>
               </div>
-              <div class="row pb-3 pt-3">
+              <div class="row">
                 <div class="col">
                   <input
                     type="text"
@@ -89,7 +95,7 @@
                   />
                 </div>
               </div>
-              <div class="row pb-3 text-center">
+              <div class="row">
                 <div class="btn-group" role="group">
                   <input
                     type="radio"
@@ -100,7 +106,7 @@
                     autocomplete="off"
                     checked
                   />
-                  <label class="btn btn-outline-primary btn-sm" for="open"
+                  <label class="btn btn-outline-primary first-label" for="open"
                     >Open</label
                   >
 
@@ -111,7 +117,7 @@
                     name="metric"
                     value="close"
                   />
-                  <label class="btn btn-outline-primary btn-sm" for="close"
+                  <label class="btn btn-outline-primary" for="close"
                     >Close</label
                   >
 
@@ -122,9 +128,7 @@
                     name="metric"
                     value="high"
                   />
-                  <label class="btn btn-outline-primary btn-sm" for="high"
-                    >High</label
-                  >
+                  <label class="btn btn-outline-primary" for="high">High</label>
 
                   <input
                     type="radio"
@@ -133,9 +137,7 @@
                     name="metric"
                     value="low"
                   />
-                  <label class="btn btn-outline-primary btn-sm" for="low"
-                    >Low</label
-                  >
+                  <label class="btn btn-outline-primary" for="low">Low</label>
 
                   <input
                     type="radio"
@@ -144,33 +146,42 @@
                     name="metric"
                     value="volume"
                   />
-                  <label class="btn btn-outline-primary btn-sm" for="volume"
+                  <label class="btn btn-outline-primary last-label" for="volume"
                     >Volume</label
                   >
                 </div>
               </div>
-              <div class="row pt-2 justify-content-center">
-                <div class="col-6">
-                  <div class="row">
-                    <button type="submit" class="btn btn-success">Plot</button>
+              <div class="row">
+                <div class="col" style="width: 100%">
+                  <div class="row" style="justify-content: center">
+                    <button
+                      type="submit"
+                      class="btn btn-success"
+                      style="padding: 0.5em 5em; border-radius: 0.5em"
+                    >
+                      Plot
+                    </button>
                   </div>
                 </div>
               </div>
             </form>
           </div>
-          <div id="compare-div" class="col-6 pb-2">
-            <div class="row">
-              <div class="col-6">
-                <h4>Compare</h4>
+          <div id="compare-div" style="padding: 1em 1em">
+            <div
+              class="row"
+              style="align-items: center; justify-content: space-between"
+            >
+              <div class="col">
+                <h2 style="font-size: 2em">Compare</h2>
               </div>
-              <div class="col-4">
-                <button id="add-btn" class="btn btn-dark">+</button>
-                <button id="sub-btn" class="btn btn-dark">-</button>
+              <div class="row">
+                <button id="add-btn" class="btn btn-dark arith-btn">+</button>
+                <button id="sub-btn" class="btn btn-dark arith-btn">-</button>
               </div>
             </div>
           </div>
         </div>
-        <div id="chart-div" class="row-4">
+        <div id="chart-div" class="row">
           <canvas id="myChart"></canvas>
         </div>
       </div>
