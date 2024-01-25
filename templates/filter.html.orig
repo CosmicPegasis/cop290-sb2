@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="shortcut icon" type="image/x-icon" href="../static/icon.png" />
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      #content {
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+      }
+
+      .top {
+        grid-column-start: 6;
+        grid-column-end: 7;
+        text-align: center;
+      }
+
+      #left {
+        grid-row-start: 2;
+        grid-row-end: 5;
+        grid-column-start: 2;
+        grid-column-end: 5;
+        text-align: center;
+      }
+
+      #right {
+        grid-row-start: 2;
+        grid-row-end: 5;
+        grid-column-start: 6;
+        grid-column-end: 12;
+      }
+
+      #left h4 {
+        font-size: 20px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+
+      #left .slidecontainer {
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: #f9f9f9;
+      }
+
+      .form-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .form-control {
+        width: 48%; /* Adjust the width as needed */
+        padding: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      #search-bar {
+        padding: 15px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+      }
+
+      #search-results {
+        margin-top: 15px;
+      }
+
+      .list-group-item {
+        padding: 10px;
+        margin-bottom: 5px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .list-group-item {
+        padding: 10px;
+        margin-bottom: 5px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      #left .slidecontainer {
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: #f9f9f9;
+      }
+
+      #submit-button {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #search-results .list-group {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+      #submit-button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+<<<<<<< Updated upstream
+    <!--navbar-->
+    <div class="container-fluid">
+      <nav class="navbar fixed-top navbar-dark bg-black h-10">
+        <div class="container">
+          <div class="d-inline-block px-2 h-100">
+            <a href="/dashboard" class="navbar-brand mr-auto">
+              <img
+                src="../static/icon.png"
+                class="img-fluid rounded"
+                width="40"
+                height="40"
+              />
+            </a>
+          </div>
+          <div style="margin-right: auto">
+            <a href="/graph" class="navbar-brand">Graph</a>
+            <a href="./dashboard" class="navbar-brand">Dashboard</a>
+          </div>
+          <a href="/logout" style="margin-right: 15px">
+            <img src="../static/logout.png" alt="" width="20" height="20" />
+          </a>
+        </div>
+      </nav>
+    </div>
+    <!--/navbar-->
+    <div class="container" style="margin-top: 10vh">
+      <div class="row justify-content-center text-center">
+=======
+    <div id="content">
+      <div class="top">
+>>>>>>> Stashed changes
+        <div class="col-12">
+          <h1 style="font-size: 60px">Filters</h1>
+        </div>
+      </div>
+
+<<<<<<< Updated upstream
+      <div class="row">
+        <div class="col-3">
+          <div class="mb-2">
+            <h4 style="font-size: 20px">Close Price</h4>
+            <div class="form-row mb-3"></div>
+            <div class="slidecontainer">
+              <input
+                type="range"
+                min="1"
+                max="4000"
+                value="2000"
+                class="slider"
+                id="close-price-slider"
+              />
+            </div>
+            <div style="margin-bottom: 30px"></div>
+            <h4 style="font-size: 20px">Relative Strength</h4>
+            <h4 style="font-size: 20px">Index</h4>
+
+            <div class="slidecontainer">
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value="50"
+                class="slider"
+                id="myRange"
+              />
+            </div>
+            <div style="margin-bottom: 30px"></div>
+            <h4 style="font-size: 20px">Average Price</h4>
+
+            <div class="slidecontainer">
+              <input
+                type="range"
+                min="1"
+                max="1000"
+                value="500"
+                class="slider"
+                id="myRange"
+              />
+            </div>
+            <div style="margin-bottom: 30px"></div>
+            <h4 style="font-size: 20px">Val/Vol Ratio</h4>
+            <div class="slidecontainer">
+              <input
+                type="range"
+                min="1"
+                max="1000"
+                value="500"
+                class="slider"
+                id="myRange"
+              />
+            </div>
+            <div style="margin-bottom: 30px"></div>
+=======
+      <div id="left">
+        <div class="slidecontainer">
+          <h4 style="font-size: 20px">Close Price</h4>
+          <div class="form-group">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Min"
+              id="minClosePrice"
+            />
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Max"
+              id="maxClosePrice"
+            />
+>>>>>>> Stashed changes
+          </div>
+        </div>
+
+        <div class="slidecontainer">
+          <h4 style="font-size: 20px">Relative Strength</h4>
+          <h4 style="font-size: 20px">Index</h4>
+          <div class="form-group">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Min"
+              id="minRelativeStrength"
+            />
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Max"
+              id="maxRelativeStrength"
+            />
+          </div>
+        </div>
+
+        <div class="slidecontainer">
+          <h4 style="font-size: 20px">Average Price</h4>
+          <div class="form-group">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Min"
+              id="minAveragePrice"
+            />
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Max"
+              id="maxAveragePrice"
+            />
+          </div>
+        </div>
+
+        <div class="slidecontainer">
+          <h4 style="font-size: 20px">Val/Vol Ratio</h4>
+          <div class="form-group">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Min"
+              id="minValVolRatio"
+            />
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Max"
+              id="maxValVolRatio"
+            />
+          </div>
+        </div>
+
+        <button id="submit-button" onclick="submitForm()">Apply Filters</button>
+      </div>
+
+      <div id="right">
+        <div id="search-bar">
+          <div class="form-group" style="margin-bottom: 5px">
+            <input
+              type="text"
+              class="form-control"
+              id="searchInput"
+              placeholder="select the name of any stock"
+              oninput="filterItems()"
+            />
+          </div>
+
+          <div id="search-results">
+            <h3>Search Results:</h3>
+            <ul class="list-group" id="itemList"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      arr = [];
+      async function get_results() {
+        const symbols = await fetch("http://localhost:5000/filter/request", {
+          method: "POST",
+          body: JSON.stringify({
+
+          })
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+      }
+
+      function filterItems() {
+        const searchInput = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const filteredItems = arr.filter((item) =>
+          item.toLowerCase().includes(searchInput)
+        );
+
+        displayResults(filteredItems);
+      }
+
+      function displayResults(items) {
+        const itemListContainer = document.getElementById("itemList");
+        itemListContainer.innerHTML = "";
+
+        if (items.length === 0) {
+          itemListContainer.innerHTML =
+            "<li class='list-group-item'>No matching items found.</li>";
+        } else {
+          items.forEach((item) => {
+            const listItem = document.createElement("li");
+            listItem.className = "list-group-item";
+            listItem.textContent = item;
+            itemListContainer.appendChild(listItem);
+          });
+        }
+      }
+
+      function submitForm() {
+        const minClosePrice = document.getElementById("minClosePrice").value;
+        const maxClosePrice = document.getElementById("maxClosePrice").value;
+
+        alert("Filters Applied!");
+      }
+    </script>
+  </body>
+</html>

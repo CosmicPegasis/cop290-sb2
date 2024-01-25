@@ -9,6 +9,9 @@ import pandas as pd
 import io
 import json
 
+from datetime import datetime
+import time
+
 app = Flask(__name__)
 CORS(app)
 # Is vulnerable to HTML Injection
@@ -141,6 +144,7 @@ def login():
 def dashboard():
     user_id = session.get('user_id')
     valid_stocks = get_symbol_list()
+    
 
     if user_id:
         user = User.query.get(user_id)
@@ -178,21 +182,46 @@ def graph():
     else:
         return redirect(url_for('index'))
 
-@app.route('/filter')
+@app.route('/filter',methods =['GET','POST'])
 def filter():
     user_id = session.get('user_id')
     if user_id:
+        if(request.method == 'POST'):
+            minCP = request.form["minClosePrice"]
+            maxCP =request.form["maxClosePrice"]
+            minRSI = request.form["minRelativeStrength"]
+            maxRSI = request.form["maxRelativeStrength"]
+            minAP = request.form["minAveragePrice"]   
+            maxAP = request.form["maxAveragePrice"]
+            minVV = request.form["minValVolRatio"]
+            maxVV = request.form["maxValVolRatio"]
+            valid_stocks = get_symbol_list()
+            ans_df = pd.DataFrame()
+            end_date = datetime.now().date()
+            start_date = end_date - relativedelta(years = 1)
+            for stock_symbol in valid_stocks:
+                df_temp = stock_df(symbol=stock_symbol, from_date= start_date,to_date= end_date, series="EQ")
+                df_temp = df_temp[(df_temp['CLOSE'] >= int(minCP))]
+                df_temp = df_temp[(df_temp['CLOSE'] <=int(maxCP)) ]
+                ans_df = pd.concat([ans_df, df_temp], ignore_index=True)
+               
+                
+            print(ans_df)
+            return jsonify(ans_df.to_dict())
         return render_template('filter.html')
     else:
         return redirect(url_for('index'))
     
-@app.route('/test')
+@app.route('/test', methods =["GET", "POST"])
 def test():
-    user_id = session.get('user_id')
-    if user_id:
-        return render_template('test.html')
-    else:
-        return redirect(url_for('index'))
+    if request.method == "POST":
+      
+       first_name = request.form.get("fname")
+        
+       last_name = request.form.get("lname") 
+       return "Your name is "+first_name + last_name
+    return render_template("form.html")
+
 
 @app.route('/logout')
 def logout():
