@@ -174,6 +174,26 @@ def dashboard():
 
     return redirect(url_for('index'))
 
+@app.route('/remove_favorite/<favorite>', methods=['POST'])
+def remove_favorite(favorite):
+    user_id = session.get('user_id')
+
+    if user_id:
+        user = User.query.get(user_id)
+
+        if user:
+            favorites = json.loads(user.favorites) if user.favorites else []
+
+            if favorite in favorites:
+                favorites.remove(favorite)
+                user.favorites = json.dumps(favorites)
+                db.session.commit()
+                flash('Favorite removed successfully')
+            else:
+                flash('Favorite not found')
+
+    return redirect(url_for('dashboard'))
+
 @app.route('/graph')
 def graph():
     user_id = session.get('user_id')
@@ -225,12 +245,17 @@ def filter():
             valid_stocks = get_symbol_list()
 
             end_date = datetime.now().date()
-            start_date = end_date - relativedelta(years=1)
+            start_date = end_date - relativedelta(weeks = 1)
+            print(end_date)
+            print(start_date)
 
             ans_df = pd.DataFrame()  
 
             for stock_symbol in valid_stocks:
+                
+                len_symbol = len(stock_symbol)
                 df_temp = stock_df(symbol=stock_symbol, from_date=start_date, to_date=end_date, series="EQ")
+                print(stock_symbol)
                 df_temp = calculate_rsi(df_temp)
                 df_temp = df_temp[(df_temp['CLOSE'] >= int(minCP))]
                 df_temp = df_temp[(df_temp['CLOSE'] <= int(maxCP))]
@@ -240,13 +265,14 @@ def filter():
                 df_temp = df_temp[(df_temp['HIGH'] + df_temp['LOW']) / 2 <= int(maxAP)]
                 df_temp = df_temp[(df_temp['VALUE'] / df_temp['VOLUME']) >= int(minVV)]
                 df_temp = df_temp[(df_temp['VALUE'] / df_temp['VOLUME']) <= int(maxVV)]
-
-                ans_df = pd.concat([ans_df, df_temp], ignore_index=True)
+                df_temp['SYMBOL'] = stock_symbol+ (" "*(11-len_symbol))
+                ans_df = pd.concat([ans_df, df_temp.head(1)], ignore_index=True)
 
             if not ans_df.empty:
+                ans_df['DELTA'] = ans_df['CLOSE']-ans_df['OPEN']
                 ans_df = ans_df.drop(['SERIES', 'PREV. CLOSE', 'VWAP', '52W H', '52W L', 'Delta', 'AvgGain', 'AvgLoss',
-                                      'LTP', 'NO OF TRADES', 'RS', 'RSI'], axis=1)
-                ans_df['DATE'] = ans_df['DATE'].dt.strftime('%a, %d %b %Y')
+                                      'LTP', 'NO OF TRADES', 'RS', 'RSI','CLOSE','DATE','CLOSE','OPEN','VALUE','VOLUME','HIGH','LOW'], axis=1)
+                
                 ans_df = ans_df.to_dict(orient='records')
                 return render_template('filter.html', top_4_rows=ans_df,minCP = minCP,maxCP = maxCP,minRSI = minRSI,maxRSI = maxRSI,minVV = minVV,maxVV = maxVV,minAP = minAP,maxAP = maxAP)
             else:

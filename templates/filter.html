@@ -108,7 +108,15 @@
         border: 1px solid #ddd;
         border-radius: 5px;
       }
+      .symbol {
+        font-size: larger;
+        display: inline-block;
+        width: 10ch; /* Adjust the width as needed */
+      }
 
+      .delta {
+        margin-left: 10px; /* Adjust the margin as needed */
+      }
       #search-bar {
         padding: 15px;
         background-color: #f0f0f0;
@@ -292,7 +300,7 @@
               type="text"
               class="form-control"
               id="searchInput"
-              placeholder="Search by stock name"
+              placeholder="Search by Stock symbol"
               oninput="filterSearchResults()"
             />
           </div>
@@ -322,22 +330,32 @@
             results.forEach((result) => {
               const listItem = document.createElement("li");
               listItem.className = "list-group-item";
-              for (const [key, value] of Object.entries(result)) {
-                listItem.innerHTML += `<strong>${key}:</strong> ${value} &nbsp;&nbsp;`;
-              }
+
+              const symbol = result["SYMBOL"].padEnd(10, ' ');
+              const delta = parseFloat(result["DELTA"]).toFixed(2);
+
+
+              listItem.innerHTML = `
+        <div style="display: flex; justify-content: space-between;">
+          <span style="font-size: larger;"><strong>${symbol}</strong></span>
+          <span>GAIN = ${delta}</span>
+        </div>
+      `;
               searchResultsListContainer.appendChild(listItem);
             });
           }
         }
 
+
         function filterSearchResults() {
           const searchInput = document.getElementById("searchInput").value.toLowerCase();
           const filteredResults = searchResults.filter((result) =>
-            String(result['Stock Name']).toLowerCase().includes(searchInput.toLowerCase())
+            String(result['SYMBOL']).toLowerCase().includes(searchInput.toLowerCase())
           );
 
           displaySearchResults(filteredResults);
       }
+      filterSearchResults();
     </script>
   </body>
 </html>

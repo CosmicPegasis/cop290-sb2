@@ -1,49 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>StockSync.com | Dashboard</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" type="image/x-icon" href="../static/icon.png" />
-
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-
     <script
       src="https://kit.fontawesome.com/e4cb96cad7.js"
       crossorigin="anonymous"
     ></script>
     <style>
-      .flashed {
-        list-style-type: none;
-        margin: 10px 0;
-        color: #721c24;
-        font-size: small;
+      body {
+        margin-top: 200px;
+        font-family: Arial, sans-serif;
       }
 
-      .favorite-card {
-        margin-top: 20px;
+      .navbar {
+        background-color: #000;
+        padding: 0;
       }
 
-      .card-color-1 {
-        background-color: #ffcccb;
+      .navbar-brand {
+        padding: 0;
       }
 
-      .card-color-2 {
-        background-color: #c2f0c2;
+      .navbar img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
       }
 
-      .card-color-3 {
-        background-color: #add8e6;
+      .navbar-brand,
+      .navbar-brand:hover {
+        text-decoration: none;
+        color: #fff;
+        margin-right: 30px;
+        font-size: 18px;
       }
 
-      .card-color-4 {
-        background-color: salmon;
+      .welcome-container {
+        margin-bottom: 70px;
+      }
+
+      .row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .col-5 {
+        flex: 0 0 40%;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+
+      .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3;
       }
 
       .centered-header {
@@ -51,37 +77,56 @@
         padding: 20px;
         border-radius: 10px;
       }
+
+      .favorite-card {
+        margin: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-logo {
+        max-width: 100%;
+        height: auto;
+        border-radius: 50%;
+      }
+
+      .remove-button {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      .remove-button:hover {
+        background-color: #bd2130;
+      }
     </style>
   </head>
-  <body style="margin-top: 200px">
+  <body>
     <div>
       <nav class="navbar fixed-top navbar-dark bg-black h-10">
-        <div class="container">
-          <div class="d-inline-block px-2 h-100">
-            <a href="/dashboard" class="navbar-brand mr-auto">
-              <img
-                src="../static/icon.png"
-                class="img-fluid rounded"
-                width="40"
-                height="40"
-              />
-            </a>
-          </div>
-          <div style="margin-right: auto">
-            <a href="/graph" class="navbar-brand">Graph</a>
-            <a href="/filter" class="navbar-brand">Filter</a>
-          </div>
-          <div style="margin-right: 30px">
-            <a class="navbar-brand">{{ username }}</a>
-          </div>
-          <a href="/logout" style="margin-right: 15px">
-            <img src="../static/logout.png" alt="" width="20" height="20" />
+        <div>
+          <a href="/dashboard" class="navbar-brand mr-auto">
+            <img src="../static/icon.png" alt="Logo" />
           </a>
         </div>
+        <div style="margin-right: auto">
+          <a href="/graph" class="navbar-brand">Graph</a>
+          <a href="/filter" class="navbar-brand">Filter</a>
+        </div>
+        <div style="margin-right: 30px">
+          <a class="navbar-brand">{{ username }}</a>
+        </div>
+        <a href="/logout" style="margin-right: 15px">
+          <img src="../static/logout.png" alt="" width="20" height="20" />
+        </a>
       </nav>
     </div>
 
-    <div class="welcome-container" style="margin-bottom: 70px">
+    <div class="welcome-container">
       <form method="post" action="{{ url_for('dashboard') }}">
         <div class="row">
           <div class="col-3"></div>
@@ -95,7 +140,7 @@
           </div>
           <div class="col-1"></div>
           <div class="col-3">
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn-primary">Add</button>
           </div>
         </div>
         {% with messages = get_flashed_messages() %} {% if messages %}
@@ -113,14 +158,30 @@
       <div class="col-md-2"></div>
       {% for favorite in favorites %}
       <div class="col-md-2">
-        <div class="card favorite-card card-color-{{ loop.index }}">
-          <div class="card-body">
-            <img src="path/to/your/logo.png" alt="Logo" class="card-logo" />
-            <h5 class="card-title">{{ favorite }}</h5>
+        <form
+          method="post"
+          action="{{ url_for('remove_favorite', favorite=favorite) }}"
+        >
+          <div class="card favorite-card card-color-{{ loop.index }}">
+            <div class="card-body">
+              <img src="path/to/your/logo.png" alt="Logo" class="card-logo" />
+              <h5 class="card-title">{{ favorite }}</h5>
+              <button type="submit" class="remove-button">
+                &#10006; Remove
+              </button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
       {% endfor %}
     </div>
+
+    <script>
+      function removeFavorite(favorite) {
+        // Implement logic to remove the favorite, e.g., make an AJAX request to the server
+        // and update the UI accordingly.
+        console.log("Removing favorite:", favorite);
+      }
+    </script>
   </body>
 </html>
