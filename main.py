@@ -202,9 +202,18 @@ def calculate_rsi(data, period=14):
 @app.route('/filter', methods=['GET', 'POST'])
 def filter():
     user_id = session.get('user_id')
-
+    
     if user_id:
+        minCP = request.form.get('minClosePrice', default=0)
+        maxCP = request.form.get('maxClosePrice', default=4000)
+        minRSI = request.form.get('minRelativeStrength', default=0)
+        maxRSI = request.form.get('maxRelativeStrength', default=100)
+        minAP = request.form.get('minAveragePrice', default=0)
+        maxAP = request.form.get('maxAveragePrice', default=4000)
+        minVV = request.form.get('minValVolRatio', default=0)
+        maxVV = request.form.get('maxValVolRatio', default=100000)
         if request.method == 'POST':
+            
             minCP = request.form["minClosePrice"]
             maxCP = request.form["maxClosePrice"]
             minRSI = request.form["minRelativeStrength"]
@@ -239,7 +248,7 @@ def filter():
                                       'LTP', 'NO OF TRADES', 'RS', 'RSI'], axis=1)
                 ans_df['DATE'] = ans_df['DATE'].dt.strftime('%a, %d %b %Y')
                 ans_df = ans_df.to_dict(orient='records')
-                return render_template('filter.html', top_4_rows=ans_df)
+                return render_template('filter.html', top_4_rows=ans_df,minCP = minCP,maxCP = maxCP,minRSI = minRSI,maxRSI = maxRSI,minVV = minVV,maxVV = maxVV,minAP = minAP,maxAP = maxAP)
             else:
                 return render_template('filter.html', top_4_rows=None)
 
