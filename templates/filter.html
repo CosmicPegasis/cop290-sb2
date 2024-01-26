@@ -2,6 +2,11 @@
 <html lang="en">
   <head>
     <link rel="shortcut icon" type="image/x-icon" href="../static/icon.png" />
+    <script
+      src="https://kit.fontawesome.com/e4cb96cad7.js"
+      crossorigin="anonymous"
+    ></script>
+
     <style>
       body {
         margin: 0;
@@ -15,7 +20,46 @@
         grid-template-rows: repeat(5, 1fr);
       }
 
+      nav {
+        background-color: #1a1e26;
+        display: flex;
+        align-items: center;
+        position: sticky;
+        padding: 0;
+        width: 100%;
+        top: 0;
+        height: 5%;
+      }
+
+      .nav-left {
+        margin-right: auto;
+        display: flex;
+        align-items: center;
+      }
+      .nav-link {
+        text-decoration: none;
+        color: white;
+        font-family: "Product Sans", Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 500;
+        font-size: 25px;
+        padding: 0 0.5em;
+      }
+      #search-results .list-group {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      #searchResultsContainer .list-group-item {
+        list-style-type: none;
+      }
+      .nav-link:hover {
+        color: grey;
+      }
+
       .top {
+        grid-row-start: 1;
+        grid-row-end: 3;
         grid-column-start: 6;
         grid-column-end: 7;
         text-align: center;
@@ -58,7 +102,7 @@
       }
 
       .form-control {
-        width: 48%; /* Adjust the width as needed */
+        width: 48%;
         padding: 10px;
         box-sizing: border-box;
         border: 1px solid #ddd;
@@ -73,14 +117,6 @@
 
       #search-results {
         margin-top: 15px;
-      }
-
-      .list-group-item {
-        padding: 10px;
-        margin-bottom: 5px;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 5px;
       }
 
       .list-group-item {
@@ -120,6 +156,31 @@
     </style>
   </head>
   <body>
+    <div>
+      <nav>
+        <div class="container">
+          <div class="nav-left">
+            <span>
+              <a href="/dashboard">
+                <img
+                  src="../static/icon.png"
+                  class="img-fluid rounded"
+                  width="40"
+                  height="40"
+                />
+              </a>
+            </span>
+            <span>
+              <a href="/dashboard" class="nav-link">Dashboard</a>
+              <a href="/filter" class="nav-link">Filter</a>
+            </span>
+          </div>
+          <a href="/logout" style="margin-right: 15px">
+            <img src="../static/logout.png" alt="" width="20" height="20" />
+          </a>
+        </div>
+      </nav>
+    </div>
     <div id="content">
       <div class="top">
         <div class="col-12">
@@ -223,48 +284,51 @@
               type="text"
               class="form-control"
               id="searchInput"
-              placeholder="select the name of any stock"
-              oninput="filterItems()"
+              placeholder="Search by stock name"
+              oninput="filterSearchResults()"
             />
           </div>
 
-          <div id="search-results">
+          <div id="display-results">
             <h3>Search Results:</h3>
-            <ul class="list-group" id="itemList"></ul>
+            <div
+              id="searchResultsContainer"
+              style="max-height: 400px; overflow-y: scroll; max-width: 1200px"
+            >
+              <ul class="list-group" id="searchResultsList"></ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
     <script>
-      const arr = ["SBIN", "ITC", "TATASTEEL", "TATAMOTORS"];
+      const searchResults = {{ top_4_rows | tojson if top_4_rows is defined else [] }};
+        function displaySearchResults(results) {
+          const searchResultsListContainer = document.getElementById("searchResultsList");
+          searchResultsListContainer.innerHTML = "";
 
-      function filterItems() {
-        const searchInput = document
-          .getElementById("searchInput")
-          .value.toLowerCase();
-        const filteredItems = arr.filter((item) =>
-          item.toLowerCase().includes(searchInput)
-        );
-
-        displayResults(filteredItems);
-      }
-
-      function displayResults(items) {
-        const itemListContainer = document.getElementById("itemList");
-        itemListContainer.innerHTML = "";
-
-        if (items.length === 0) {
-          itemListContainer.innerHTML =
-            "<li class='list-group-item'>No matching items found.</li>";
-        } else {
-          items.forEach((item) => {
-            const listItem = document.createElement("li");
-            listItem.className = "list-group-item";
-            listItem.textContent = item;
-            itemListContainer.appendChild(listItem);
-          });
+          if (results.length === 0) {
+            searchResultsListContainer.innerHTML = "<li class='list-group-item'>No matching items found.</li>";
+          } else {
+            results.forEach((result) => {
+              const listItem = document.createElement("li");
+              listItem.className = "list-group-item";
+              for (const [key, value] of Object.entries(result)) {
+                listItem.innerHTML += `<strong>${key}:</strong> ${value} &nbsp;&nbsp;`;
+              }
+              searchResultsListContainer.appendChild(listItem);
+            });
+          }
         }
+
+        function filterSearchResults() {
+          const searchInput = document.getElementById("searchInput").value.toLowerCase();
+          const filteredResults = searchResults.filter((result) =>
+            String(result['Stock Name']).toLowerCase().includes(searchInput.toLowerCase())
+          );
+
+          displaySearchResults(filteredResults);
       }
     </script>
   </body>

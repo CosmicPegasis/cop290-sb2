@@ -182,32 +182,67 @@ def graph():
     else:
         return redirect(url_for('index'))
 
-@app.route('/filter',methods =['GET','POST'])
+def calculate_rsi(data, period=14):
+    data['Delta'] = data['CLOSE'] - data['PREV. CLOSE']
+    gains = data['Delta'].apply(lambda x: max(0, x))
+    losses = -data['Delta'].apply(lambda x: min(0, x))
+    data['AvgGain'] = gains.rolling(window=period, min_periods=3).mean()
+    data['AvgLoss'] = losses.rolling(window=period, min_periods=3).mean()
+    data['RS'] = data['AvgGain'] / data['AvgLoss']
+    data['RSI'] = 100 - (100 / (1 + data['RS']))
+
+    return data
+
+
+
+
+
+
+
+@app.route('/filter', methods=['GET', 'POST'])
 def filter():
     user_id = session.get('user_id')
+
     if user_id:
-        if(request.method == 'POST'):
+        if request.method == 'POST':
             minCP = request.form["minClosePrice"]
-            maxCP =request.form["maxClosePrice"]
+            maxCP = request.form["maxClosePrice"]
             minRSI = request.form["minRelativeStrength"]
             maxRSI = request.form["maxRelativeStrength"]
-            minAP = request.form["minAveragePrice"]   
+            minAP = request.form["minAveragePrice"]
             maxAP = request.form["maxAveragePrice"]
             minVV = request.form["minValVolRatio"]
             maxVV = request.form["maxValVolRatio"]
             valid_stocks = get_symbol_list()
-            ans_df = pd.DataFrame()
+
             end_date = datetime.now().date()
-            start_date = end_date - relativedelta(years = 1)
+            start_date = end_date - relativedelta(years=1)
+
+            ans_df = pd.DataFrame()  
+
             for stock_symbol in valid_stocks:
-                df_temp = stock_df(symbol=stock_symbol, from_date= start_date,to_date= end_date, series="EQ")
+                df_temp = stock_df(symbol=stock_symbol, from_date=start_date, to_date=end_date, series="EQ")
+                df_temp = calculate_rsi(df_temp)
                 df_temp = df_temp[(df_temp['CLOSE'] >= int(minCP))]
-                df_temp = df_temp[(df_temp['CLOSE'] <=int(maxCP)) ]
+                df_temp = df_temp[(df_temp['CLOSE'] <= int(maxCP))]
+                df_temp = df_temp[(df_temp['RSI'] >= int(minRSI))]
+                df_temp = df_temp[(df_temp['RSI'] <= int(maxRSI))]
+                df_temp = df_temp[(df_temp['HIGH'] + df_temp['LOW']) / 2 >= int(minAP)]
+                df_temp = df_temp[(df_temp['HIGH'] + df_temp['LOW']) / 2 <= int(maxAP)]
+                df_temp = df_temp[(df_temp['VALUE'] / df_temp['VOLUME']) >= int(minVV)]
+                df_temp = df_temp[(df_temp['VALUE'] / df_temp['VOLUME']) <= int(maxVV)]
+
                 ans_df = pd.concat([ans_df, df_temp], ignore_index=True)
-               
-                
-            print(ans_df)
-            return jsonify(ans_df.to_dict())
+
+            if not ans_df.empty:
+                ans_df = ans_df.drop(['SERIES', 'PREV. CLOSE', 'VWAP', '52W H', '52W L', 'Delta', 'AvgGain', 'AvgLoss',
+                                      'LTP', 'NO OF TRADES', 'RS', 'RSI'], axis=1)
+                ans_df['DATE'] = ans_df['DATE'].dt.strftime('%a, %d %b %Y')
+                ans_df = ans_df.to_dict(orient='records')
+                return render_template('filter.html', top_4_rows=ans_df)
+            else:
+                return render_template('filter.html', top_4_rows=None)
+
         return render_template('filter.html')
     else:
         return redirect(url_for('index'))
