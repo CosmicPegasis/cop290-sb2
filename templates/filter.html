@@ -2,166 +2,11 @@
 <html lang="en">
   <head>
     <link rel="shortcut icon" type="image/x-icon" href="../static/icon.png" />
+    <link rel="stylesheet" href="../static/filter.css" />
     <script
       src="https://kit.fontawesome.com/e4cb96cad7.js"
       crossorigin="anonymous"
     ></script>
-
-    <style>
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-      }
-
-      #content {
-        display: grid;
-        grid-gap: 10px;
-        grid-template-columns: repeat(12, 1fr);
-        grid-template-rows: repeat(5, 1fr);
-      }
-
-      nav {
-        background-color: #1a1e26;
-        display: flex;
-        align-items: center;
-        position: sticky;
-        padding: 0;
-        width: 100%;
-        top: 0;
-        height: 5%;
-      }
-
-      .nav-left {
-        margin-right: auto;
-        display: flex;
-        align-items: center;
-      }
-      .nav-link {
-        text-decoration: none;
-        color: white;
-        font-family: "Product Sans", Tahoma, Geneva, Verdana, sans-serif;
-        font-weight: 500;
-        font-size: 25px;
-        padding: 0 0.5em;
-      }
-      #search-results .list-group {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-      }
-
-      #searchResultsContainer .list-group-item {
-        list-style-type: none;
-      }
-      .nav-link:hover {
-        color: grey;
-      }
-
-      .top {
-        grid-row-start: 1;
-        grid-row-end: 3;
-        grid-column-start: 6;
-        grid-column-end: 7;
-        text-align: center;
-      }
-
-      #left {
-        grid-row-start: 2;
-        grid-row-end: 5;
-        grid-column-start: 2;
-        grid-column-end: 5;
-        text-align: center;
-      }
-
-      #right {
-        grid-row-start: 2;
-        grid-row-end: 5;
-        grid-column-start: 6;
-        grid-column-end: 12;
-      }
-
-      #left h4 {
-        font-size: 20px;
-        margin-top: 5px;
-        margin-bottom: 5px;
-      }
-
-      #left .slidecontainer {
-        margin-bottom: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 10px;
-        background-color: #f9f9f9;
-      }
-
-      .form-group {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 10px;
-      }
-
-      .form-control {
-        width: 48%;
-        padding: 10px;
-        box-sizing: border-box;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-      }
-      .symbol {
-        font-size: larger;
-        display: inline-block;
-        width: 10ch;
-      }
-
-      .delta {
-        margin-left: 10px;
-      }
-      #search-bar {
-        padding: 15px;
-        background-color: #f0f0f0;
-        border: 1px solid #ccc;
-      }
-
-      #search-results {
-        margin-top: 15px;
-      }
-
-      .list-group-item {
-        padding: 10px;
-        margin-bottom: 5px;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-      }
-
-      #left .slidecontainer {
-        margin-bottom: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 10px;
-        background-color: #f9f9f9;
-      }
-
-      #submit-button {
-        width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
-        background-color: #4caf50;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-      #search-results .list-group {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-      }
-      #submit-button:hover {
-        background-color: #45a049;
-      }
-    </style>
   </head>
   <body>
     <div>
@@ -179,8 +24,8 @@
               </a>
             </span>
             <span>
+              <a href="/graph" class="nav-link">Graph</a>
               <a href="/dashboard" class="nav-link">Dashboard</a>
-              <a href="/filter" class="nav-link">Filter</a>
             </span>
           </div>
           <a href="/logout" style="margin-right: 15px">
@@ -189,7 +34,7 @@
         </div>
       </nav>
     </div>
-    <div id="content">
+    <div id="content" class="container">
       <div class="top">
         <div class="col-12">
           <h1 style="font-size: 60px">Filters</h1>
@@ -306,7 +151,7 @@
           </div>
 
           <div id="display-results">
-            <h3>Search Results:</h3>
+            <!-- <h3>Search Results:</h3> -->
             <div
               id="searchResultsContainer"
               style="max-height: 400px; overflow-y: scroll; max-width: 1200px"
@@ -320,40 +165,54 @@
 
     <script>
       const searchResults = {{ top_4_rows | tojson if top_4_rows is defined else [] }};
-        function displaySearchResults(results) {
-          const searchResultsListContainer = document.getElementById("searchResultsList");
-          searchResultsListContainer.innerHTML = "";
+      function displaySearchResults(results) {
+        const searchResultsListContainer =
+          document.getElementById("searchResultsList");
+        searchResultsListContainer.innerHTML = "";
 
-          if (results.length === 0) {
-            searchResultsListContainer.innerHTML = "<li class='list-group-item'>No matching items found.</li>";
-          } else {
-            results.forEach((result) => {
-              const listItem = document.createElement("li");
-              listItem.className = "list-group-item";
+        if (results.length === 0) {
+          searchResultsListContainer.innerHTML =
+            "<li class='list-group-item'>No matching items found.</li>";
+        } else {
+          results.forEach((result) => {
+            const listItem = document.createElement("li");
+            listItem.className = "list-group-item";
 
-              const symbol = result["SYMBOL"].padEnd(10, ' ');
-              const delta = parseFloat(result["DELTA"]).toFixed(2);
+            const symbol = result["SYMBOL"].padEnd(10, " ");
+            const delta = parseFloat(result["DELTA"]).toFixed(2);
 
-
-              listItem.innerHTML = `
+            if (delta < 0){
+            listItem.innerHTML = `
         <div style="display: flex; justify-content: space-between;">
           <span style="font-size: larger;"><strong>${symbol}</strong></span>
-          <span>GAIN = ${delta}</span>
+          <span style="color: #58151c">${delta}  <i class="fa-solid fa-arrow-trend-down"></i></span>
         </div>
       `;
-              searchResultsListContainer.appendChild(listItem);
-            });
-          }
+            }
+            else{
+            listItem.innerHTML = `
+        <div style="display: flex; justify-content: space-between;">
+          <span style="font-size: larger;"><strong>${symbol}</strong></span>
+          <span style="color: #0a3622">${delta}  <i class="fa-solid fa-arrow-trend-up"></i></span>
+        </div>
+      `;
+            }
+            searchResultsListContainer.appendChild(listItem);
+          });
         }
+      }
 
+      function filterSearchResults() {
+        const searchInput = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const filteredResults = searchResults.filter((result) =>
+          String(result["SYMBOL"])
+            .toLowerCase()
+            .includes(searchInput.toLowerCase())
+        );
 
-        function filterSearchResults() {
-          const searchInput = document.getElementById("searchInput").value.toLowerCase();
-          const filteredResults = searchResults.filter((result) =>
-            String(result['SYMBOL']).toLowerCase().includes(searchInput.toLowerCase())
-          );
-
-          displaySearchResults(filteredResults);
+        displaySearchResults(filteredResults);
       }
       filterSearchResults();
     </script>

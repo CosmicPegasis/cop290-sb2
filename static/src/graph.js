@@ -1,4 +1,5 @@
 /* globals Chart */
+// TODO make it work with all stocks not just NIFTY50
 "use strict";
 const backend = "http://localhost:5000";
 
@@ -92,7 +93,7 @@ function plot_chart(graph_dates, graph_metrics) {
       // responsive: true,
       maintainAspectRatio: false,
       responsive: true,
-      resizeDelay: 1000,
+      resizeDelay: 500,
       elements: {
         point: {
           pointStyle: false,

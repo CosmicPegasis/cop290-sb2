@@ -151,7 +151,7 @@ nav {
   padding: 0;
   width: 100%;
   top: 0;
-  height: 5%;
+  height: 5vh;
 }
 
 .nav-left {
@@ -183,11 +183,11 @@ nav {
   padding: 0.5em 0;
   margin: 0;
   font-family: "Product Sans";
-  border: 1px solid #027afe;
-  color: #027afe;
+  border: 1px solid #4591a0;
+  color: #4591a0;
 }
 .btn-check:checked + label {
-  background-color: #027afe;
+  background-color: #4591a0;
   color: #fff;
 }
 
@@ -277,10 +277,10 @@ nav {
   font-family: "Product Sans";
 }
 .form-control:focus {
-  outline-color: #027afe;
+  outline-color: #4591a0;
 }
 .btn-success {
-  background-color: #28a645;
+  background-color: #63d4df;
   outline: none;
   border: none;
   font-size: 1.25em;
@@ -288,7 +288,7 @@ nav {
 .btn-success:active {
   outline: none;
   background-color: black;
-  color: #28a645;
+  color: #63d4df;
 }
 
 .arith-btn {
