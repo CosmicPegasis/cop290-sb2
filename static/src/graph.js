@@ -90,6 +90,7 @@ function plot_chart(graph_dates, graph_metrics) {
         },
       },
       responsive: true,
+      maintainAspectRatio: false,
       elements: {
         point: {
           pointStyle: false,
