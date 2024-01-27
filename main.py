@@ -8,6 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import pandas as pd
 import io
 import json
+import ast
 
 from datetime import datetime
 import time
@@ -149,28 +150,64 @@ def dashboard():
     if user_id:
         user = User.query.get(user_id)
 
+        end_date = datetime.now().date()
+        start_date = end_date - relativedelta(weeks = 2)
+        valid_stocks = get_symbol_list()
+        ans_df = pd.DataFrame()
+        
+        for stock_symbol in valid_stocks:
+            
+            df_temp = stock_df(symbol=stock_symbol, from_date=start_date, to_date=end_date, series="EQ")
+            print(stock_symbol)
+            df_temp = calculate_rsi(df_temp)
+            df_temp['RSI'] = df_temp.at[df_temp['RSI'].first_valid_index(),'RSI']
+            print(df_temp['RSI'])
+            
+            ans_df = pd.concat([ans_df, df_temp.head(1)], ignore_index=True)
+        
+        ans_df['DELTA'] = ((ans_df['CLOSE']-ans_df['OPEN'])/ans_df['OPEN'])*100
+                
         if request.method == 'POST':
             new_favorite = request.form.get('new_favorite')
             
             
             if new_favorite in valid_stocks:
                 favorites = json.loads(user.favorites) if user.favorites else []
-                if len(favorites) < 4:
-                    favorites.insert(0,new_favorite)
-                    user.favorites = json.dumps(favorites)
-                    db.session.commit()
-                else:
+
+                if(new_favorite in favorites):
+                    flash('stock already exists in favorites')
+                    return redirect(url_for('dashboard'))
+                
+                if len(favorites)>=4:
                     favorites.pop(3)
-                    favorites.insert(0,new_favorite)
-                    user.favorites = json.dumps(favorites)
-                    db.session.commit()
+                    
+                favorites.insert(0,new_favorite)
+                user.favorites = json.dumps(favorites)
+                db.session.commit()
             else:
                 flash('stock does not exists in database')
                 return redirect(url_for('dashboard'))
 
         if user:
-            favorites = json.loads(user.favorites) if user.favorites else []
-            return render_template('welcome.html', username=session['username'], favorites=favorites)
+            close_price =[]
+            delta =[]
+            
+            
+            favorites = ast.literal_eval(user.favorites) if user.favorites else []
+            print(ans_df['SYMBOL'])
+            print(ans_df['SYMBOL'] == 'MARUTI')
+            for stock_symbol in favorites:
+                cl = round(ans_df[ans_df['SYMBOL'] == stock_symbol]['CLOSE'].iloc[0],2)
+                print(cl)
+                de = round(ans_df[ans_df['SYMBOL'] == stock_symbol]['DELTA'].iloc[0],2)
+                close_price = close_price +[cl]
+                delta = delta+[de]
+                
+            
+            combined_array = list(zip(close_price,delta,favorites))
+            print(delta)
+            print(close_price)
+            return render_template('welcome.html', username=session['username'], favorites=favorites,combined_array = combined_array)
 
     return redirect(url_for('index'))
 
@@ -188,9 +225,8 @@ def remove_favorite(favorite):
                 favorites.remove(favorite)
                 user.favorites = json.dumps(favorites)
                 db.session.commit()
-                flash('Favorite removed successfully')
             else:
-                flash('Favorite not found')
+                flash('This Favorite does not exists.')
 
     return redirect(url_for('dashboard'))
 
@@ -205,7 +241,7 @@ def graph():
 def calculate_rsi(data, period=14):
     data['Delta'] = data['CLOSE'] - data['PREV. CLOSE']
     gains = data['Delta'].apply(lambda x: max(0, x))
-    losses = -data['Delta'].apply(lambda x: min(0, x))
+    losses = -(data['Delta'].apply(lambda x: min(0, x)))
     data['AvgGain'] = gains.rolling(window=period, min_periods=3).mean()
     data['AvgLoss'] = losses.rolling(window=period, min_periods=3).mean()
     data['RS'] = data['AvgGain'] / data['AvgLoss']
@@ -232,6 +268,24 @@ def filter():
         maxAP = request.form.get('maxAveragePrice', default=4000)
         minVV = request.form.get('minValVolRatio', default=0)
         maxVV = request.form.get('maxValVolRatio', default=100000)
+        
+        end_date = datetime.now().date()
+        start_date = end_date - relativedelta(weeks = 2)
+        valid_stocks = get_symbol_list()
+        ans_df = pd.DataFrame()
+        
+        for stock_symbol in valid_stocks:
+            len_symbol = len(stock_symbol)
+            df_temp = stock_df(symbol=stock_symbol, from_date=start_date, to_date=end_date, series="EQ")
+            print(stock_symbol)
+            df_temp = calculate_rsi(df_temp)
+            df_temp['RSI'] = df_temp.at[df_temp['RSI'].first_valid_index(),'RSI']
+            print(df_temp['RSI'])
+            df_temp['SYMBOL'] = stock_symbol+ (" "*(11-len_symbol))
+            ans_df = pd.concat([ans_df, df_temp.head(1)], ignore_index=True)
+            
+        
+            
         if request.method == 'POST':
             
             minCP = request.form["minClosePrice"]
@@ -242,43 +296,33 @@ def filter():
             maxAP = request.form["maxAveragePrice"]
             minVV = request.form["minValVolRatio"]
             maxVV = request.form["maxValVolRatio"]
-            valid_stocks = get_symbol_list()
-
-            end_date = datetime.now().date()
-            start_date = end_date - relativedelta(weeks = 1)
-            print(end_date)
-            print(start_date)
-
-            ans_df = pd.DataFrame()  
-
-            for stock_symbol in valid_stocks:
-                
-                len_symbol = len(stock_symbol)
-                df_temp = stock_df(symbol=stock_symbol, from_date=start_date, to_date=end_date, series="EQ")
-                print(stock_symbol)
-                df_temp = calculate_rsi(df_temp)
-                df_temp = df_temp[(df_temp['CLOSE'] >= int(minCP))]
-                df_temp = df_temp[(df_temp['CLOSE'] <= int(maxCP))]
-                df_temp = df_temp[(df_temp['RSI'] >= int(minRSI))]
-                df_temp = df_temp[(df_temp['RSI'] <= int(maxRSI))]
-                df_temp = df_temp[(df_temp['HIGH'] + df_temp['LOW']) / 2 >= int(minAP)]
-                df_temp = df_temp[(df_temp['HIGH'] + df_temp['LOW']) / 2 <= int(maxAP)]
-                df_temp = df_temp[(df_temp['VALUE'] / df_temp['VOLUME']) >= int(minVV)]
-                df_temp = df_temp[(df_temp['VALUE'] / df_temp['VOLUME']) <= int(maxVV)]
-                df_temp['SYMBOL'] = stock_symbol+ (" "*(11-len_symbol))
-                ans_df = pd.concat([ans_df, df_temp.head(1)], ignore_index=True)
-
+            
+            
+            ans_df = ans_df[(ans_df['CLOSE'] >= int(minCP))]
+            ans_df = ans_df[(ans_df['CLOSE'] <= int(maxCP))]
+            ans_df = ans_df[(ans_df['RSI'] >= int(minRSI))]
+            ans_df = ans_df[(ans_df['RSI'] <= int(maxRSI))]
+            ans_df = ans_df[(ans_df['HIGH'] + ans_df['LOW']) / 2 >= int(minAP)]
+            ans_df = ans_df[(ans_df['HIGH'] + ans_df['LOW']) / 2 <= int(maxAP)]
+            ans_df = ans_df[(ans_df['VALUE'] / ans_df['VOLUME']) >= int(minVV)]
+            ans_df = ans_df[(ans_df['VALUE'] / ans_df['VOLUME']) <= int(maxVV)]
+            
             if not ans_df.empty:
-                ans_df['DELTA'] = ans_df['CLOSE']-ans_df['OPEN']
+                ans_df['DELTA'] = ((ans_df['CLOSE']-ans_df['OPEN'])/ans_df['OPEN'])*100
                 ans_df = ans_df.drop(['SERIES', 'PREV. CLOSE', 'VWAP', '52W H', '52W L', 'Delta', 'AvgGain', 'AvgLoss',
                                       'LTP', 'NO OF TRADES', 'RS', 'RSI','CLOSE','DATE','CLOSE','OPEN','VALUE','VOLUME','HIGH','LOW'], axis=1)
                 
                 ans_df = ans_df.to_dict(orient='records')
-                return render_template('filter.html', top_4_rows=ans_df,minCP = minCP,maxCP = maxCP,minRSI = minRSI,maxRSI = maxRSI,minVV = minVV,maxVV = maxVV,minAP = minAP,maxAP = maxAP)
+                return render_template('filter.html',username=session['username'], top_4_rows=ans_df,minCP = minCP,maxCP = maxCP,minRSI = minRSI,maxRSI = maxRSI,minVV = minVV,maxVV = maxVV,minAP = minAP,maxAP = maxAP)
             else:
-                return render_template('filter.html', top_4_rows=None)
-
-        return render_template('filter.html')
+                return render_template('filter.html', username=session['username'],top_4_rows=None,minCP = minCP,maxCP = maxCP,minRSI = minRSI,maxRSI = maxRSI,minVV = minVV,maxVV = maxVV,minAP = minAP,maxAP = maxAP)
+            
+        else:
+            ans_df['DELTA'] = ((ans_df['CLOSE']-ans_df['OPEN'])/ans_df['OPEN'])*100
+            ans_df = ans_df.drop(['SERIES', 'PREV. CLOSE', 'VWAP', '52W H', '52W L', 'Delta', 'AvgGain', 'AvgLoss',
+                                  'LTP', 'NO OF TRADES', 'RS', 'RSI','CLOSE','DATE','CLOSE','OPEN','VALUE','VOLUME','HIGH','LOW'], axis=1)
+            ans_df = ans_df.to_dict(orient='records')
+            return render_template('filter.html',top_4_rows = ans_df,username=session['username'],minCP = minCP,maxCP = maxCP,minRSI = minRSI,maxRSI = maxRSI,minVV = minVV,maxVV = maxVV,minAP = minAP,maxAP = maxAP)
     else:
         return redirect(url_for('index'))
     

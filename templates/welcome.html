@@ -163,7 +163,27 @@
         padding: 0;
         width: 100%;
         top: 0;
-        height: 5vh;
+        height: 7vh;
+      }
+
+      .container1 {
+        display: flex;
+        height: 45vh;
+        width: 94%;
+
+        display-content: center;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container2 {
+        display: flex;
+        height: 45vh;
+        width: 94%;
+
+        display-content: center;
+        align-items: center;
+        justify-content: center;
       }
 
       .nav-left {
@@ -197,18 +217,87 @@
         font-size: 18px;
       }
 
-      .welcome-container {
-        margin-bottom: 70px;
-      }
-
       .row {
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-top: 7%;
+        width: 100vw;
+      }
+
+      .row3 {
+        margin-left: 6%;
+        display: grid;
+
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+      }
+
+      .col3 {
+        position: relative;
+        background-color: #afeeee;
+        border-radius: 30%;
+        border: 3px solid black;
+        padding: 20px;
+        height: 50%;
+      }
+
+      .card-logo {
+        max-width: 100%;
+        height: auto;
+        border-radius: 50%;
+      }
+
+      .card-title {
+        margin-top: 10px;
+        margin-bottom: 30px;
+        font-size: 170%;
+        text-align: center;
+        font-weight: bold;
+        color: #000;
+      }
+
+      .remove-button {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 100%;
+        position: absolute;
+        cursor: pointer;
+        bottom: 0;
+        right: 0;
+      }
+
+      .remove-button:hover {
+        background-color: #bd2130;
+      }
+
+      .var {
+        display: flex;
+        margin-left: 13%;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-content: center;
       }
 
       .col-5 {
         flex: 0 0 40%;
+        width: 40%;
+        margin-left: 10%;
+      }
+
+      .col-3 {
+        flex: 0 0 5%;
+      }
+
+      .col-1 {
+        flex: 0 0 5%;
       }
 
       .form-control {
@@ -231,35 +320,31 @@
       }
 
       .centered-header {
+        margin-left: 41%;
+        padding: 0;
+        font-weight: bold;
+        font-size: 30px;
+        border-radius: 10px;
+      }
+
+      .flash-container {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 7px;
+      }
+
+      .empty {
+        background-color: #afeeee;
+        padding: 2%;
+        font-size: 20px;
+        margin-left: 1.5%;
+        margin-bottom: 9%;
         text-align: center;
-        padding: 20px;
-        border-radius: 10px;
-      }
-
-      .favorite-card {
-        margin: 10px;
-        padding: 10px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      .card-logo {
-        max-width: 100%;
-        height: auto;
+        border: 2px solid black;
         border-radius: 50%;
-      }
-
-      .remove-button {
-        background-color: #dc3545;
-        color: #fff;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 50%;
-        cursor: pointer;
-      }
-
-      .remove-button:hover {
-        background-color: #bd2130;
       }
     </style>
   </head>
@@ -283,17 +368,16 @@
               <a href="/filter" class="nav-link">Filter</a>
             </span>
           </div>
+
           <a href="/logout" style="margin-right: 15px">
             <img src="../static/logout.png" alt="" width="20" height="20" />
           </a>
         </div>
       </nav>
     </div>
-
-    <div class="welcome-container">
+    <div class="container1">
       <form method="post" action="{{ url_for('dashboard') }}">
         <div class="row">
-          <div class="col-3"></div>
           <div class="col-5">
             <input
               type="text"
@@ -307,39 +391,63 @@
             <button type="submit" class="btn-primary">Add</button>
           </div>
         </div>
-        {% with messages = get_flashed_messages() %} {% if messages %}
-        <ul class="flashed">
-          {% for message in messages %}
-          <li>{{ message }}</li>
-          {% endfor %}
+        <ul class="flash-container">
+          {% with messages = get_flashed_messages() %} {% if messages %}
+          <ul class="flashed">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %} {% endwith %}
         </ul>
-        {% endif %} {% endwith %}
       </form>
     </div>
 
     <h2 class="centered-header">Your Favorites:</h2>
-    <div class="row">
-      <div class="col-md-2"></div>
-      {% for favorite in favorites %}
-      <div class="col-md-2">
-        <form
-          method="post"
-          action="{{ url_for('remove_favorite', favorite=favorite) }}"
-        >
-          <div class="card favorite-card card-color-{{ loop.index }}">
+    <div class="container2">
+      {% if combined_array%}
+      <div class="row3">
+        {% for e1,e2,favorite in combined_array %}
+        <div class="col3">
+          <form
+            method="post"
+            action="{{ url_for('remove_favorite', favorite=favorite) }}"
+          >
             <div class="card-body">
-              <img src="path/to/your/logo.png" alt="Logo" class="card-logo" />
               <h5 class="card-title">{{ favorite }}</h5>
-              <button type="submit" class="remove-button">
-                &#10006; Remove
-              </button>
+              {% if e2|float > 0%}
+              <span
+                style="
+                  color: #006400;
+                  font-weight: bold;
+                  font-size: 30px;
+                  margin-left: 30%;
+                  margin-bottom: 100%;
+                "
+                >{{e2|float}} <i class="fa-solid fa-arrow-trend-up"></i>
+              </span>
+              {% else%}
+              <span
+                style="
+                  color: #58151c;
+                  font-weight: bold;
+                  font-size: 30px;
+                  margin-left: 30%;
+                  margin-bottom: 100%;
+                "
+              >
+                {{e2}} <i class="fa-solid fa-arrow-trend-down"></i
+              ></span>
+              {%endif%}
+              <button type="submit" class="remove-button">&#10006;</button>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
+        {% endfor %}
       </div>
-      {% endfor %}
+      {%else%}
+      <div class="empty">No stocks in Your favorities.</div>
+      {%endif%}
     </div>
-
-    <script></script>
   </body>
 </html>

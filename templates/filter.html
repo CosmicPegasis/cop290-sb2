@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>StockSync.com | Filters</title>
     <link rel="shortcut icon" type="image/x-icon" href="../static/icon.png" />
     <link rel="stylesheet" href="../static/filter.css" />
     <script
@@ -25,10 +26,10 @@
             </span>
             <span>
               <a href="/graph" class="nav-link">Graph</a>
-              <a href="/dashboard" class="nav-link">Dashboard</a>
             </span>
           </div>
-          <a href="/logout" style="margin-right: 15px">
+          <p>{{username}}</p>
+          <a href="/logout" style="margin-right: 0px">
             <img src="../static/logout.png" alt="" width="20" height="20" />
           </a>
         </div>
@@ -53,6 +54,7 @@
                 placeholder="Min"
                 id="minClosePrice"
                 value="{{minCP}}"
+                required
               />
               <input
                 name="maxClosePrice"
@@ -61,6 +63,7 @@
                 placeholder="Max"
                 id="maxClosePrice"
                 value="{{maxCP}}"
+                required
               />
             </div>
           </div>
@@ -76,6 +79,7 @@
                 placeholder="Min"
                 id="minRelativeStrength"
                 value="{{minRSI}}"
+                required
               />
               <input
                 name="maxRelativeStrength"
@@ -84,6 +88,7 @@
                 placeholder="Max"
                 id="maxRelativeStrength"
                 value="{{maxRSI}}"
+                required
               />
             </div>
           </div>
@@ -98,6 +103,7 @@
                 placeholder="Min"
                 id="minAveragePrice"
                 value="{{minAP}}"
+                required
               />
               <input
                 name="maxAveragePrice"
@@ -106,6 +112,7 @@
                 placeholder="Max"
                 id="maxAveragePrice"
                 value="{{maxAP}}"
+                required
               />
             </div>
           </div>
@@ -120,6 +127,7 @@
                 placeholder="Min"
                 id="minValVolRatio"
                 value="{{minVV}}"
+                required
               />
               <input
                 name="maxValVolRatio"
@@ -128,6 +136,7 @@
                 placeholder="Max"
                 id="maxValVolRatio"
                 value="{{maxVV}}"
+                required
               />
             </div>
           </div>
@@ -164,7 +173,7 @@
     </div>
 
     <script>
-      const searchResults = {{ top_4_rows | tojson if top_4_rows is defined else [] }};
+      const searchResults = {{ top_4_rows | tojson if top_4_rows is defined and top_4_rows is not none else [] }};
       function displaySearchResults(results) {
         const searchResultsListContainer =
           document.getElementById("searchResultsList");
