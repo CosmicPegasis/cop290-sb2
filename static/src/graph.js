@@ -89,11 +89,30 @@ function plot_chart(graph_dates, graph_metrics) {
           grid: { display: false },
         },
       },
-      responsive: true,
+      // responsive: true,
       maintainAspectRatio: false,
+      responsive: true,
+      resizeDelay: 1000,
       elements: {
         point: {
           pointStyle: false,
+        },
+      },
+      plugins: {
+        zoom: {
+          pan: {
+            enabled: true,
+          },
+          zoom: {
+            wheel: {
+              enabled: true,
+              mode: "x",
+            },
+            drag: {
+              enabled: true,
+              modifierKey: "ctrl",
+            },
+          },
         },
       },
     },
@@ -151,8 +170,6 @@ async function redraw() {
   }
   plot_chart(graph_dates, graph_metrics);
 }
-const autocolors = window["chartjs-plugin-autocolors"];
-Chart.register(autocolors);
 redraw();
 let addBtn = document.getElementById("add-btn");
 addBtn.addEventListener("click", (e) => {
@@ -190,6 +207,8 @@ symbolForm.addEventListener("submit", async (e) => {
   }
   offset = document.getElementById("year-input").value;
   if (cur_symbols.length > 0) {
+    document.body.style.cursor = "progress";
     await redraw();
+    document.body.style.cursor = "auto";
   }
 });
