@@ -111,7 +111,6 @@ def register():
                                 new_user = User(username=username, password_hash=hashed_password)
                                 db.session.add(new_user)
                                 db.session.commit()
-                                flash('Registration successful! Please login.')
                                 return redirect(url_for('index'))
                             else:
                                 flash('Password does not match!')

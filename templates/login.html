@@ -2,96 +2,101 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv ="X-UA-Compatible" content ="IE=edge">
-    <meta name ="viewport" content ="width=device-width, initial-scale =1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale =1.0" />
     <title>StockSync.com | Login</title>
-    <link rel ="stylesheet" href ="style.css">
+    <link rel="stylesheet" href="style.css" />
     <link
       rel="shortcut icon"
       type="image/x-icon"
       href="https://cdn-icons-png.flaticon.com/512/25/25231.png"
     />
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <meta charset="utf-8"/>
-    <link rel = "shortcut icon" type = "image/x-icon" href = "https://cdn-icons-png.flaticon.com/512/25/25231.png">
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <meta charset="utf-8" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+    />
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
     <style>
       .flashed {
         list-style-type: none;
         margin: 10px 0;
-        color: #721c24;
+        color: #8b0000;
         font-size: small;
+        text-align: center;
       }
     </style>
   </head>
   <body>
     <div class="wrapper">
-      
-        
-        <form action="/login" method="post">
-          <h1>Login</h1>
-          <div class="input-box">
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              required
-            />
-            <i class = "bx bxs-user"></i>
-          </div>
-          <div class="input-box">
-            <input
-              type="password"
-              name="password"
-              id = "password"
-              placeholder="Password"
-              required
-            />
-            <i class ='bx bxs-lock-alt'></i>
-
-          </div>
-          <div class = "remember-forgot">
-          
-            <label><input type = "checkbox" onclick ="Funct()"/>Show Password
-            </label>
+      <form action="/login" method="post">
+        <h1>Login</h1>
+        <div class="input-box">
+          <input type="text" name="username" placeholder="Username" required />
+          <i class="bx bxs-user"></i>
+        </div>
+        <div class="input-box">
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+          <i class="bx bxs-lock-alt"></i>
+        </div>
+        <div class="remember-forgot">
+          <label
+            ><input type="checkbox" onclick="Funct()" />Show Password
+          </label>
         </div>
 
-        <div class = "remember-forgot">
-          
-          <label><input type="checkbox" id="remember_me" name="remember_me">Remember me
+        <div class="remember-forgot">
+          <label
+            ><input
+              type="checkbox"
+              id="remember_me"
+              name="remember_me"
+            />Remember me
           </label>
-      </div>
-          {% with messages = get_flashed_messages() %} {% if messages %}
-          <ul class="flashed">
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-          </ul>
-          {% endif %} {% endwith %}
+        </div>
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <ul class="flashed">
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %} {% endwith %}
 
+        <button type="submit" class="btn">Login</button>
+        <div class="register-link">
+          <p>Don't have an account? <a href="/register">Register here</a></p>
+        </div>
+      </form>
 
-          
-            <button type="submit" class = "btn">Login</button>
-          <div class = "register-link">
-            <p>Don't have an account? <a href="/register">Register here</a></p>
-          </div>
-        </form>
-        
-        <script>
-          function Funct(){
-            var x = document.getElementById("password");
-            var icon = document.querySelector(".eye-icon");
-            if(x.type === "password"){
-              x.type = "text";
-              icon.innerHTML = '\u{1F441}';
-            }else{
-
-              x.type = "password";
-              icon.innerHTML = '\u{1F441}\u{FE0F}';
-            }
+      <script>
+        function Funct() {
+          var x = document.getElementById("password");
+          var icon = document.querySelector(".eye-icon");
+          if (x.type === "password") {
+            x.type = "text";
+            icon.innerHTML = "\u{1F441}";
+          } else {
+            x.type = "password";
+            icon.innerHTML = "\u{1F441}\u{FE0F}";
           }
-        </script>
-      </div>
+        }
+      </script>
+    </div>
   </body>
 </html>
