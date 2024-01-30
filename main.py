@@ -321,6 +321,7 @@ def filter():
             ans_df = ans_df.drop(['SERIES', 'PREV. CLOSE', 'VWAP', '52W H', '52W L', 'Delta', 'AvgGain', 'AvgLoss',
                                   'LTP', 'NO OF TRADES', 'RS', 'RSI','CLOSE','DATE','CLOSE','OPEN','VALUE','VOLUME','HIGH','LOW'], axis=1)
             ans_df = ans_df.to_dict(orient='records')
+            print("Username:", session['username'])
             return render_template('filter.html',top_4_rows = ans_df,username=session['username'],minCP = minCP,maxCP = maxCP,minRSI = minRSI,maxRSI = maxRSI,minVV = minVV,maxVV = maxVV,minAP = minAP,maxAP = maxAP)
     else:
         return redirect(url_for('index'))

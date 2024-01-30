@@ -35,68 +35,82 @@
         font-size: small;
         text-align: center;
       }
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 70%;
+        margin: 2em auto;
+      }
     </style>
   </head>
   <body>
-    <div class="wrapper">
-      <form action="/login" method="post">
-        <h1>Login</h1>
-        <div class="input-box">
-          <input type="text" name="username" placeholder="Username" required />
-          <i class="bx bxs-user"></i>
-        </div>
-        <div class="input-box">
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Password"
-            required
-          />
-          <i class="bx bxs-lock-alt"></i>
-        </div>
-        <div class="remember-forgot">
-          <label
-            ><input type="checkbox" onclick="Funct()" />Show Password
-          </label>
-        </div>
+    <div class="container">
+      <div class="wrapper">
+        <form action="/login" method="post">
+          <h1>Login</h1>
+          <div class="input-box">
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              required
+            />
+            <i class="bx bxs-user"></i>
+          </div>
+          <div class="input-box">
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+              required
+            />
+            <i class="bx bxs-lock-alt"></i>
+          </div>
+          <div class="remember-forgot">
+            <label
+              ><input type="checkbox" onclick="Funct()" />Show Password
+            </label>
+          </div>
 
-        <div class="remember-forgot">
-          <label
-            ><input
-              type="checkbox"
-              id="remember_me"
-              name="remember_me"
-            />Remember me
-          </label>
-        </div>
-        {% with messages = get_flashed_messages() %} {% if messages %}
-        <ul class="flashed">
-          {% for message in messages %}
-          <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-        {% endif %} {% endwith %}
+          <div class="remember-forgot">
+            <label
+              ><input
+                type="checkbox"
+                id="remember_me"
+                name="remember_me"
+              />Remember me
+            </label>
+          </div>
+          {% with messages = get_flashed_messages() %} {% if messages %}
+          <ul class="flashed">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %} {% endwith %}
 
-        <button type="submit" class="btn">Login</button>
-        <div class="register-link">
-          <p>Don't have an account? <a href="/register">Register here</a></p>
-        </div>
-      </form>
+          <button type="submit" class="btn">Login</button>
+          <div class="register-link">
+            <p>Don't have an account? <a href="/register">Register here</a></p>
+          </div>
+        </form>
 
-      <script>
-        function Funct() {
-          var x = document.getElementById("password");
-          var icon = document.querySelector(".eye-icon");
-          if (x.type === "password") {
-            x.type = "text";
-            icon.innerHTML = "\u{1F441}";
-          } else {
-            x.type = "password";
-            icon.innerHTML = "\u{1F441}\u{FE0F}";
+        <script>
+          function Funct() {
+            var x = document.getElementById("password");
+            var icon = document.querySelector(".eye-icon");
+            if (x.type === "password") {
+              x.type = "text";
+              icon.innerHTML = "\u{1F441}";
+            } else {
+              x.type = "password";
+              icon.innerHTML = "\u{1F441}\u{FE0F}";
+            }
           }
-        }
-      </script>
+        </script>
+      </div>
     </div>
   </body>
 </html>
