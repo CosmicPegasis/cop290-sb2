@@ -273,6 +273,19 @@
         right: 0;
       }
 
+      .nav-left-2 {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+
+        text-decoration: none;
+        color: white;
+        font-family: "Product Sans", Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 400;
+        font-size: 20px;
+        padding: 0 0.8em;
+      }
+
       .remove-button:hover {
         background-color: #bd2130;
       }
@@ -368,7 +381,11 @@
               <a href="/filter" class="nav-link">Filter</a>
             </span>
           </div>
-
+          <div class="nav-left-2">
+            <span>
+              <a>{{username}}</a>
+            </span>
+          </div>
           <a href="/logout" style="margin-right: 15px">
             <img src="../static/logout.png" alt="" width="20" height="20" />
           </a>

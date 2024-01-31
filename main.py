@@ -233,7 +233,7 @@ def remove_favorite(favorite):
 def graph():
     user_id = session.get('user_id')
     if user_id:
-        return render_template('graph.html')
+        return render_template('graph.html',username=session['username'])
     else:
         return redirect(url_for('index'))
 
