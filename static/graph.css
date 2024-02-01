@@ -356,12 +356,12 @@ nav {
     border-radius: 0.5em;
 }
 .stock-up {
-    background-color: #d1e7dd;
+    background-color: #32de84;
 }
 .stock-down {
     display: flex;
     justify-content: center;
-    background-color: #f9d7da;
+    background-color: #fd5c63;
 }
 
 .btn:hover {

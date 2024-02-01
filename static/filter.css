@@ -173,6 +173,7 @@ input[type="number"] {
     background-color: rgba(255, 255, 255, 0.2);
     border: 1px solid #fff;
     border-radius: 10px;
+    margin-right: 0.5rem;
 }
 
 #left .slidecontainer {

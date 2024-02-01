@@ -198,6 +198,14 @@
             </form>
         </div>
 
+        <!-- background-color: #fd5c63;
+                                    width: 50%;
+                                    font-weight: bold;
+                                    font-size: 30px;
+                                    padding: 1rem;
+                                    border-radius: 1rem;
+                                    margin: auto;
+                                    text-align: center; -->
         <script>
             const searchResults = {{ top_4_rows | tojson if top_4_rows is defined and top_4_rows is not none else [] }};
             function displaySearchResults(results) {
@@ -220,15 +228,16 @@
                   listItem.innerHTML = `
               <div style="display: flex; justify-content: space-between;">
                 <span style="font-size: larger;"><strong>${symbol}</strong></span>
-                <span style="color: #fff">${delta}%  <i class="fa-solid fa-arrow-trend-down"></i></span>
+                <span style="color: #fff; background-color: #fd5c63; padding: 0.5rem; border-radius:0.5rem;">${delta}%  <i class="fa-solid fa-arrow-trend-down"></i></span>
               </div>
             `;
+
                   }
                   else{
                   listItem.innerHTML = `
               <div style="display: flex; justify-content: space-between;">
                 <span style="font-size: larger;"><strong>${symbol}</strong></span>
-                <span style="color: #fff">${delta}%  <i class="fa-solid fa-arrow-trend-up"></i></span>
+                <span style="color: #fff; background-color: #32de84; padding: 0.5rem; border-radius:0.5rem;">${delta}%  <i class="fa-solid fa-arrow-trend-up"></i></span>
               </div>
             `;
                   }

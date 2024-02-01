@@ -137,9 +137,9 @@ function redraw_stock_details(symbol, metrics) {
     stockDetailDiv.innerHTML = `<h2 style="color: white; font-weight:bold; font-size: 2em;">${symbol}`;
     if (delta >= 0) {
         //fontawesome.com/icons/triangle?f=classic&s=solid
-        stockDetailDiv.innerHTML += `<div class="stock-up"><h3 style="color: #0a3622"><i class="fa-solid fa-arrow-trend-up"></i>    ${displayPercentage} %</h3></div>`;
+        stockDetailDiv.innerHTML += `<div class="stock-up"><h3 style="color: #fff;"><i class="fa-solid fa-arrow-trend-up"></i> ${displayPercentage} %</h3></div>`;
     } else {
-        stockDetailDiv.innerHTML += `<div class="stock-down"><h3 style="color: #58151c"><i class="fa-solid fa-arrow-trend-down"></i>   ${displayPercentage}%</h3></div>`;
+        stockDetailDiv.innerHTML += `<div class="stock-down"><h3 style="color: #fff"><i class="fa-solid fa-arrow-trend-down"></i> ${displayPercentage} %</h3></div>`;
     }
 }
 async function redraw() {
