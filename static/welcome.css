@@ -346,4 +346,7 @@ nav {
     .col3 {
         width: 50%;
     }
+    .container {
+        width: 100%;
+    }
 }

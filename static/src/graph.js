@@ -170,20 +170,22 @@ async function redraw() {
 }
 redraw();
 let addBtn = document.getElementById("add-btn");
-addBtn.addEventListener("click", (e) => {
+addBtn.addEventListener("click", async (e) => {
     e.preventDefault();
-    let formStruct = `<div class="row" style="padding-bottom: 2px; padding-top: 4px;"><div class="col"><input type="text" class="symbol-input form-control" placeholder="symbol"/></div></div>`;
+    let formStruct = `<div class="symbol-row additive" style="padding-bottom: 2px; padding-top: 4px; width: 50%; margin: auto;"><div class="col"><input type="text" class="symbol-input form-control additive" placeholder="symbol"/></div></div>`;
     let compareDiv = document.getElementById("compare-div");
     compareDiv.insertAdjacentHTML("beforeend", formStruct);
+    await redraw();
 });
 
 let subBtn = document.getElementById("sub-btn");
-subBtn.addEventListener("click", (e) => {
+subBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     let compareDiv = document.getElementById("compare-div");
     if (compareDiv.children.length > 1) {
         compareDiv.removeChild(compareDiv.lastChild);
     }
+    await redraw();
 });
 
 let symbolForm = document.getElementById("symbol-form");
