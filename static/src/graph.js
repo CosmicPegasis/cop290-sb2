@@ -1,6 +1,8 @@
 /* globals Chart */
 // TODO make it work with all stocks not just NIFTY50
 "use strict";
+
+Chart.defaults.color = "#000";
 const backend = "http://localhost:8000";
 
 async function get_symbol_data() {
@@ -132,7 +134,7 @@ function redraw_stock_details(symbol, metrics) {
     stockDetailDiv.classList.add("col", "stock-details");
     let delta = metrics[metrics.length - 1] - metrics[0];
     let displayPercentage = ((delta / metrics[0]) * 100).toFixed(2);
-    stockDetailDiv.innerHTML = `<h2 style="color: black; font-weight:bold; font-size: 2em;">${symbol}`;
+    stockDetailDiv.innerHTML = `<h2 style="color: white; font-weight:bold; font-size: 2em;">${symbol}`;
     if (delta >= 0) {
         //fontawesome.com/icons/triangle?f=classic&s=solid
         stockDetailDiv.innerHTML += `<div class="stock-up"><h3 style="color: #0a3622"><i class="fa-solid fa-arrow-trend-up"></i>    ${displayPercentage} %</h3></div>`;

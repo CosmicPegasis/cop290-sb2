@@ -55,143 +55,147 @@
                 </div>
             </div>
 
-            <button id="submit-button" onclick="submitForm()">
-                Apply Filters
-            </button>
-            <div class="form-data">
-                <form action="#" method="POST">
-                    <div id="left">
-                        <div class="slidecontainer">
-                            <h4 style="font-size: 20px">Close Price</h4>
-                            <div class="form-group">
-                                <input
-                                    name="minClosePrice"
-                                    type="number"
-                                    class="form-control"
-                                    placeholder="Min"
-                                    id="minClosePrice"
-                                    value="{{minCP}}"
-                                    required
-                                />
-                                <input
-                                    name="maxClosePrice"
-                                    type="number"
-                                    class="form-control"
-                                    placeholder="Max"
-                                    id="maxClosePrice"
-                                    value="{{maxCP}}"
-                                    required
-                                />
+            <form action="#" method="POST">
+                <div class="center">
+                    <button id="submit-button" onclick="submitForm()">
+                        Apply Filters
+                    </button>
+                    <div class="form-data">
+                        <div id="left">
+                            <div class="slidecontainer">
+                                <h4 style="font-size: 20px">Close Price</h4>
+                                <div class="form-group">
+                                    <input
+                                        name="minClosePrice"
+                                        type="number"
+                                        class="form-control"
+                                        placeholder="Min"
+                                        id="minClosePrice"
+                                        value="{{minCP}}"
+                                        required
+                                    />
+                                    <input
+                                        name="maxClosePrice"
+                                        type="number"
+                                        class="form-control"
+                                        placeholder="Max"
+                                        id="maxClosePrice"
+                                        value="{{maxCP}}"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="slidecontainer">
+                                <h4 style="font-size: 20px">
+                                    Relative Strength Index
+                                </h4>
+                                <div class="form-group">
+                                    <input
+                                        name="minRelativeStrength"
+                                        type="number"
+                                        class="form-control"
+                                        placeholder="Min"
+                                        id="minRelativeStrength"
+                                        value="{{minRSI}}"
+                                        required
+                                    />
+                                    <input
+                                        name="maxRelativeStrength"
+                                        type="number"
+                                        class="form-control"
+                                        placeholder="Max"
+                                        id="maxRelativeStrength"
+                                        value="{{maxRSI}}"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="slidecontainer">
+                                <h4 style="font-size: 20px">Average Price</h4>
+                                <div class="form-group">
+                                    <input
+                                        name="minAveragePrice"
+                                        type="number"
+                                        class="form-control"
+                                        placeholder="Min"
+                                        id="minAveragePrice"
+                                        value="{{minAP}}"
+                                        required
+                                    />
+                                    <input
+                                        name="maxAveragePrice"
+                                        type="number"
+                                        class="form-control"
+                                        placeholder="Max"
+                                        id="maxAveragePrice"
+                                        value="{{maxAP}}"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="slidecontainer">
+                                <h4 style="font-size: 20px">Val/Vol Ratio</h4>
+                                <div class="form-group">
+                                    <input
+                                        name="minValVolRatio"
+                                        type="number"
+                                        class="form-control"
+                                        placeholder="Min"
+                                        id="minValVolRatio"
+                                        value="{{minVV}}"
+                                        required
+                                    />
+                                    <input
+                                        name="maxValVolRatio"
+                                        type="number"
+                                        class="form-control"
+                                        placeholder="Max"
+                                        id="maxValVolRatio"
+                                        value="{{maxVV}}"
+                                        required
+                                    />
+                                </div>
                             </div>
                         </div>
+                        <div id="right">
+                            <div id="search-bar">
+                                <div
+                                    class="form-group"
+                                    style="margin-bottom: 5px"
+                                >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="searchInput"
+                                        placeholder="Search by Stock symbol"
+                                        oninput="filterSearchResults()"
+                                    />
+                                </div>
 
-                        <div class="slidecontainer">
-                            <h4 style="font-size: 20px">
-                                Relative Strength Index
-                            </h4>
-                            <div class="form-group">
-                                <input
-                                    name="minRelativeStrength"
-                                    type="number"
-                                    class="form-control"
-                                    placeholder="Min"
-                                    id="minRelativeStrength"
-                                    value="{{minRSI}}"
-                                    required
-                                />
-                                <input
-                                    name="maxRelativeStrength"
-                                    type="number"
-                                    class="form-control"
-                                    placeholder="Max"
-                                    id="maxRelativeStrength"
-                                    value="{{maxRSI}}"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div class="slidecontainer">
-                            <h4 style="font-size: 20px">Average Price</h4>
-                            <div class="form-group">
-                                <input
-                                    name="minAveragePrice"
-                                    type="number"
-                                    class="form-control"
-                                    placeholder="Min"
-                                    id="minAveragePrice"
-                                    value="{{minAP}}"
-                                    required
-                                />
-                                <input
-                                    name="maxAveragePrice"
-                                    type="number"
-                                    class="form-control"
-                                    placeholder="Max"
-                                    id="maxAveragePrice"
-                                    value="{{maxAP}}"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div class="slidecontainer">
-                            <h4 style="font-size: 20px">Val/Vol Ratio</h4>
-                            <div class="form-group">
-                                <input
-                                    name="minValVolRatio"
-                                    type="number"
-                                    class="form-control"
-                                    placeholder="Min"
-                                    id="minValVolRatio"
-                                    value="{{minVV}}"
-                                    required
-                                />
-                                <input
-                                    name="maxValVolRatio"
-                                    type="number"
-                                    class="form-control"
-                                    placeholder="Max"
-                                    id="maxValVolRatio"
-                                    value="{{maxVV}}"
-                                    required
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-                <div id="right">
-                    <div id="search-bar">
-                        <div class="form-group" style="margin-bottom: 5px">
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="searchInput"
-                                placeholder="Search by Stock symbol"
-                                oninput="filterSearchResults()"
-                            />
-                        </div>
-
-                        <div id="display-results">
-                            <!-- <h3>Search Results:</h3> -->
-                            <div
-                                id="searchResultsContainer"
-                                style="
-                                    max-height: 400px;
-                                    overflow-y: scroll;
-                                    max-width: 1200px;
-                                "
-                            >
-                                <ul
-                                    class="list-group"
-                                    id="searchResultsList"
-                                ></ul>
+                                <div id="display-results">
+                                    <!-- <h3>Search Results:</h3> -->
+                                    <div
+                                        id="searchResultsContainer"
+                                        style="
+                                            max-height: 400px;
+                                            overflow-y: scroll;
+                                            max-width: 1200px;
+                                        "
+                                    >
+                                        <ul
+                                            class="list-group"
+                                            id="searchResultsList"
+                                        ></ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
 
         <script>
@@ -216,7 +220,7 @@
                   listItem.innerHTML = `
               <div style="display: flex; justify-content: space-between;">
                 <span style="font-size: larger;"><strong>${symbol}</strong></span>
-                <span style="color: #58151c">${delta}%  <i class="fa-solid fa-arrow-trend-down"></i></span>
+                <span style="color: #fff">${delta}%  <i class="fa-solid fa-arrow-trend-down"></i></span>
               </div>
             `;
                   }
@@ -224,7 +228,7 @@
                   listItem.innerHTML = `
               <div style="display: flex; justify-content: space-between;">
                 <span style="font-size: larger;"><strong>${symbol}</strong></span>
-                <span style="color: #006400">${delta}%  <i class="fa-solid fa-arrow-trend-up"></i></span>
+                <span style="color: #fff">${delta}%  <i class="fa-solid fa-arrow-trend-up"></i></span>
               </div>
             `;
                   }

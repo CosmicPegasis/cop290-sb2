@@ -1,112 +1,121 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale =1.0" />
-    <title>StockSync.com | Register</title>
-    <link rel="stylesheet" href="style.css" />
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale =1.0"
+        />
+        <title>StockSync.com | Register</title>
+        <link rel="stylesheet" href="login.css" />
 
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-    <link rel="shortcut icon" type="image/x-icon" href="../static/icon.png" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <script
-      src="https://kit.fontawesome.com/e4cb96cad7.js"
-      crossorigin="anonymous"
-    ></script>
-    <style>
-      .flashed {
-        list-style-type: none;
-        margin: 10px 0;
-        color: #8b0000;
-        font-size: small;
-        text-align: center;
-      }
-      .container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 70%;
-        margin: 2em auto;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="wrapper">
-        <form action="/register" method="post">
-          <h1>Register</h1>
-          <div class="input-box">
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              required
-            />
-            <i class="bx bxs-user"></i>
-          </div>
-          <div class="input-box">
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Password"
-              required
-            />
-            <i class="bx bxs-lock-alt"></i>
-          </div>
-          <div class="input-box">
-            <input
-              type="password"
-              id="confirm_password"
-              name="confirm_password"
-              placeholder="Confirm Password"
-              required
-            />
-            <i class="bx bxs-lock-alt"></i>
-          </div>
-          <div class="remember-forgot">
-            <label
-              ><input type="checkbox" onclick="Funct()" />Show Password
-            </label>
-          </div>
-          {% with messages = get_flashed_messages() %} {% if messages %}
-          <ul class="flashed">
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-          </ul>
-          {% endif %} {% endwith %}
-          <button type="submit" class="btn">Register</button>
-          <div class="register-link">
-            <p>Already registered ? <a href="/">Login here</a></p>
-          </div>
-        </form>
-
-        <script>
-          function Funct() {
-            var x = document.getElementById("password");
-            var y = document.getElementById("confirm_password");
-            var icon = document.querySelector(".eye-icon");
-            if (x.type === "password") {
-              x.type = "text";
-              y.type = "text";
-              icon.innerHTML = "\u{1F441}";
-            } else {
-              x.type = "password";
-              y.type = "password";
-              icon.innerHTML = "\u{1F441}\u{FE0F}";
+        <link
+            href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+            rel="stylesheet"
+        />
+        <link
+            rel="shortcut icon"
+            type="image/x-icon"
+            href="../static/icon.png"
+        />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{ url_for('static', filename='login.css') }}"
+        />
+        <script
+            src="https://kit.fontawesome.com/e4cb96cad7.js"
+            crossorigin="anonymous"
+        ></script>
+        <style>
+            .flashed {
+                list-style-type: none;
+                margin: 10px 0;
+                color: #8b0000;
+                font-size: small;
+                text-align: center;
             }
-          }
-        </script>
-      </div>
-    </div>
-  </body>
+            .container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 70%;
+                margin: 2em auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="wrapper">
+                <form action="/register" method="post">
+                    <h1>Register</h1>
+                    <div class="input-box">
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="Username"
+                            required
+                        />
+                        <i class="bx bxs-user"></i>
+                    </div>
+                    <div class="input-box">
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Password"
+                            required
+                        />
+                        <i class="bx bxs-lock-alt"></i>
+                    </div>
+                    <div class="input-box">
+                        <input
+                            type="password"
+                            id="confirm_password"
+                            name="confirm_password"
+                            placeholder="Confirm Password"
+                            required
+                        />
+                        <i class="bx bxs-lock-alt"></i>
+                    </div>
+                    <div class="remember-forgot">
+                        <label
+                            ><input type="checkbox" onclick="Funct()" />Show
+                            Password
+                        </label>
+                    </div>
+                    {% with messages = get_flashed_messages() %} {% if messages
+                    %}
+                    <ul class="flashed">
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %} {% endwith %}
+                    <button type="submit" class="btn">Register</button>
+                    <div class="register-link">
+                        <p>Already registered ? <a href="/">Login here</a></p>
+                    </div>
+                </form>
+
+                <script>
+                    function Funct() {
+                        var x = document.getElementById("password");
+                        var y = document.getElementById("confirm_password");
+                        var icon = document.querySelector(".eye-icon");
+                        if (x.type === "password") {
+                            x.type = "text";
+                            y.type = "text";
+                            icon.innerHTML = "\u{1F441}";
+                        } else {
+                            x.type = "password";
+                            y.type = "password";
+                            icon.innerHTML = "\u{1F441}\u{FE0F}";
+                        }
+                    }
+                </script>
+            </div>
+        </div>
+    </body>
 </html>
