@@ -9,12 +9,11 @@ import pandas as pd
 import io
 import json
 import ast
-
-from datetime import datetime
-import time
+from filters import get_stock_data, filter_out, favorite_filter
 
 app = Flask(__name__)
 CORS(app)
+
 # Is vulnerable to HTML Injection
 @app.route("/request/query/<stock_symbol>/years/<years>")
 def get_stock_years(stock_symbol: str, years: int):
@@ -51,7 +50,6 @@ def get_symbols():
     bhavcopy = bhavcopy[bhavcopy.SERIES == "EQ"]
     return jsonify(bhavcopy.to_dict())
 
-
 def get_symbol_list():
     return pd.read_csv('./nifty50list.csv')['Symbol'].to_dict().values()
 
@@ -61,14 +59,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days = 30)
 db = SQLAlchemy(app)
 
-# User Model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
     favorites = db.Column(db.String)
 
-# Initialize Database within Application Context
 with app.app_context():
     db.create_all()
     db.session.commit()
@@ -78,6 +74,28 @@ def index():
     if 'user_id' in session:
         return redirect(url_for('dashboard'))
     return render_template('login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form['username']
+    password = request.form['password']
+    user = User.query.filter_by(username=username).first()
+
+    if user:
+        if check_password_hash(user.password_hash, password):
+            session['user_id'] = user.id
+            session['username'] = user.username
+            if('remember_me' in request.form):
+                session.permanent = True
+            else:
+                session.permanent = False
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Incorrect Password')
+            return redirect(url_for('index'))
+    else:
+        flash('This Username is not registered')
+        return redirect(url_for('index'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -118,57 +136,19 @@ def register():
 
     return render_template('register.html')
 
-@app.route('/login', methods=['POST'])
-def login():
-    username = request.form['username']
-    password = request.form['password']
-    user = User.query.filter_by(username=username).first()
-
-    if user:
-        if check_password_hash(user.password_hash, password):
-            session['user_id'] = user.id
-            session['username'] = user.username
-            if('remember_me' in request.form):
-                session.permanent = True
-            else:
-                session.permanent = False
-            return redirect(url_for('dashboard'))
-        else:
-            flash('Incorrect Password')
-            return redirect(url_for('index'))
-    else:
-        flash('This Username is not registered')
-        return redirect(url_for('index'))
-
 @app.route('/dashboard',methods = ['GET','POST'])
 def dashboard():
     user_id = session.get('user_id')
     valid_stocks = get_symbol_list()
     
-
     if user_id:
         user = User.query.get(user_id)
-
-        end_date = datetime.now().date()
-        start_date = end_date - relativedelta(weeks = 2)
         valid_stocks = get_symbol_list()
-        ans_df = pd.DataFrame()
-        
-        for stock_symbol in valid_stocks:
-            
-            df_temp = stock_df(symbol=stock_symbol, from_date=start_date, to_date=end_date, series="EQ")
-            print(stock_symbol)
-            df_temp = calculate_rsi(df_temp)
-            df_temp['RSI'] = df_temp.at[df_temp['RSI'].first_valid_index(),'RSI']
-            print(df_temp['RSI'])
-            
-            ans_df = pd.concat([ans_df, df_temp.head(1)], ignore_index=True)
-        
+        ans_df = get_stock_data(valid_stocks)
         ans_df['DELTA'] = ((ans_df['CLOSE']-ans_df['OPEN'])/ans_df['OPEN'])*100
                 
         if request.method == 'POST':
             new_favorite = request.form.get('new_favorite')
-            
             
             if new_favorite in valid_stocks:
                 favorites = json.loads(user.favorites) if user.favorites else []
@@ -184,28 +164,15 @@ def dashboard():
                 user.favorites = json.dumps(favorites)
                 db.session.commit()
             else:
-                flash('stock does not exists in database')
+                flash('stock does not exist in database')
                 return redirect(url_for('dashboard'))
 
         if user:
-            close_price =[]
-            delta =[]
-            
-            
             favorites = ast.literal_eval(user.favorites) if user.favorites else []
-            print(ans_df['SYMBOL'])
-            print(ans_df['SYMBOL'] == 'MARUTI')
-            for stock_symbol in favorites:
-                cl = round(ans_df[ans_df['SYMBOL'] == stock_symbol]['CLOSE'].iloc[0],2)
-                print(cl)
-                de = round(ans_df[ans_df['SYMBOL'] == stock_symbol]['DELTA'].iloc[0],2)
-                close_price = close_price +[cl]
-                delta = delta+[de]
-                
-            
+            (close_price, delta) = favorite_filter(favorites,ans_df)
             combined_array = list(zip(close_price,delta,favorites))
-            print(delta)
-            print(close_price)
+            #print(delta)
+            #print(close_price)
             return render_template('welcome.html', username=session['username'], favorites=favorites,combined_array = combined_array)
 
     return redirect(url_for('index'))
@@ -237,54 +204,23 @@ def graph():
     else:
         return redirect(url_for('index'))
 
-def calculate_rsi(data, period=14):
-    data['Delta'] = data['CLOSE'] - data['PREV. CLOSE']
-    gains = data['Delta'].apply(lambda x: max(0, x))
-    losses = -(data['Delta'].apply(lambda x: min(0, x)))
-    data['AvgGain'] = gains.rolling(window=period, min_periods=3).mean()
-    data['AvgLoss'] = losses.rolling(window=period, min_periods=3).mean()
-    data['RS'] = data['AvgGain'] / data['AvgLoss']
-    data['RSI'] = 100 - (100 / (1 + data['RS']))
-
-    return data
-
-
-
-
-
-
-
 @app.route('/filter', methods=['GET', 'POST'])
 def filter():
     user_id = session.get('user_id')
     
     if user_id:
         minCP = request.form.get('minClosePrice', default=0)
-        maxCP = request.form.get('maxClosePrice', default=4000)
+        maxCP = request.form.get('maxClosePrice', default=400000)
         minRSI = request.form.get('minRelativeStrength', default=0)
         maxRSI = request.form.get('maxRelativeStrength', default=100)
         minAP = request.form.get('minAveragePrice', default=0)
-        maxAP = request.form.get('maxAveragePrice', default=4000)
+        maxAP = request.form.get('maxAveragePrice', default=400000)
         minVV = request.form.get('minValVolRatio', default=0)
-        maxVV = request.form.get('maxValVolRatio', default=100000)
+        maxVV = request.form.get('maxValVolRatio', default=1000000)
         
-        end_date = datetime.now().date()
-        start_date = end_date - relativedelta(weeks = 2)
         valid_stocks = get_symbol_list()
-        ans_df = pd.DataFrame()
+        ans_df = get_stock_data(valid_stocks)
         
-        for stock_symbol in valid_stocks:
-            len_symbol = len(stock_symbol)
-            df_temp = stock_df(symbol=stock_symbol, from_date=start_date, to_date=end_date, series="EQ")
-            print(stock_symbol)
-            df_temp = calculate_rsi(df_temp)
-            df_temp['RSI'] = df_temp.at[df_temp['RSI'].first_valid_index(),'RSI']
-            print(df_temp['RSI'])
-            df_temp['SYMBOL'] = stock_symbol+ (" "*(11-len_symbol))
-            ans_df = pd.concat([ans_df, df_temp.head(1)], ignore_index=True)
-            
-        
-            
         if request.method == 'POST':
             
             minCP = request.form["minClosePrice"]
@@ -296,47 +232,21 @@ def filter():
             minVV = request.form["minValVolRatio"]
             maxVV = request.form["maxValVolRatio"]
             
-            
-            ans_df = ans_df[(ans_df['CLOSE'] >= int(minCP))]
-            ans_df = ans_df[(ans_df['CLOSE'] <= int(maxCP))]
-            ans_df = ans_df[(ans_df['RSI'] >= int(minRSI))]
-            ans_df = ans_df[(ans_df['RSI'] <= int(maxRSI))]
-            ans_df = ans_df[(ans_df['HIGH'] + ans_df['LOW']) / 2 >= int(minAP)]
-            ans_df = ans_df[(ans_df['HIGH'] + ans_df['LOW']) / 2 <= int(maxAP)]
-            ans_df = ans_df[(ans_df['VALUE'] / ans_df['VOLUME']) >= int(minVV)]
-            ans_df = ans_df[(ans_df['VALUE'] / ans_df['VOLUME']) <= int(maxVV)]
-            
             if not ans_df.empty:
-                ans_df['DELTA'] = ((ans_df['CLOSE']-ans_df['OPEN'])/ans_df['OPEN'])*100
-                ans_df = ans_df.drop(['SERIES', 'PREV. CLOSE', 'VWAP', '52W H', '52W L', 'Delta', 'AvgGain', 'AvgLoss',
-                                      'LTP', 'NO OF TRADES', 'RS', 'RSI','CLOSE','DATE','CLOSE','OPEN','VALUE','VOLUME','HIGH','LOW'], axis=1)
-                
+                ans_df = filter_out(ans_df,minCP,maxCP,minRSI,maxRSI,minAP,maxAP,minVV,maxVV)
                 ans_df = ans_df.to_dict(orient='records')
                 return render_template('filter.html',username=session['username'], top_4_rows=ans_df,minCP = minCP,maxCP = maxCP,minRSI = minRSI,maxRSI = maxRSI,minVV = minVV,maxVV = maxVV,minAP = minAP,maxAP = maxAP)
             else:
                 return render_template('filter.html', username=session['username'],top_4_rows=None,minCP = minCP,maxCP = maxCP,minRSI = minRSI,maxRSI = maxRSI,minVV = minVV,maxVV = maxVV,minAP = minAP,maxAP = maxAP)
             
         else:
-            ans_df['DELTA'] = ((ans_df['CLOSE']-ans_df['OPEN'])/ans_df['OPEN'])*100
-            ans_df = ans_df.drop(['SERIES', 'PREV. CLOSE', 'VWAP', '52W H', '52W L', 'Delta', 'AvgGain', 'AvgLoss',
-                                  'LTP', 'NO OF TRADES', 'RS', 'RSI','CLOSE','DATE','CLOSE','OPEN','VALUE','VOLUME','HIGH','LOW'], axis=1)
+            ans_df = filter_out(ans_df,minCP,maxCP,minRSI,maxRSI,minAP,maxAP,minVV,maxVV)
             ans_df = ans_df.to_dict(orient='records')
-            print("Username:", session['username'])
+            #print("Username:", session['username'])
             return render_template('filter.html',top_4_rows = ans_df,username=session['username'],minCP = minCP,maxCP = maxCP,minRSI = minRSI,maxRSI = maxRSI,minVV = minVV,maxVV = maxVV,minAP = minAP,maxAP = maxAP)
     else:
         return redirect(url_for('index'))
-    
-@app.route('/test', methods =["GET", "POST"])
-def test():
-    if request.method == "POST":
-      
-       first_name = request.form.get("fname")
-        
-       last_name = request.form.get("lname") 
-       return "Your name is "+first_name + last_name
-    return render_template("form.html")
-
-
+ 
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
