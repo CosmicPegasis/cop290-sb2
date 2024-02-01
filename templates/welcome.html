@@ -1,470 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>StockSync.com | Dashboard</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" type="image/x-icon" href="../static/icon.png" />
-    <script
-      src="https://kit.fontawesome.com/e4cb96cad7.js"
-      crossorigin="anonymous"
-    ></script>
-    <style>
-      html,
-      body,
-      div,
-      span,
-      applet,
-      object,
-      iframe,
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6,
-      p,
-      blockquote,
-      pre,
-      a,
-      abbr,
-      acronym,
-      address,
-      big,
-      cite,
-      code,
-      del,
-      dfn,
-      em,
-      img,
-      ins,
-      kbd,
-      q,
-      s,
-      samp,
-      small,
-      strike,
-      strong,
-      sub,
-      sup,
-      tt,
-      var,
-      b,
-      u,
-      i,
-      center,
-      dl,
-      dt,
-      dd,
-      ol,
-      ul,
-      li,
-      fieldset,
-      form,
-      label,
-      legend,
-      table,
-      caption,
-      tbody,
-      tfoot,
-      thead,
-      tr,
-      th,
-      td,
-      article,
-      aside,
-      canvas,
-      details,
-      embed,
-      figure,
-      figcaption,
-      footer,
-      header,
-      hgroup,
-      menu,
-      nav,
-      output,
-      ruby,
-      section,
-      summary,
-      time,
-      mark,
-      audio,
-      video {
-        margin: 0;
-        padding: 0;
-        border: 0;
-        font-size: 100%;
-        font: inherit;
-        vertical-align: baseline;
-      }
-
-      article,
-      aside,
-      details,
-      figcaption,
-      figure,
-      footer,
-      header,
-      hgroup,
-      menu,
-      nav,
-      section {
-        display: block;
-      }
-      body {
-        line-height: 1;
-      }
-      ol,
-      ul {
-        list-style: none;
-      }
-      blockquote,
-      q {
-        quotes: none;
-      }
-      blockquote:before,
-      blockquote:after,
-      q:before,
-      q:after {
-        content: "";
-        content: none;
-      }
-      table {
-        border-collapse: collapse;
-        border-spacing: 0;
-      }
-      @font-face {
-        font-family: "Product Sans";
-        font-style: normal;
-        font-weight: 400;
-        src: local("Open Sans"), local("OpenSans"),
-          url(https://fonts.gstatic.com/s/productsans/v5/HYvgU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2)
-            format("woff2");
-      }
-
-      body {
-        font-family: "Product Sans";
-      }
-
-      .container {
-        display: flex;
-        align-items: center;
-        width: 70%;
-        margin: 2em auto;
-      }
-
-      nav {
-        background-color: #1a1e26;
-        display: flex;
-        align-items: center;
-        position: sticky;
-        padding: 0;
-        width: 100%;
-        top: 0;
-        height: 7vh;
-      }
-
-      .container1 {
-        display: flex;
-        height: 45vh;
-        width: 94%;
-
-        display-content: center;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .container2 {
-        display: flex;
-        height: 45vh;
-        width: 94%;
-
-        display-content: center;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .nav-left {
-        margin-right: auto;
-        display: flex;
-        align-items: center;
-      }
-      .nav-link {
-        text-decoration: none;
-        color: white;
-        font-family: "Product Sans", Tahoma, Geneva, Verdana, sans-serif;
-        font-weight: 500;
-        font-size: 25px;
-        padding: 0 0.5em;
-      }
-      .nav-link:hover {
-        color: grey;
-      }
-
-      .navbar img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-      }
-
-      .navbar-brand,
-      .navbar-brand:hover {
-        text-decoration: none;
-        color: #fff;
-        margin-right: 30px;
-        font-size: 18px;
-      }
-
-      .row {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 7%;
-        width: 100vw;
-      }
-
-      .row3 {
-        margin-left: 6%;
-        display: grid;
-
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        width: 100%;
-      }
-
-      .col3 {
-        position: relative;
-        background-color: #afeeee;
-        border-radius: 5%;
-        border: 3px solid black;
-        padding: 20px;
-        height: 50%;
-      }
-
-      .card-logo {
-        max-width: 100%;
-        height: auto;
-        border-radius: 50%;
-      }
-
-      .card-title {
-        margin-top: 10px;
-        margin-bottom: 30px;
-        font-size: 170%;
-        text-align: center;
-        font-weight: bold;
-        color: #000;
-      }
-
-      .remove-button {
-        background-color: #dc3545;
-        color: #fff;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 100%;
-        position: absolute;
-        cursor: pointer;
-        bottom: 0;
-        right: 0;
-      }
-
-      .nav-left-2 {
-        margin-left: auto;
-        display: flex;
-        align-items: center;
-
-        text-decoration: none;
-        color: white;
-        font-family: "Product Sans", Tahoma, Geneva, Verdana, sans-serif;
-        font-weight: 400;
-        font-size: 20px;
-        padding: 0 0.8em;
-      }
-
-      .remove-button:hover {
-        background-color: #bd2130;
-      }
-
-      .var {
-        display: flex;
-        margin-left: 13%;
-        width: 100%;
-        height: 100%;
-        justify-content: center;
-        align-content: center;
-      }
-
-      .col-5 {
-        flex: 0 0 40%;
-        width: 40%;
-        margin-left: 10%;
-      }
-
-      .col-3 {
-        flex: 0 0 5%;
-      }
-
-      .col-1 {
-        flex: 0 0 1%;
-      }
-
-      .form-control {
-        width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
-      }
-
-      .btn-primary {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
-      .btn-primary:hover {
-        background-color: #0056b3;
-      }
-
-      .centered-header {
-        margin-left: 41%;
-        padding: 0;
-        font-weight: bold;
-        font-size: 30px;
-        border-radius: 10px;
-      }
-
-      .flash-container {
-        list-style: none;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 7px;
-      }
-
-      .empty {
-        background-color: #afeeee;
-        padding: 2%;
-        font-size: 20px;
-        margin-left: 1.5%;
-        margin-bottom: 9%;
-        text-align: center;
-        border: 2px solid black;
-        border-radius: 5%;
-      }
-    </style>
-  </head>
-  <body>
-    <div>
-      <nav>
-        <div class="container">
-          <div class="nav-left">
-            <span>
-              <a href="/dashboard">
-                <img
-                  src="../static/icon.png"
-                  class="img-fluid rounded"
-                  width="40"
-                  height="40"
-                />
-              </a>
-            </span>
-            <span>
-              <a href="/graph" class="nav-link">Graph</a>
-              <a href="/filter" class="nav-link">Filter</a>
-            </span>
-          </div>
-          <div class="nav-left-2">
-            <span>
-              <a>{{username}}</a>
-            </span>
-          </div>
-          <a href="/logout" style="margin-right: 15px">
-            <img src="../static/logout.png" alt="" width="20" height="20" />
-          </a>
+    <head>
+        <title>StockSync.com | Dashboard</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="shortcut icon"
+            type="image/x-icon"
+            href="../static/icon.png"
+        />
+        <link rel="stylesheet" href="../static/welcome.css" />
+        <script
+            src="https://kit.fontawesome.com/e4cb96cad7.js"
+            crossorigin="anonymous"
+        ></script>
+    </head>
+    <body>
+        <div>
+            <nav>
+                <div class="container">
+                    <div class="nav-left">
+                        <span>
+                            <a href="/dashboard">
+                                <img
+                                    src="../static/icon.png"
+                                    class="img-fluid rounded"
+                                    width="40"
+                                    height="40"
+                                />
+                            </a>
+                        </span>
+                        <span>
+                            <a href="/graph" class="nav-link">Graph</a>
+                            <a href="/filter" class="nav-link">Filter</a>
+                        </span>
+                    </div>
+                    <div class="nav-left-2">
+                        <span>
+                            <a>{{username}}</a>
+                        </span>
+                    </div>
+                    <a href="/logout" style="margin-right: 15px">
+                        <img
+                            src="../static/logout.png"
+                            alt=""
+                            width="20"
+                            height="20"
+                        />
+                    </a>
+                </div>
+            </nav>
         </div>
-      </nav>
-    </div>
-    <div class="container1">
-      <form method="post" action="{{ url_for('dashboard') }}">
-        <div class="row">
-          <div class="col-5">
-            <input
-              type="text"
-              name="new_favorite"
-              placeholder="Add a new favorite"
-              class="form-control"
-            />
-          </div>
-          <div class="col-1"></div>
-          <div class="col-3">
-            <button type="submit" class="btn-primary">Add</button>
-          </div>
-        </div>
-        <ul class="flash-container">
-          {% with messages = get_flashed_messages() %} {% if messages %}
-          <ul class="flashed">
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-          </ul>
-          {% endif %} {% endwith %}
-        </ul>
-      </form>
-    </div>
 
-    <h2 class="centered-header">Your Favorites :</h2>
-    <div class="container2">
-      {% if combined_array%}
-      <div class="row3">
-        {% for e1,e2,favorite in combined_array %}
-        <div class="col3">
-          <form
-            method="post"
-            action="{{ url_for('remove_favorite', favorite=favorite) }}"
-          >
-            <div class="card-body">
-              <h5 class="card-title">{{ favorite }}</h5>
-              {% if e2|float > 0%}
-              <span
+        <div class="centered-header">
+            <h1
                 style="
-                  color: #006400;
-                  font-weight: bold;
-                  font-size: 30px;
-                  margin-left: 30%;
-                  margin-bottom: 100%;
+                    width: 50vw;
+                    margin: auto;
+                    text-align: center;
+                    font-size: 35pt;
                 "
-                >{{e2|float}}% <i class="fa-solid fa-arrow-trend-up"></i>
-              </span>
-              {% else%}
-              <span
-                style="
-                  color: #58151c;
-                  font-weight: bold;
-                  font-size: 30px;
-                  margin-left: 30%;
-                  margin-bottom: 100%;
-                "
-              >
-                {{e2}}% <i class="fa-solid fa-arrow-trend-down"></i
-              ></span>
-              {%endif%}
-              <button type="submit" class="remove-button">&#10006;</button>
+            >
+                Favorites
+            </h1>
+        </div>
+        <div class="container1">
+            <form method="post" action="{{ url_for('dashboard') }}">
+                <div class="row">
+                    <div class="col-5">
+                        <input
+                            type="text"
+                            name="new_favorite"
+                            placeholder="Add a new favorite"
+                            class="form-control"
+                        />
+                    </div>
+                    <div class="col-1"></div>
+                    <div class="col-3">
+                        <button type="submit" class="btn-primary">Add</button>
+                    </div>
+                </div>
+                <ul class="flash-container">
+                    {% with messages = get_flashed_messages() %} {% if messages
+                    %}
+                    <ul class="flashed">
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %} {% endwith %}
+                </ul>
+            </form>
+        </div>
+        <div class="container2">
+            {% if combined_array%}
+            <div class="row3">
+                {% for e1,e2,favorite in combined_array %}
+                <div class="col3">
+                    <form
+                        method="post"
+                        action="{{ url_for('remove_favorite', favorite=favorite) }}"
+                    >
+                        <div class="card-body">
+                            <h5 class="card-title">{{ favorite }}</h5>
+                            {% if e2|float > 0%}
+                            <div
+                                style="
+                                    color: #006400;
+                                    font-weight: bold;
+                                    font-size: 30px;
+                                    margin: auto;
+                                    text-align: center;
+                                "
+                            >
+                                {{e2|float}}%
+                                <i class="fa-solid fa-arrow-trend-up"></i>
+                            </div>
+                            {% else%}
+                            <div
+                                style="
+                                    color: #58151c;
+                                    font-weight: bold;
+                                    font-size: 30px;
+                                    margin: auto;
+                                    text-align: center;
+                                "
+                            >
+                                {{e2}}%
+                                <i class="fa-solid fa-arrow-trend-down"></i>
+                            </div>
+                            {%endif%}
+                            <button type="submit" class="remove-button">
+                                &#10006;
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                {% endfor %}
             </div>
-          </form>
+            {%else%}
+            <div class="empty">No stocks in Your Favorites</div>
+            {%endif%}
         </div>
-        {% endfor %}
-      </div>
-      {%else%}
-      <div class="empty">No stocks in Your Favorities</div>
-      {%endif%}
-    </div>
-  </body>
+    </body>
 </html>
