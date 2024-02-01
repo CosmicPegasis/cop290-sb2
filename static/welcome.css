@@ -189,7 +189,7 @@ nav {
 .navbar img {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 4rem;
 }
 
 .navbar-brand,
@@ -219,7 +219,7 @@ nav {
 .col3 {
     position: relative;
     background-color: #fff;
-    border-radius: 5%;
+    border-radius: 10%/ 20%;
     border: solid;
     border-color: grey;
     border-width: 1px;
@@ -338,6 +338,63 @@ nav {
     border-radius: 5%;
 }
 
+.gradient {
+    font-size: 30px;
+    background-color: #0093e9;
+    background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 50%);
+    color: white;
+    padding: 1rem;
+    background-size: 200% 200%;
+}
+.inv-gradient {
+    font-size: 30px;
+    background-color: #0093e9;
+    background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 50%);
+    color: white;
+    padding: 1rem;
+    background-size: 200% 200%;
+}
+.inv-gradient:hover {
+    animation: Animation 2s ease infinite;
+}
+.gradient:hover {
+    animation: Animation 2s ease infinite;
+}
+.links {
+    width: 70vw;
+    height: 20vh;
+    margin: auto;
+    margin-top: 10vh;
+    margin-bottom: 5vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.link {
+    width: 30%;
+    height: 100%;
+    vertical-align: center;
+    margin: 0.5rem;
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@keyframes Animation {
+    0% {
+        background-position: 10% 0%;
+    }
+    50% {
+        background-position: 91% 100%;
+    }
+    100% {
+        background-position: 10% 0%;
+    }
+}
+#graph_svg {
+    fill: white;
+}
 @media (max-width: 1000px) {
     .row3 {
         flex-direction: column;
@@ -348,5 +405,8 @@ nav {
     }
     .container {
         width: 100%;
+    }
+    .links {
+        flex-direction: column;
     }
 }

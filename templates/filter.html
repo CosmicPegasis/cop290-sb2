@@ -1,233 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>StockSync.com | Filters</title>
-    <link rel="shortcut icon" type="image/x-icon" href="../static/icon.png" />
-    <link rel="stylesheet" href="../static/filter.css" />
-    <script
-      src="https://kit.fontawesome.com/e4cb96cad7.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
-    <div>
-      <nav>
-        <div class="container">
-          <div class="nav-left">
-            <span>
-              <a href="/dashboard">
-                <img
-                  src="../static/icon.png"
-                  class="img-fluid rounded"
-                  width="40"
-                  height="40"
-                />
-              </a>
-            </span>
-            <span>
-              <a href="/graph" class="nav-link">Graph</a>
-            </span>
-          </div>
-          <div class="nav-left-2">
-            <span>
-              <a>{{username}}</a>
-            </span>
-          </div>
-          <a href="/logout" style="margin-right: 0px">
-            <img src="../static/logout.png" alt="" width="20" height="20" />
-          </a>
+    <head>
+        <title>StockSync.com | Filters</title>
+        <link
+            rel="shortcut icon"
+            type="image/x-icon"
+            href="../static/icon.png"
+        />
+        <link rel="stylesheet" href="../static/filter.css" />
+        <script
+            src="https://kit.fontawesome.com/e4cb96cad7.js"
+            crossorigin="anonymous"
+        ></script>
+    </head>
+    <body>
+        <div>
+            <nav>
+                <div class="container">
+                    <div class="nav-left">
+                        <span>
+                            <a href="/dashboard">
+                                <img
+                                    src="../static/icon.png"
+                                    class="img-fluid rounded"
+                                    width="40"
+                                    height="40"
+                                />
+                            </a>
+                        </span>
+                        <span>
+                            <a href="/graph" class="nav-link">Graph</a>
+                        </span>
+                    </div>
+                    <div class="nav-left-2">
+                        <span>
+                            <a>{{username}}</a>
+                        </span>
+                    </div>
+                    <a href="/logout" style="margin-right: 0px">
+                        <img
+                            src="../static/logout.png"
+                            alt=""
+                            width="20"
+                            height="20"
+                        />
+                    </a>
+                </div>
+            </nav>
         </div>
-      </nav>
-    </div>
-    <div id="content" class="container">
-      <div class="top">
-        <div class="col-12">
-          <h1 style="font-size: 60px">Filters</h1>
+        <div id="content" class="container">
+            <div class="top">
+                <div class="col-12">
+                    <h1 style="font-size: 60px">Filters</h1>
+                </div>
+            </div>
+
+            <button id="submit-button" onclick="submitForm()">
+                Apply Filters
+            </button>
+            <div class="form-data">
+                <form action="#" method="POST">
+                    <div id="left">
+                        <div class="slidecontainer">
+                            <h4 style="font-size: 20px">Close Price</h4>
+                            <div class="form-group">
+                                <input
+                                    name="minClosePrice"
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="Min"
+                                    id="minClosePrice"
+                                    value="{{minCP}}"
+                                    required
+                                />
+                                <input
+                                    name="maxClosePrice"
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="Max"
+                                    id="maxClosePrice"
+                                    value="{{maxCP}}"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div class="slidecontainer">
+                            <h4 style="font-size: 20px">
+                                Relative Strength Index
+                            </h4>
+                            <div class="form-group">
+                                <input
+                                    name="minRelativeStrength"
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="Min"
+                                    id="minRelativeStrength"
+                                    value="{{minRSI}}"
+                                    required
+                                />
+                                <input
+                                    name="maxRelativeStrength"
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="Max"
+                                    id="maxRelativeStrength"
+                                    value="{{maxRSI}}"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div class="slidecontainer">
+                            <h4 style="font-size: 20px">Average Price</h4>
+                            <div class="form-group">
+                                <input
+                                    name="minAveragePrice"
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="Min"
+                                    id="minAveragePrice"
+                                    value="{{minAP}}"
+                                    required
+                                />
+                                <input
+                                    name="maxAveragePrice"
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="Max"
+                                    id="maxAveragePrice"
+                                    value="{{maxAP}}"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div class="slidecontainer">
+                            <h4 style="font-size: 20px">Val/Vol Ratio</h4>
+                            <div class="form-group">
+                                <input
+                                    name="minValVolRatio"
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="Min"
+                                    id="minValVolRatio"
+                                    value="{{minVV}}"
+                                    required
+                                />
+                                <input
+                                    name="maxValVolRatio"
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="Max"
+                                    id="maxValVolRatio"
+                                    value="{{maxVV}}"
+                                    required
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div id="right">
+                    <div id="search-bar">
+                        <div class="form-group" style="margin-bottom: 5px">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="searchInput"
+                                placeholder="Search by Stock symbol"
+                                oninput="filterSearchResults()"
+                            />
+                        </div>
+
+                        <div id="display-results">
+                            <!-- <h3>Search Results:</h3> -->
+                            <div
+                                id="searchResultsContainer"
+                                style="
+                                    max-height: 400px;
+                                    overflow-y: scroll;
+                                    max-width: 1200px;
+                                "
+                            >
+                                <ul
+                                    class="list-group"
+                                    id="searchResultsList"
+                                ></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <div id="left">
-        <form action="#" method="POST">
-          <div class="slidecontainer">
-            <h4 style="font-size: 20px">Close Price</h4>
-            <div class="form-group">
-              <input
-                name="minClosePrice"
-                type="number"
-                class="form-control"
-                placeholder="Min"
-                id="minClosePrice"
-                value="{{minCP}}"
-                required
-              />
-              <input
-                name="maxClosePrice"
-                type="number"
-                class="form-control"
-                placeholder="Max"
-                id="maxClosePrice"
-                value="{{maxCP}}"
-                required
-              />
-            </div>
-          </div>
+        <script>
+            const searchResults = {{ top_4_rows | tojson if top_4_rows is defined and top_4_rows is not none else [] }};
+            function displaySearchResults(results) {
+              const searchResultsListContainer =
+                document.getElementById("searchResultsList");
+              searchResultsListContainer.innerHTML = "";
 
-          <div class="slidecontainer">
-            <h4 style="font-size: 20px">Relative Strength</h4>
-            <h4 style="font-size: 20px">Index</h4>
-            <div class="form-group">
-              <input
-                name="minRelativeStrength"
-                type="number"
-                class="form-control"
-                placeholder="Min"
-                id="minRelativeStrength"
-                value="{{minRSI}}"
-                required
-              />
-              <input
-                name="maxRelativeStrength"
-                type="number"
-                class="form-control"
-                placeholder="Max"
-                id="maxRelativeStrength"
-                value="{{maxRSI}}"
-                required
-              />
-            </div>
-          </div>
+              if (results.length === 0) {
+                searchResultsListContainer.innerHTML =
+                  "<li class='list-group-item'>No matching items found.</li>";
+              } else {
+                results.forEach((result) => {
+                  const listItem = document.createElement("li");
+                  listItem.className = "list-group-item";
 
-          <div class="slidecontainer">
-            <h4 style="font-size: 20px">Average Price</h4>
-            <div class="form-group">
-              <input
-                name="minAveragePrice"
-                type="number"
-                class="form-control"
-                placeholder="Min"
-                id="minAveragePrice"
-                value="{{minAP}}"
-                required
-              />
-              <input
-                name="maxAveragePrice"
-                type="number"
-                class="form-control"
-                placeholder="Max"
-                id="maxAveragePrice"
-                value="{{maxAP}}"
-                required
-              />
-            </div>
-          </div>
+                  const symbol = result["SYMBOL"].padEnd(10, " ");
+                  const delta = parseFloat(result["DELTA"]).toFixed(2);
 
-          <div class="slidecontainer">
-            <h4 style="font-size: 20px">Val/Vol Ratio</h4>
-            <div class="form-group">
-              <input
-                name="minValVolRatio"
-                type="number"
-                class="form-control"
-                placeholder="Min"
-                id="minValVolRatio"
-                value="{{minVV}}"
-                required
-              />
-              <input
-                name="maxValVolRatio"
-                type="number"
-                class="form-control"
-                placeholder="Max"
-                id="maxValVolRatio"
-                value="{{maxVV}}"
-                required
-              />
-            </div>
-          </div>
-
-          <button id="submit-button" onclick="submitForm()">
-            Apply Filters
-          </button>
-        </form>
-      </div>
-
-      <div id="right">
-        <div id="search-bar">
-          <div class="form-group" style="margin-bottom: 5px">
-            <input
-              type="text"
-              class="form-control"
-              id="searchInput"
-              placeholder="Search by Stock symbol"
-              oninput="filterSearchResults()"
-            />
-          </div>
-
-          <div id="display-results">
-            <!-- <h3>Search Results:</h3> -->
-            <div
-              id="searchResultsContainer"
-              style="max-height: 400px; overflow-y: scroll; max-width: 1200px"
-            >
-              <ul class="list-group" id="searchResultsList"></ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <script>
-      const searchResults = {{ top_4_rows | tojson if top_4_rows is defined and top_4_rows is not none else [] }};
-      function displaySearchResults(results) {
-        const searchResultsListContainer =
-          document.getElementById("searchResultsList");
-        searchResultsListContainer.innerHTML = "";
-
-        if (results.length === 0) {
-          searchResultsListContainer.innerHTML =
-            "<li class='list-group-item'>No matching items found.</li>";
-        } else {
-          results.forEach((result) => {
-            const listItem = document.createElement("li");
-            listItem.className = "list-group-item";
-
-            const symbol = result["SYMBOL"].padEnd(10, " ");
-            const delta = parseFloat(result["DELTA"]).toFixed(2);
-
-            if (delta < 0){
-            listItem.innerHTML = `
-        <div style="display: flex; justify-content: space-between;">
-          <span style="font-size: larger;"><strong>${symbol}</strong></span>
-          <span style="color: #58151c">${delta}%  <i class="fa-solid fa-arrow-trend-down"></i></span>
-        </div>
-      `;
+                  if (delta < 0){
+                  listItem.innerHTML = `
+              <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: larger;"><strong>${symbol}</strong></span>
+                <span style="color: #58151c">${delta}%  <i class="fa-solid fa-arrow-trend-down"></i></span>
+              </div>
+            `;
+                  }
+                  else{
+                  listItem.innerHTML = `
+              <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: larger;"><strong>${symbol}</strong></span>
+                <span style="color: #006400">${delta}%  <i class="fa-solid fa-arrow-trend-up"></i></span>
+              </div>
+            `;
+                  }
+                  searchResultsListContainer.appendChild(listItem);
+                });
+              }
             }
-            else{
-            listItem.innerHTML = `
-        <div style="display: flex; justify-content: space-between;">
-          <span style="font-size: larger;"><strong>${symbol}</strong></span>
-          <span style="color: #006400">${delta}%  <i class="fa-solid fa-arrow-trend-up"></i></span>
-        </div>
-      `;
+
+            function filterSearchResults() {
+              const searchInput = document
+                .getElementById("searchInput")
+                .value.toLowerCase();
+              const filteredResults = searchResults.filter((result) =>
+                String(result["SYMBOL"])
+                  .toLowerCase()
+                  .includes(searchInput.toLowerCase())
+              );
+
+              displaySearchResults(filteredResults);
             }
-            searchResultsListContainer.appendChild(listItem);
-          });
-        }
-      }
-
-      function filterSearchResults() {
-        const searchInput = document
-          .getElementById("searchInput")
-          .value.toLowerCase();
-        const filteredResults = searchResults.filter((result) =>
-          String(result["SYMBOL"])
-            .toLowerCase()
-            .includes(searchInput.toLowerCase())
-        );
-
-        displaySearchResults(filteredResults);
-      }
-      filterSearchResults();
-    </script>
-  </body>
+            filterSearchResults();
+        </script>
+    </body>
 </html>
